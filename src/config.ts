@@ -292,7 +292,7 @@ export const BUSINESS_TYPES: BusinessTypeEntry[] = [
       "AI-assisted programming so first drafts take minutes, not evenings.",
       "One roster, one inbox, one athlete app — no tool-switching.",
       "Built-in billing and booking so you get paid without a separate tool.",
-      "Start on the 7-day individual trial; upgrade when you're ready to scale.",
+      "Start on the 7-day founders trial; scale to Pro or Elite when you're ready.",
     ],
     cta: { label: "Start your 7-day trial", href: "" },
   },
@@ -460,95 +460,140 @@ export interface PricingTier {
   features: string[];
 }
 
+// 2026-09 pricing. Individual tiers are the post-beta standard rates; the
+// Founders beta rate renders as a banner above the cards (BETA_OFFERS below).
+// Keep in sync with the backend's TIER_DETAILS (deload-backend
+// src/lib/subscriptions.ts) — the API serves the same numbers at GET /pricing.
 export const PRICING: {
   individuals: PricingTier[];
   studio: PricingTier[];
 } = {
   individuals: [
     {
-      name: "Individual",
-      price: "$—",
+      name: "Solo",
+      price: "$89",
       cadence: "/mo",
-      blurb: "For the solo coach running their own roster.",
+      blurb: "One coach, up to 15 athletes — a full personal roster.",
       cta: { label: "Start 7-day free trial", href: "" },
       features: [
-        "AI-assisted programming",
+        "$75/mo billed annually — save $168/yr",
+        "AI super agent — exercise programming",
         "Plain-English editing with full history",
-        "Athlete app + in-app messaging",
-        "Booking and built-in Stripe billing",
-        "7-day free trial — 1 client, 1 generation",
+        "Athlete app + in-app messaging & check-ins",
+        "Booking, invoicing, and built-in Stripe billing",
       ],
     },
     {
-      name: "Individual Growth",
-      price: "$—",
+      name: "Pro",
+      price: "$149",
       cadence: "/mo",
-      blurb: "More athletes, automations, and check-ins.",
-      cta: { label: "Start 7-day free trial", href: "" },
+      blurb: "One coach, up to 50 athletes — for scaling past 15 or running groups.",
+      cta: { label: "Start 14-day free trial", href: "" },
       highlight: true,
       badge: "Most popular",
       features: [
-        "Everything in Individual, plus…",
-        "Higher client and generation limits",
-        "Structured check-ins and advisories",
-        "Roster triage dashboard and reports",
+        "$124/mo billed annually — save $300/yr",
+        "Everything in Solo, plus…",
+        "Long-program optimizer (8+ weeks)",
+        "Roster triage + automations",
+        "Accounting dashboard + reports",
+        "Priority support",
       ],
     },
     {
-      name: "Individual Suite",
-      price: "$—",
+      name: "Elite",
+      price: "$229",
       cadence: "/mo",
-      blurb: "The full individual toolkit at scale.",
-      cta: { label: "Book a demo", href: "/book-a-demo" },
+      blurb: "One coach, unlimited athletes — high-volume and influencer rosters.",
+      cta: { label: "Start 14-day free trial", href: "" },
       features: [
-        "Everything in Growth, plus…",
-        "Highest client and generation limits",
-        "Priority support",
-        "Early access to new features",
+        "$190/mo billed annually — save $468/yr",
+        "Everything in Pro, plus…",
+        "Unlimited active athletes",
+        "White-label client portal",
+        "Advanced AI agent customization",
+        "Dedicated onboarding call",
       ],
     },
   ],
   studio: [
     {
-      name: "Studio Core",
-      price: "Custom",
-      blurb: "Run your studio in one place with reporting and analytics.",
+      name: "Studio",
+      price: "$199",
+      cadence: "/mo",
+      blurb: "Up to 5 coaches and 75 athletes — single-location studios and small group practices.",
       cta: { label: "Book a demo", href: "/book-a-demo" },
       features: [
-        "Unlimited team members",
-        "Org-level defaults and shared protocols",
-        "Roster and schedule triage across the team",
-        "Built-in billing, booking, and reporting",
+        "$165/mo billed annually — save $408/yr",
+        "5 coach seats included",
+        "AI programming per coach",
+        "Shared athlete roster + profiles",
+        "Studio analytics dashboard",
       ],
     },
     {
-      name: "Studio Growth",
-      price: "Custom",
-      blurb: "Manage and grow your studio with automations.",
+      name: "Performance",
+      price: "$399",
+      cadence: "/mo",
+      blurb: "Up to 15 coaches and 200 athletes — growing studios and remote teams.",
       cta: { label: "Book a demo", href: "/book-a-demo" },
       highlight: true,
-      badge: "Most popular",
+      badge: "Best value",
       features: [
-        "Everything in Core, plus…",
-        "Advanced automations and check-ins",
-        "Admin impersonation with audit log",
-        "Enterprise SSO and SCIM provisioning",
+        "$332/mo billed annually — save $804/yr",
+        "Everything in Studio, plus…",
+        "15 coach seats included",
+        "Admin + coach role hierarchy",
+        "Full accounting + revenue reports",
+        "White-label client portal",
       ],
     },
     {
-      name: "Studio Suite",
+      name: "Enterprise",
       price: "Custom",
-      blurb: "All your studio needs: platform, branding, and an app.",
+      blurb: "16+ coaches, 200+ athletes, multi-location — franchises and large gym groups.",
       cta: { label: "Book a demo", href: "/book-a-demo" },
       features: [
-        "Everything in Growth, plus…",
-        "White-label client portal and domain",
-        "Multi-location support",
-        "Dedicated onboarding and priority support",
+        "Everything in Performance, plus…",
+        "Unlimited coach seats + multi-location management",
+        "Custom branded app + SSO with audit log",
+        "Dedicated success manager",
+        "Negotiated Stripe processing rate",
       ],
     },
   ],
 };
+
+/**
+ * Founders / beta rate banners rendered above the tier cards on /pricing.
+ * Everyone who joins during beta pays one flat rate for year one and keeps a
+ * permanent 25% discount off any standard tier after that.
+ */
+export const BETA_OFFERS: Record<
+  "individuals" | "studio",
+  { headline: string; body: string; cta: { label: string; href: string } } | null
+> = {
+  individuals: {
+    headline: "Founders / beta rate — $59/mo flat, locked for your first year",
+    body:
+      "Every feature as it launches, up to 15 athletes. Year two you keep 25% off any plan — permanently — in exchange for being an early tester. Scale past 15 athletes anytime on Pro or Elite at your founders discount.",
+    cta: { label: "Claim the founders rate", href: "" },
+  },
+  studio: {
+    headline: "Enterprise beta — $59 per coach/mo, flat, for year one",
+    body:
+      "A 5-coach studio runs $295/mo during beta (vs. $1,000–1,700 all-in elsewhere), with a permanent 25% discount off standard enterprise pricing after year one.",
+    cta: { label: "Book a demo", href: "/book-a-demo" },
+  },
+};
+
+/**
+ * Payment-processing disclosure shown under the tier cards. Standard Stripe
+ * rates pass through with no Deload markup until the negotiated processing
+ * agreement is finalized.
+ */
+export const PAYMENTS_NOTE =
+  "Payments are processed by Stripe at the standard 2.9% + $0.30 per transaction — no Deload markup on processing.";
 
 // ---------------------------------------------------------------------------
 // Home-page content blocks
@@ -624,7 +669,7 @@ export const faqs = [
   },
   {
     q: "How does the free trial work?",
-    a: "Start a 7-day individual trial with no commitment. During the trial you can add one client and run one program generation, so you can see the voice for yourself. When you subscribe, your normal client and generation limits unlock.",
+    a: "Start a 7-day founders trial with no commitment. During the trial you can add one client and run one program generation, so you can see the voice for yourself. When you subscribe, your normal client and generation limits unlock.",
   },
   {
     q: "Can I move my roster over from another tool?",

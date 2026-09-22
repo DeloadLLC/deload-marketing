@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { PRICING, TRIAL_URL, faqs } from "../config";
+import { BETA_OFFERS, PAYMENTS_NOTE, PRICING, TRIAL_URL, faqs } from "../config";
 
 const base = import.meta.env.BASE_URL;
 const root = base.replace(/\/$/, "");
@@ -10,7 +10,7 @@ const resolveHref = (href: string) =>
 ---
 <Layout
   title="Pricing"
-  description="Simple pricing for you or your studio. Start with a 7-day free trial on the individual plan, or book a demo for studio and multi-location pricing."
+  description="Simple pricing for you or your studio. Join during beta for the $59/mo founders rate — every feature as it launches, locked for your first year — or book a demo for studio and multi-location pricing."
 >
   <section class="px-6 pt-20 pb-8 md:pt-28">
     <div class="mx-auto max-w-container text-center">
@@ -18,7 +18,7 @@ const resolveHref = (href: string) =>
         Simple pricing for you or your studio.
       </h1>
       <p class="mx-auto mt-5 max-w-xl text-lg text-ink/70">
-        Start free for 7 days on the individual plan. Upgrade as you grow.
+        Join during beta at one flat founders rate. Upgrade as you grow.
       </p>
     </div>
   </section>
@@ -43,6 +43,25 @@ const resolveHref = (href: string) =>
               <span class="font-semibold uppercase tracking-wide text-sage">Coming soon</span>
               <span class="ml-2">Studio &amp; multi-location plans launch once our first coaches are live. <a href={`${root}/book-a-demo`} class="underline underline-offset-4 hover:text-ink">Book a demo</a> to get early access.</span>
             </div>
+          )}
+          {BETA_OFFERS[plan] && (
+            <div class="mb-8 flex flex-col items-start gap-4 rounded-2xl border border-ink/15 bg-ink/[0.03] p-6 md:flex-row md:items-center md:justify-between md:p-7">
+              <div>
+                <p class="text-lg font-medium tracking-tight text-ink">{BETA_OFFERS[plan]!.headline}</p>
+                <p class="mt-2 max-w-2xl text-sm text-ink/70">{BETA_OFFERS[plan]!.body}</p>
+              </div>
+              <a
+                href={resolveHref(BETA_OFFERS[plan]!.cta.href)}
+                class="shrink-0 rounded-full bg-ink px-5 py-3 text-center text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90"
+              >
+                {BETA_OFFERS[plan]!.cta.label}
+              </a>
+            </div>
+          )}
+          {plan === "individuals" && (
+            <p class="mb-6 text-center text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">
+              Individual tiers — post-beta standard pricing
+            </p>
           )}
           <div class="grid gap-6 md:grid-cols-3">
             {PRICING[plan].map((tier) => (
@@ -71,7 +90,7 @@ const resolveHref = (href: string) =>
         </div>
       ))}
       <p class="mx-auto mt-10 max-w-2xl text-center text-sm text-ink/50">
-        Final prices are being set ahead of general availability. Studio and multi-location plans are
+        {PAYMENTS_NOTE} Multi-location enterprise plans are
         custom — <a href={`${root}/book-a-demo`} class="underline underline-offset-4 hover:text-ink">book a demo</a> for a quote.
       </p>
     </div>
