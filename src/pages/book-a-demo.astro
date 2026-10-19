@@ -2,11 +2,11 @@
 import Layout from "../layouts/Layout.astro";
 import LeadForm from "../components/LeadForm.astro";
 import Testimonials from "../components/Testimonials.astro";
-import { TRIAL_URL } from "../config";
+import { PRIMARY_CTA } from "../config";
 ---
 <Layout
   title="Book a demo"
-  description="See Deload on your own roster. Book a walkthrough and we'll show you AI-assisted programming, roster triage, and the athlete app — and answer anything about migrating from your current tool."
+  description="See Deload on your own roster. Book a walkthrough and we'll show you AI-assisted programming, plain-English editing, and the athlete app — and answer anything about moving over from your current tool."
 >
   <section class="px-6 pt-20 pb-12 md:pt-28">
     <div class="mx-auto max-w-container">
@@ -15,9 +15,9 @@ import { TRIAL_URL } from "../config";
         See it on your own roster.
       </h1>
       <p class="mt-5 max-w-2xl text-lg text-ink/70">
-        We'll walk you through AI-assisted programming, roster triage, booking, billing, and the athlete app
-        &mdash; and talk through moving over from a spreadsheet or another tool. Prefer to just try it?
-        <a href={TRIAL_URL} class="font-medium text-ink underline underline-offset-4 hover:text-clay">Start a 7-day free trial.</a>
+        We'll walk you through AI-assisted programming, plain-English editing, your roster, and the athlete app
+        &mdash; and talk through bringing your programs over from a spreadsheet or another tool. Rather wait for an invite?
+        <a href={PRIMARY_CTA.href} class="font-medium text-ink underline underline-offset-4 hover:text-clay">Join the waitlist.</a>
       </p>
     </div>
   </section>
@@ -29,8 +29,8 @@ import { TRIAL_URL } from "../config";
         <ul class="mt-6 space-y-4 text-ink/80">
           <li class="flex gap-3"><span aria-hidden="true" class="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sage" /><span>A program written live from a plain-English brief — block by block, in front of you.</span></li>
           <li class="flex gap-3"><span aria-hidden="true" class="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sage" /><span>Plain-English edits rippling through a block, with before/after diffs.</span></li>
-          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sage" /><span>Roster triage, check-ins, booking, billing, and the athlete mobile app.</span></li>
-          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sage" /><span>A plan for migrating your clients over from Arketa, Jane, Mindbody, or a spreadsheet.</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sage" /><span>Your roster, in-app messaging, and the app your athletes train from.</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sage" /><span>Your existing programs imported from Excel, Word or PDF &mdash; and a plan for moving your athletes over.</span></li>
         </ul>
       </div>
       <div>

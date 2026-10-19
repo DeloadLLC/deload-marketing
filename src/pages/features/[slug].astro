@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { FEATURES, TRIAL_URL, getFeature } from "../../config";
+import { FEATURES, PRIMARY_CTA, getFeature } from "../../config";
 
 export function getStaticPaths() {
   return FEATURES.map((f) => ({ params: { slug: f.slug } }));
@@ -29,7 +29,7 @@ const others = FEATURES.filter((f) => f.slug !== feature.slug).slice(0, 3);
       </h1>
       <p class="mt-6 max-w-2xl text-lg text-ink/70 md:text-xl">{feature.intro}</p>
       <div class="mt-8 flex flex-wrap items-center gap-3">
-        <a href={TRIAL_URL} class="rounded-full bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">Try for free</a>
+        <a href={PRIMARY_CTA.href} class="rounded-full bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">{PRIMARY_CTA.label}</a>
         <a href={`${root}/book-a-demo`} class="rounded-full border border-ink/20 px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">Book a demo</a>
       </div>
     </div>

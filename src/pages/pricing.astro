@@ -1,17 +1,41 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { BETA_OFFERS, PAYMENTS_NOTE, PRICING, TRIAL_URL, faqs } from "../config";
+import { BETA_OFFERS, PAYMENTS_NOTE, PRICING, PRIMARY_CTA, SHOW_PRICES, faqs } from "../config";
 
 const base = import.meta.env.BASE_URL;
 const root = base.replace(/\/$/, "");
 
 const resolveHref = (href: string) =>
-  href === "" ? TRIAL_URL : href.startsWith("http") ? href : `${root}${href}`;
+  href === "" ? PRIMARY_CTA.href : href.startsWith("http") ? href : `${root}${href}`;
 ---
 <Layout
   title="Pricing"
-  description="Simple pricing for you or your studio. Join during beta for the $59/mo founders rate — every feature as it launches, locked for your first year — or book a demo for studio and multi-location pricing."
+  description={SHOW_PRICES
+    ? "Simple pricing for you or your studio. Join during beta for the $59/mo founders rate — every feature as it launches, locked for your first year — or book a demo for studio and multi-location pricing."
+    : "Deload is in private beta. Beta coaches use it free while the beta runs; pricing opens after. Join the waitlist or book a demo."}
 >
+  {!SHOW_PRICES && (
+    <section class="px-6 pt-20 pb-20 md:pt-28" data-testid="pricing-beta">
+      <div class="mx-auto max-w-container text-center">
+        <p class="inline-flex items-center gap-2 rounded-full border border-sage/30 bg-sage/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-sage">
+          <span aria-hidden="true" class="inline-block h-1.5 w-1.5 rounded-full bg-sage"></span>
+          Private beta
+        </p>
+        <h1 class="mx-auto mt-5 max-w-3xl text-balance text-4xl font-medium leading-[1.05] tracking-tight text-ink md:text-6xl">
+          Pricing opens after the private beta.
+        </h1>
+        <p class="mx-auto mt-5 max-w-xl text-lg text-ink/70">
+          Coaches we invite during the beta use Deload free while it runs, and founding coaches keep a founders discount afterwards.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <a href={PRIMARY_CTA.href} class="rounded-full bg-ink px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">{PRIMARY_CTA.label}</a>
+          <a href={`${root}/book-a-demo`} class="rounded-full border border-ink/20 px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">Book a demo</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {SHOW_PRICES && (<>
   <section class="px-6 pt-20 pb-8 md:pt-28">
     <div class="mx-auto max-w-container text-center">
       <h1 class="mx-auto max-w-3xl text-balance text-4xl font-medium leading-[1.05] tracking-tight text-ink md:text-6xl">
@@ -95,6 +119,7 @@ const resolveHref = (href: string) =>
       </p>
     </div>
   </section>
+  </>)}
 
   <!-- FAQ -->
   <section class="border-t border-ink/10 px-6 py-20 md:py-24">

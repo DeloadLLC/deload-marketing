@@ -1,128 +1,19 @@
 ---
-import Layout from "../layouts/Layout.astro";
+// The legal pages live in the app (one copy, kept current with the beta
+// decisions); this address forwards there so old links keep working.
+import { PRIVACY_URL } from "../config";
 ---
-<Layout
-  title="Privacy"
-  description="How Deload handles your data."
->
-  <section class="px-6 pt-20 pb-24 md:pt-28">
-    <div class="mx-auto max-w-prose">
-      <p class="text-sm uppercase tracking-[0.18em] text-ink/50">Privacy</p>
-      <h1 class="mt-4 text-4xl font-medium leading-[1.1] tracking-tight md:text-5xl">
-        Privacy policy
-      </h1>
-      <p class="mt-3 text-sm text-ink/50">Last updated: May 19, 2026</p>
-
-      <div class="prose mt-10 max-w-none text-ink/80">
-        <p class="text-lg">
-          This policy describes how Deload ("we", "us") collects, uses, stores, and shares information when you use our marketing site, web apps, and mobile app (together, the "Service"). We've tried to keep it in plain English. If anything is unclear, reach us through the <a href="/contact" class="underline">contact page</a>.
-        </p>
-
-        <h2 class="mt-10 text-xl font-medium text-ink">Who this applies to</h2>
-        <p>
-          Deload is used by two kinds of people: <strong>coaches</strong>, who write training programs, and <strong>athletes</strong>, who follow those programs and log their sessions. Coaches invite athletes into the product; athletes accept that invitation and create an account to participate. This policy applies to both.
-        </p>
-
-        <h2 class="mt-8 text-xl font-medium text-ink">What we collect</h2>
-        <p>We collect only what's needed to run the product and support you:</p>
-        <ul>
-          <li><strong>Account information.</strong> Name, email address, and authentication identifiers from our login provider (Clerk). If you sign in with Google or Apple, we receive your name, email, and a stable user ID — not your password.</li>
-          <li><strong>Coach content.</strong> The programs, blocks, sessions, exercises, notes, and cues you create inside the app.</li>
-          <li><strong>Athlete content.</strong> Session logs, weights, reps, RPE/RIR, "how did it feel?" check-ins, mood and effort ratings, personal records, and any free-text notes you write.</li>
-          <li><strong>Roster relationships.</strong> Which athletes belong to which coach, and any tags or labels a coach applies to an athlete.</li>
-          <li><strong>Email check-ins.</strong> If a coach enables check-in emails, we send athletes a periodic message and record whether and when it was opened or replied to.</li>
-          <li><strong>Device and usage data.</strong> Basic logs (IP address, browser or device type, timestamps, pages or screens viewed, errors) so we can keep the Service running and debug problems.</li>
-          <li><strong>Support correspondence.</strong> If you contact us, we keep the message and your reply address so we can respond.</li>
-        </ul>
-        <p>
-          We do not knowingly collect data from anyone under 13. If you're a coach working with minor athletes, you are responsible for getting the consent required in your jurisdiction before inviting them into the product.
-        </p>
-
-        <h2 class="mt-8 text-xl font-medium text-ink">What we don't collect</h2>
-        <p>
-          We don't collect health information beyond what you choose to type into the app (weights, reps, soreness notes, etc.). We don't track your location. We don't use advertising trackers or sell our analytics to third parties.
-        </p>
-
-        <h2 class="mt-8 text-xl font-medium text-ink">How we use it</h2>
-        <ul>
-          <li>To operate the Service — show your roster, render the program calendar, save your session logs, send check-in emails, and so on.</li>
-          <li>To generate suggestions inside the product (for example, when a coach asks the assistant to draft or rewrite a block). The model providers we use process this content on our behalf under contract and do not train their models on it.</li>
-          <li>To support you when you write in, and to investigate bugs or abuse.</li>
-          <li>To improve the product — for example, looking at aggregate, de-identified usage to understand what's working.</li>
-          <li>To communicate service messages (security notices, material changes to these terms, account-related email).</li>
-        </ul>
-        <p>
-          We do not sell coach or athlete data. We don't share it with advertisers. We don't use athlete logs to train public AI models.
-        </p>
-
-        <h2 class="mt-8 text-xl font-medium text-ink">Who can see what</h2>
-        <ul>
-          <li>A coach can see the programs they wrote and the session data logged by athletes on their roster.</li>
-          <li>An athlete can see their own training history and the programs assigned to them by their coach.</li>
-          <li>Athletes cannot see other athletes on the same roster.</li>
-          <li>A small number of Deload staff can access production data when strictly necessary to operate the Service or respond to a support request, under confidentiality obligations.</li>
-        </ul>
-
-        <h2 class="mt-8 text-xl font-medium text-ink">Service providers we use</h2>
-        <p>
-          We rely on a short list of vendors to run the Service. They only process data on our behalf and under contract:
-        </p>
-        <ul>
-          <li><strong>Clerk</strong> — authentication and session management.</li>
-          <li><strong>Neon / managed Postgres</strong> — primary database.</li>
-          <li><strong>Replit</strong> — hosting and deployment.</li>
-          <li><strong>Resend</strong> — transactional and check-in emails (once enabled).</li>
-          <li><strong>Stripe</strong> — payment processing (once paid plans launch). Card details go directly to Stripe; we never see them.</li>
-          <li><strong>OpenAI and Anthropic</strong> — model providers that power the in-app assistant. Content we send for inference is not used to train their models.</li>
-        </ul>
-        <p>
-          We may add or change providers as the product evolves. When we do, we'll keep this list current.
-        </p>
-
-        <h2 class="mt-8 text-xl font-medium text-ink">Payments</h2>
-        <p>
-          Deload is free during the private beta. If and when paid plans launch, payments will be processed by Stripe. Stripe collects and stores your card information directly under <a href="https://stripe.com/privacy" class="underline" rel="noreferrer noopener">its own privacy policy</a>. We receive billing metadata (the last four digits of the card, plan, country, status) — not the full card number.
-        </p>
-
-        <h2 class="mt-8 text-xl font-medium text-ink">Where data is stored</h2>
-        <p>
-          Production data is stored in the United States with our managed-database provider. If you use the Service from outside the US, you understand and consent to your information being processed in the US.
-        </p>
-
-        <h2 class="mt-8 text-xl font-medium text-ink">How long we keep it</h2>
-        <ul>
-          <li><strong>Active accounts.</strong> We retain coach and athlete data for as long as your account is active, so the product works the way you expect.</li>
-          <li><strong>Deleted accounts.</strong> When you delete your account, we remove your personal data and content from production systems within 30 days. Encrypted backups roll off within 90 days.</li>
-          <li><strong>Logs.</strong> Operational logs (errors, request traces) are kept for up to 90 days.</li>
-          <li><strong>Support correspondence.</strong> Kept for up to 2 years so we can reference past tickets.</li>
-          <li><strong>Legal holds.</strong> We may retain specific records longer if we're required to by law.</li>
-        </ul>
-
-        <h2 class="mt-8 text-xl font-medium text-ink">Your choices</h2>
-        <ul>
-          <li><strong>Access and export.</strong> You can view your data inside the app at any time and request an export by writing in.</li>
-          <li><strong>Correction.</strong> Most fields are editable inside the app. If something isn't, write in and we'll fix it.</li>
-          <li><strong>Deletion.</strong> You can delete your account from inside the app, or by writing in.</li>
-          <li><strong>Email opt-out.</strong> You can turn off check-in and product emails in your settings; we'll still send essential service messages (security, account, billing).</li>
-        </ul>
-        <p>
-          If you're in the EEA, UK, California, or another jurisdiction with specific data rights, those rights apply to you, including the right to object to or restrict certain processing. Write in and we'll help.
-        </p>
-
-        <h2 class="mt-8 text-xl font-medium text-ink">Security</h2>
-        <p>
-          We use TLS in transit, encrypted storage at rest, scoped access controls, and audit logs. No system is perfect; if we ever have a security incident that affects your data, we'll tell you promptly and explain what we know.
-        </p>
-
-        <h2 class="mt-8 text-xl font-medium text-ink">Changes to this policy</h2>
-        <p>
-          If we make material changes, we'll update the "last updated" date above and notify you inside the product or by email before the changes take effect.
-        </p>
-
-        <p class="mt-10 text-sm text-ink/50">
-          Questions or requests? Reach us via the <a href="/contact" class="underline">contact page</a>.
-        </p>
-      </div>
-    </div>
-  </section>
-</Layout>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy — Deload</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={PRIVACY_URL} />
+    <meta http-equiv="refresh" content={`0; url=${PRIVACY_URL}`} />
+  </head>
+  <body style="font-family: system-ui, sans-serif; padding: 2rem;">
+    <p>Deload's Privacy page has moved to <a href={PRIVACY_URL}>{PRIVACY_URL}</a>.</p>
+  </body>
+</html>
