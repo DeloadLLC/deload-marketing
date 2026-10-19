@@ -1,44 +1,133 @@
 ---
-import { testimonials } from "../config";
+import { API_BASE_URL, testimonials } from "../config";
 
 interface Props {
   heading?: string;
   // When there are no real testimonials yet, show a quiet placeholder instead
-  // of fabricating quotes. Set to false to hide the section entirely.
+  // of fabricating quotes. Set to false to hide the section until quotes load.
   showPlaceholder?: boolean;
 }
 
 const { heading = "From coaches in the beta", showPlaceholder = true } = Astro.props;
 const hasReal = testimonials.length > 0;
+// Coaches submit quotes in the app (Settings) and an admin approves them
+// (Admin → Landing quotes); the browser loads the approved ones from the API
+// and they replace whatever the page was built with.
+const apiBase = API_BASE_URL.replace(/\/+$/, "");
 ---
-{(hasReal || showPlaceholder) && (
-  <section class="border-t border-ink/10 px-6 py-20 md:py-28">
-    <div class="mx-auto max-w-container">
-      <h2 class="text-sm uppercase tracking-[0.18em] text-clay">{heading}</h2>
+<section
+  class="border-t border-ink/10 px-6 py-20 md:py-28"
+  data-landing-quotes
+  data-api={apiBase}
+  hidden={!hasReal && !showPlaceholder}
+>
+  <div class="mx-auto max-w-container">
+    <h2 class="text-sm uppercase tracking-[0.18em] text-clay">{heading}</h2>
 
-      {hasReal ? (
-        <ul class="mt-10 grid gap-6 md:grid-cols-3">
-          {testimonials.map((t) => (
-            <li class="rounded-2xl border border-ink/10 bg-bg p-7">
-              <blockquote class="text-lg leading-snug text-ink">&ldquo;{t.quote}&rdquo;</blockquote>
-              <figcaption class="mt-5 text-sm text-ink/60">
-                <span class="font-medium text-ink/80">{t.name}</span> · {t.role}
-              </figcaption>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div class="mt-6 max-w-3xl">
-          <p class="text-2xl font-medium leading-snug tracking-tight text-ink md:text-3xl">
-            Real coach stories are on the way.
-          </p>
-          <p class="mt-4 text-lg text-ink/70">
-            We're in private beta and gathering feedback from the coaches using Deload day to day.
-            Their words will live here soon — we'd rather leave this space honest than fill it with
-            quotes we made up.
-          </p>
-        </div>
-      )}
-    </div>
-  </section>
-)}
+    <ul class:list={["mt-10 gap-6 md:grid-cols-3", hasReal ? "grid" : "hidden"]} data-quotes-list>
+      {testimonials.map((t) => (
+        <li class="rounded-2xl border border-ink/10 bg-bg p-7">
+          <blockquote class="text-lg leading-snug text-ink">&ldquo;{t.quote}&rdquo;</blockquote>
+          <figcaption class="mt-5 text-sm text-ink/60">
+            <span class="font-medium text-ink/80">{t.name}</span> · {t.role}
+          </figcaption>
+        </li>
+      ))}
+    </ul>
+
+    {!hasReal && (
+      <div class="mt-6 max-w-3xl" data-quotes-placeholder>
+        <p class="text-2xl font-medium leading-snug tracking-tight text-ink md:text-3xl">
+          Real coach stories are on the way.
+        </p>
+        <p class="mt-4 text-lg text-ink/70">
+          We're in private beta and gathering feedback from the coaches using Deload day to day.
+          Their words will live here soon — we'd rather leave this space honest than fill it with
+          quotes we made up.
+        </p>
+      </div>
+    )}
+  </div>
+
+  <template data-quote-card>
+    <li class="flex flex-col rounded-2xl border border-ink/10 bg-bg p-7">
+      <blockquote class="flex-1 text-lg leading-snug text-ink" data-quote-text></blockquote>
+      <figcaption class="mt-5 flex items-center gap-3 text-sm">
+        <img class="h-9 w-9 rounded-full object-cover" alt="" loading="lazy" data-quote-photo hidden />
+        <span
+          class="flex h-9 w-9 items-center justify-center rounded-full bg-clay/15 text-xs font-semibold text-clay"
+          aria-hidden="true"
+          data-quote-initials
+        ></span>
+        <span class="font-medium text-ink/80" data-quote-name></span>
+      </figcaption>
+    </li>
+  </template>
+</section>
+
+<script>
+  interface LandingQuote {
+    coachName: string;
+    quote: string;
+    headshotUrl: string | null;
+  }
+
+  function initials(name: string): string {
+    return name
+      .split(/\s+/)
+      .map((part) => part[0])
+      .filter(Boolean)
+      .slice(0, 2)
+      .join("")
+      .toUpperCase();
+  }
+
+  async function loadQuotes(section: HTMLElement): Promise<void> {
+    const api = section.dataset.api ?? "";
+    const list = section.querySelector<HTMLUListElement>("[data-quotes-list]");
+    const template = section.querySelector<HTMLTemplateElement>("template[data-quote-card]");
+    if (!api || !list || !template) return;
+    let quotes: LandingQuote[] = [];
+    try {
+      const res = await fetch(`${api}/api/landing-quotes`, { headers: { Accept: "application/json" } });
+      if (!res.ok) return;
+      const body = (await res.json()) as { quotes?: LandingQuote[] };
+      quotes = (body.quotes ?? []).filter((q) => q.coachName?.trim() && q.quote?.trim()).slice(0, 3);
+    } catch {
+      return; // Offline or blocked: keep what the page was built with.
+    }
+    if (quotes.length === 0) return;
+
+    list.replaceChildren(
+      ...quotes.map((q) => {
+        const card = template.content.firstElementChild!.cloneNode(true) as HTMLLIElement;
+        card.querySelector("[data-quote-text]")!.textContent = `“${q.quote.trim()}”`;
+        card.querySelector("[data-quote-name]")!.textContent = q.coachName.trim();
+        const photo = card.querySelector<HTMLImageElement>("[data-quote-photo]")!;
+        const badge = card.querySelector<HTMLElement>("[data-quote-initials]")!;
+        // Only headshots uploaded through the app's quote form are accepted
+        // by the API, and they are served from the API's storage route.
+        if (q.headshotUrl?.startsWith("/storage/objects/quote-headshots/")) {
+          photo.src = `${api}/api${q.headshotUrl}`;
+          photo.hidden = false;
+          badge.remove();
+          photo.addEventListener("error", () => {
+            photo.remove();
+            card.querySelector("figcaption")!.prepend(badge);
+          });
+        } else {
+          photo.remove();
+          badge.textContent = initials(q.coachName) || "?";
+        }
+        return card;
+      }),
+    );
+    list.classList.replace("hidden", "grid");
+    section.querySelector("[data-quotes-placeholder]")?.remove();
+    section.hidden = false;
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-landing-quotes]").forEach((section) => {
+    void loadQuotes(section);
+  });
+</script>
