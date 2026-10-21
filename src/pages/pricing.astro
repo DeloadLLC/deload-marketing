@@ -1,24 +1,48 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { PRICING, TRIAL_URL, faqs } from "../config";
+import { BETA_OFFERS, PAYMENTS_NOTE, PRICING, PRIMARY_CTA, SHOW_PRICES, faqs } from "../config";
 
 const base = import.meta.env.BASE_URL;
 const root = base.replace(/\/$/, "");
 
 const resolveHref = (href: string) =>
-  href === "" ? TRIAL_URL : href.startsWith("http") ? href : `${root}${href}`;
+  href === "" ? PRIMARY_CTA.href : href.startsWith("http") ? href : `${root}${href}`;
 ---
 <Layout
   title="Pricing"
-  description="Simple pricing for you or your studio. Start with a 7-day free trial on the individual plan, or book a demo for studio and multi-location pricing."
+  description={SHOW_PRICES
+    ? "Simple pricing for you or your studio. Join during beta for the $59/mo founders rate — every feature as it launches, locked for your first year — or book a demo for studio and multi-location pricing."
+    : "Deload is in private beta. Beta coaches use it free while the beta runs; pricing opens after. Join the waitlist or book a demo."}
 >
+  {!SHOW_PRICES && (
+    <section class="px-6 pt-20 pb-20 md:pt-28" data-testid="pricing-beta">
+      <div class="mx-auto max-w-container text-center">
+        <p class="inline-flex items-center gap-2 rounded-full border border-sage/30 bg-sage/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-sage">
+          <span aria-hidden="true" class="inline-block h-1.5 w-1.5 rounded-full bg-sage"></span>
+          Private beta
+        </p>
+        <h1 class="mx-auto mt-5 max-w-3xl text-balance text-4xl font-medium leading-[1.05] tracking-tight text-ink md:text-6xl">
+          Pricing opens after the private beta.
+        </h1>
+        <p class="mx-auto mt-5 max-w-xl text-lg text-ink/70">
+          Coaches we invite during the beta use Deload free while it runs, and founding coaches keep a founders discount afterwards.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <a href={PRIMARY_CTA.href} class="rounded-full bg-ink px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">{PRIMARY_CTA.label}</a>
+          <a href={`${root}/book-a-demo`} class="rounded-full border border-ink/20 px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">Book a demo</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {SHOW_PRICES && (<>
   <section class="px-6 pt-20 pb-8 md:pt-28">
     <div class="mx-auto max-w-container text-center">
       <h1 class="mx-auto max-w-3xl text-balance text-4xl font-medium leading-[1.05] tracking-tight text-ink md:text-6xl">
         Simple pricing for you or your studio.
       </h1>
       <p class="mx-auto mt-5 max-w-xl text-lg text-ink/70">
-        Start free for 7 days on the individual plan. Upgrade as you grow.
+        Join during beta at one flat founders rate. Upgrade as you grow.
       </p>
     </div>
   </section>
@@ -37,37 +61,65 @@ const resolveHref = (href: string) =>
   <section class="px-6 pt-10 pb-20">
     <div class="mx-auto max-w-container">
       {(["individuals", "studio"] as const).map((plan) => (
-        <div class="plan-panel grid gap-6 md:grid-cols-3" data-panel={plan} hidden={plan !== "individuals"}>
-          {PRICING[plan].map((tier) => (
-            <div class={`relative flex flex-col rounded-2xl border bg-bg p-7 md:p-8 ${tier.highlight ? "border-ink shadow-xl shadow-ink/5" : "border-ink/10"}`}>
-              {tier.badge && (
-                <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-ink px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-bg">{tier.badge}</span>
-              )}
-              <p class="text-xl font-medium tracking-tight text-ink">{tier.name}</p>
-              <p class="mt-3 flex items-baseline gap-1">
-                <span class="text-3xl font-medium tracking-tight text-ink">{tier.price}</span>
-                {tier.cadence && <span class="text-sm text-ink/50">{tier.cadence}</span>}
-              </p>
-              <p class="mt-3 text-sm text-ink/65">{tier.blurb}</p>
-              <a href={resolveHref(tier.cta.href)} class={`mt-6 rounded-full px-5 py-3 text-center text-sm font-semibold uppercase tracking-[0.08em] transition-colors ${tier.highlight ? "bg-ink text-bg hover:bg-ink/90" : "border border-ink/20 text-ink hover:bg-ink/5"}`}>{tier.cta.label}</a>
-              <ul class="mt-7 space-y-3 text-sm text-ink/75">
-                {tier.features.map((f) => (
-                  <li class="flex gap-2.5">
-                    <span aria-hidden="true" class="mt-1.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sage" />
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
+        <div class="plan-panel" data-panel={plan} hidden={plan !== "individuals"}>
+          {plan === "studio" && (
+            <div class="mb-6 rounded-2xl border border-sage/30 bg-sage/5 px-5 py-4 text-center text-sm text-ink/70">
+              <span class="font-semibold uppercase tracking-wide text-sage">Coming soon</span>
+              <span class="ml-2">Studio &amp; multi-location plans launch once our first coaches are live. <a href={`${root}/book-a-demo`} class="underline underline-offset-4 hover:text-ink">Book a demo</a> to get early access.</span>
             </div>
-          ))}
+          )}
+          {BETA_OFFERS[plan] && (
+            <div class="mb-8 flex flex-col items-start gap-4 rounded-2xl border border-ink/15 bg-ink/[0.03] p-6 md:flex-row md:items-center md:justify-between md:p-7">
+              <div>
+                <p class="text-lg font-medium tracking-tight text-ink">{BETA_OFFERS[plan]!.headline}</p>
+                <p class="mt-2 max-w-2xl text-sm text-ink/70">{BETA_OFFERS[plan]!.body}</p>
+              </div>
+              <a
+                href={resolveHref(BETA_OFFERS[plan]!.cta.href)}
+                class="shrink-0 rounded-full bg-ink px-5 py-3 text-center text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90"
+              >
+                {BETA_OFFERS[plan]!.cta.label}
+              </a>
+            </div>
+          )}
+          {plan === "individuals" && (
+            <p class="mb-6 text-center text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">
+              Individual tiers — post-beta standard pricing
+            </p>
+          )}
+          <div class="grid gap-6 md:grid-cols-3">
+            {PRICING[plan].map((tier) => (
+              <div class={`relative flex flex-col rounded-2xl border bg-bg p-7 md:p-8 ${tier.highlight ? "border-ink shadow-xl shadow-ink/5" : "border-ink/10"}`}>
+                {tier.badge && (
+                  <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-ink px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-bg">{tier.badge}</span>
+                )}
+                <p class="text-xl font-medium tracking-tight text-ink">{tier.name}</p>
+                <p class="mt-3 flex items-baseline gap-1">
+                  <span class="text-3xl font-medium tracking-tight text-ink">{tier.price}</span>
+                  {tier.cadence && <span class="text-sm text-ink/50">{tier.cadence}</span>}
+                </p>
+                <p class="mt-3 text-sm text-ink/65">{tier.blurb}</p>
+                <a href={resolveHref(tier.cta.href)} class={`mt-6 rounded-full px-5 py-3 text-center text-sm font-semibold uppercase tracking-[0.08em] transition-colors ${tier.highlight ? "bg-ink text-bg hover:bg-ink/90" : "border border-ink/20 text-ink hover:bg-ink/5"}`}>{tier.cta.label}</a>
+                <ul class="mt-7 space-y-3 text-sm text-ink/75">
+                  {tier.features.map((f) => (
+                    <li class="flex gap-2.5">
+                      <span aria-hidden="true" class="mt-1.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sage" />
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       ))}
       <p class="mx-auto mt-10 max-w-2xl text-center text-sm text-ink/50">
-        Final prices are being set ahead of general availability. Studio and multi-location plans are
+        {PAYMENTS_NOTE} Multi-location enterprise plans are
         custom — <a href={`${root}/book-a-demo`} class="underline underline-offset-4 hover:text-ink">book a demo</a> for a quote.
       </p>
     </div>
   </section>
+  </>)}
 
   <!-- FAQ -->
   <section class="border-t border-ink/10 px-6 py-20 md:py-24">
@@ -88,7 +140,7 @@ const resolveHref = (href: string) =>
 
 <style>
   .plan-tab { color: rgba(20, 22, 26, 0.55); }
-  .plan-tab[aria-selected="true"] { background: #14161A; color: #F7F4EE; }
+  .plan-tab[aria-selected="true"] { background: #14161A; color: #FFFFFF; }
 </style>
 
 <script is:inline>

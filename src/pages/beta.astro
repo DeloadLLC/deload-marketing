@@ -1,0 +1,57 @@
+---
+import Layout from "../layouts/Layout.astro";
+import BetaSignupForm from "../components/BetaSignupForm.astro";
+
+const betaPerks = [
+  "Early access to the full platform",
+  "A direct line to the founder",
+  "Help shape what we build next",
+];
+
+const svgAttrs =
+  'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const check = `<svg class="h-4 w-4" ${svgAttrs}><path d="M20 6 9 17l-5-5"/></svg>`;
+---
+<Layout
+  title="Join the Deload beta"
+  description="Be among the first coaches on Deload — the all-in-one AI coaching platform. Generate block-aware programs with simple AI chat, manage your clients, and ship to your athletes' phones."
+  minimalNav={true}
+  hideHeaderCtas={true}
+>
+  <!-- Hero: pitch (left) + simple sign-up (right) -->
+  <section class="px-6 pt-14 pb-16 md:pt-20">
+    <div class="mx-auto grid max-w-container items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+      <!-- Pitch -->
+      <div>
+        <p class="inline-flex items-center gap-2 rounded-full border border-sage/30 bg-sage/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-sage">
+          <span aria-hidden="true" class="inline-block h-1.5 w-1.5 rounded-full bg-sage"></span>
+          Now in private beta
+        </p>
+        <h1 class="mt-5 text-balance text-4xl font-medium leading-[1.05] tracking-tight text-ink md:text-6xl">
+          Coach more. Lose fewer evenings.
+        </h1>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink/80 md:text-xl">
+          Deload is the all-in-one AI coaching platform. Generate block-aware programs with
+          simple AI chat, manage your clients, and grow your business.
+        </p>
+        <ul class="mt-7 grid gap-2.5 sm:grid-cols-3">
+          {betaPerks.map((perk) => (
+            <li class="flex items-center gap-2 text-sm font-medium text-ink/80">
+              <span class="text-sage" set:html={check} />
+              <span>{perk}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Simple sign-up -->
+      <div class="lg:pt-2">
+        <div class="mb-4">
+          <h2 class="text-2xl font-medium tracking-tight text-ink">Join the waitlist</h2>
+          <p class="mt-1 text-sm text-ink/70">We invite coaches in small groups. It takes a minute.</p>
+        </div>
+        <BetaSignupForm id="beta-form" submitLabel="Join Waitlist" />
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: "#F7F4EE",
+        bg: "#FFFFFF",
         sage: "#6B8E6F",
         clay: "#B8724A",
         ink: "#14161A",

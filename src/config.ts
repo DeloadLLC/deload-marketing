@@ -7,10 +7,29 @@ export const API_BASE_URL =
   "https://app.deloadapp.io";
 
 const trimmedAppUrl = APP_URL.replace(/\/+$/, "");
-// "Try for free" starts the 7-day individual trial via the app sign-up flow.
 export const SIGN_IN_URL = `${trimmedAppUrl}/sign-in`;
 export const SIGN_UP_URL = `${trimmedAppUrl}/sign-up`;
-export const TRIAL_URL = SIGN_UP_URL;
+
+// Private beta (founder, 2026-10-19): sign-up is by invitation, so every
+// sign-up button is "Join Waitlist" and goes to /beta, whose form feeds the
+// beta list (Admin → Beta invites). PUBLIC_SIGNUP_MODE=open puts the buttons
+// back on the app's sign-up when the beta ends.
+export const SIGNUP_MODE: "waitlist" | "open" =
+  (import.meta.env.PUBLIC_SIGNUP_MODE as string | undefined)?.trim() === "open" ? "open" : "waitlist";
+const siteBase = (import.meta.env.BASE_URL as string | undefined) ?? "/";
+export const PRIMARY_CTA =
+  SIGNUP_MODE === "open"
+    ? { label: "Try for free", href: SIGN_UP_URL }
+    : { label: "Join Waitlist", href: `${siteBase.replace(/\/$/, "")}/beta` };
+
+// The app hosts the one copy of the legal pages (they changed with the beta
+// decisions; two copies drifted). The site's /privacy and /terms forward there.
+export const PRIVACY_URL = `${trimmedAppUrl}/privacy`;
+export const TERMS_URL = `${trimmedAppUrl}/terms`;
+
+// Prices stay hidden during the private beta (founder, 2026-10-19). The tier
+// data below is kept for when they're published: PUBLIC_SHOW_PRICES=1.
+export const SHOW_PRICES = (import.meta.env.PUBLIC_SHOW_PRICES as string | undefined)?.trim() === "1";
 
 export const TURNSTILE_SITE_KEY =
   (import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined) ?? "";
@@ -21,7 +40,7 @@ export const SITE_NAME = "Deload";
 export const SITE_TAGLINE = "The all-in-one AI coaching platform";
 
 export const SITE_DESCRIPTION =
-  "The all-in-one AI coaching platform for coaches who write their own training. Generate block-aware programs, edit in plain English, run your roster, bill your clients, and ship the program straight to your athletes' phones — all in one place.";
+  "The all-in-one AI coaching platform for coaches who write their own training. Generate block-aware programs, edit in plain English, bring in the programs you already have, run your roster, and ship the program straight to your athletes' phones — all in one place.";
 
 // ---------------------------------------------------------------------------
 // Information architecture / navigation
@@ -48,10 +67,10 @@ export interface FeatureEntry {
 
 // Grouped only for the dropdown's column layout (mirrors arketa's mega-menu).
 export const FEATURE_GROUPS: { heading: string; slugs: string[] }[] = [
-  { heading: "Programming", slugs: ["ai-programming", "program-editing", "populations"] },
+  { heading: "Programming", slugs: ["ai-programming", "program-editing", "program-import", "populations"] },
   { heading: "Roster", slugs: ["roster", "messaging", "check-ins"] },
   { heading: "Athlete experience", slugs: ["athlete-app", "scheduling"] },
-  { heading: "Business", slugs: ["billing", "analytics", "team", "white-label"] },
+  { heading: "Business", slugs: ["marketplace", "billing", "analytics", "team", "white-label"] },
 ];
 
 export const FEATURES: FeatureEntry[] = [
@@ -93,6 +112,22 @@ export const FEATURES: FeatureEntry[] = [
     ],
   },
   {
+    slug: "program-import",
+    nav: "Program import",
+    status: "shipped",
+    menuBlurb: "Bring in the programs you already wrote.",
+    eyebrow: "Import",
+    title: "Bring the programs you already have.",
+    intro:
+      "Your best programs already exist in a spreadsheet, a Word doc or a PDF. Import them and Deload reads the weeks, days, sets, reps and loads — in your wording — so you can edit, assign and build on them instead of retyping.",
+    points: [
+      "Import from Excel, Word, PDF or pasted text.",
+      "Sets, reps, loads, RPE and rest read as you wrote them — your cues and notes stay word for word.",
+      "Supersets and complexes are picked up and listed for you to check.",
+      "Watch it stream in day by day, then fix anything in the same editor as AI-written programs.",
+    ],
+  },
+  {
     slug: "populations",
     nav: "Population-specific protocols",
     status: "shipped",
@@ -121,7 +156,7 @@ export const FEATURES: FeatureEntry[] = [
       "Roster dashboard with “Needs attention” triage and headshots.",
       "Per-athlete history: PRs, RPE trends, check-ins, and edit log.",
       "Automatic high-RPE advisories and target-divergence alerts.",
-      "Auto-adjustments that suggest swaps when an athlete logs pain or a brutal RPE — you accept or reject.",
+      "Auto-adjustments that suggest swaps when an athlete logs pain or a brutal RPE — coming soon.",
       "Per-athlete distance and load units — lbs / mi or kg / m — set once.",
     ],
   },
@@ -133,18 +168,17 @@ export const FEATURES: FeatureEntry[] = [
     eyebrow: "Communication",
     title: "Messaging that doesn't live in your texts.",
     intro:
-      "Athletes message in-app, on web and mobile. You see the exact session that triggered the question. An AI assistant handles the easy ones so you can spend your replies on the real conversations.",
+      "Athletes message in-app, on web and mobile. You see the exact session that triggered the question. Every message sits next to the training it's about, so you answer with the context in front of you.",
     points: [
       "In-app inbox tied to the specific session or week in question.",
       "Welcome-note automation when an athlete first joins.",
-      "Athlete-side AI assistant for “what's my weight today?”-class questions.",
-      "Push notifications when you reply, so nothing gets lost.",
+      "An athlete-side AI assistant for “what's my weight today?”-class questions is coming soon.",
     ],
   },
   {
     slug: "check-ins",
     nav: "Structured check-ins",
-    status: "shipped",
+    status: "soon",
     menuBlurb: "Structured check-ins that land back in your inbox.",
     eyebrow: "Check-ins",
     title: "The weekly check-in, structured and in one place.",
@@ -159,25 +193,24 @@ export const FEATURES: FeatureEntry[] = [
   },
   {
     slug: "athlete-app",
-    nav: "Athlete mobile app",
+    nav: "Athlete app",
     status: "shipped",
-    menuBlurb: "An app athletes actually open — iOS and Android.",
+    menuBlurb: "An app athletes actually open — on any phone.",
     eyebrow: "Athlete experience",
     title: "An app athletes actually open.",
     intro:
       "Clean, quiet, built around the next set — not gamified streaks. Athletes see today's session, log it in seconds, and message you when something's off. You stay the coach of record.",
     points: [
-      "iOS and Android via the Deload mobile app.",
+      "Works on any phone through the browser today; native iOS and Android apps are coming soon.",
       "Fast in-gym logging: sets, reps, weight, RPE — with automatic PR detection.",
       "Modality-aware fields for runs, rows, intervals, and more — not just barbell work.",
       "Today's session up top, with warm-up, main work, accessories, and cool-down clearly laid out.",
-      "Auto-regulated targets based on the previous session's feel and performance, with a badge explaining why.",
     ],
   },
   {
     slug: "scheduling",
     nav: "Scheduling & booking",
-    status: "shipped",
+    status: "soon",
     menuBlurb: "1-on-1 booking, availability, and an AI booking assistant.",
     eyebrow: "Scheduling",
     title: "Booking and scheduling, handled in the same app.",
@@ -192,9 +225,24 @@ export const FEATURES: FeatureEntry[] = [
     ],
   },
   {
+    slug: "marketplace",
+    nav: "Program marketplace",
+    status: "shipped",
+    menuBlurb: "Sell your programs, paid to your own Stripe account.",
+    eyebrow: "Marketplace",
+    title: "Sell the programs you're proud of.",
+    intro:
+      "List your programs on the Deload marketplace and athletes can buy them directly. Payments go to your own Stripe account — connect it once, right from the marketplace.",
+    points: [
+      "Publish a program with its price, description and preview.",
+      "Athletes pay by card through Stripe; the money lands in your Stripe account.",
+      "Connect or manage your Stripe account from the marketplace itself.",
+    ],
+  },
+  {
     slug: "billing",
     nav: "Billing & payments",
-    status: "shipped",
+    status: "soon",
     menuBlurb: "Get paid without leaving the app.",
     eyebrow: "Billing",
     title: "Get paid without leaving the app.",
@@ -210,7 +258,7 @@ export const FEATURES: FeatureEntry[] = [
   {
     slug: "analytics",
     nav: "Analytics & reporting",
-    status: "shipped",
+    status: "soon",
     menuBlurb: "Dashboards and reports that surface what matters.",
     eyebrow: "Analytics",
     title: "The numbers that actually tell you something.",
@@ -242,7 +290,7 @@ export const FEATURES: FeatureEntry[] = [
   {
     slug: "white-label",
     nav: "White labeling",
-    status: "shipped",
+    status: "soon",
     menuBlurb: "Your brand on the client-facing experience.",
     eyebrow: "White labeling",
     title: "Run the client experience under your own brand.",
@@ -273,6 +321,9 @@ export interface BusinessTypeEntry {
   title: string;
   intro: string;
   points: string[];
+  // Built, but intentionally held back at launch — surfaced as "Coming soon"
+  // everywhere this tier appears (nav, footer, pricing, detail page).
+  comingSoon?: boolean;
   cta?: { label: string; href: string };
 }
 
@@ -288,14 +339,14 @@ export const BUSINESS_TYPES: BusinessTypeEntry[] = [
     points: [
       "AI-assisted programming so first drafts take minutes, not evenings.",
       "One roster, one inbox, one athlete app — no tool-switching.",
-      "Built-in billing and booking so you get paid without a separate tool.",
-      "Start on the 7-day individual trial; upgrade when you're ready to scale.",
+      "Your programs, messages and athletes' logs in one place.",
+      "Deload is in private beta — join the waitlist and we'll invite you.",
     ],
-    cta: { label: "Start your 7-day trial", href: "" },
+    cta: { label: "", href: "" },
   },
   {
     slug: "new-business",
-    nav: "New business (Deload Foundations)",
+    nav: "Deload Foundations - NewBiz",
     menuBlurb: "Opening or just launched? Start here.",
     eyebrow: "New business",
     title: "Start your coaching business on the right foundation.",
@@ -306,6 +357,7 @@ export const BUSINESS_TYPES: BusinessTypeEntry[] = [
       "Migrate an existing client list over from a spreadsheet or another tool.",
       "Guidance on pricing, funding, and operations through Deload Foundations.",
     ],
+    comingSoon: true,
     cta: { label: "Explore Deload Foundations", href: "/elevate" },
   },
   {
@@ -322,6 +374,7 @@ export const BUSINESS_TYPES: BusinessTypeEntry[] = [
       "Shared protocol library so the bar stays high.",
       "Per-coach voice preserved by the AI, even on shared standards.",
     ],
+    comingSoon: true,
   },
   {
     slug: "large-enterprise",
@@ -337,6 +390,7 @@ export const BUSINESS_TYPES: BusinessTypeEntry[] = [
       "Admin impersonation for support, every action audit-logged.",
       "Roster and schedule triage across every location from one dashboard.",
     ],
+    comingSoon: true,
     cta: { label: "Book a demo", href: "/book-a-demo" },
   },
   {
@@ -353,6 +407,7 @@ export const BUSINESS_TYPES: BusinessTypeEntry[] = [
       "Branded client emails and check-ins.",
       "Branded native mobile app coming soon.",
     ],
+    comingSoon: true,
     cta: { label: "Talk to us", href: "/book-a-demo" },
   },
 ];
@@ -387,7 +442,7 @@ export const RESOURCES: ResourceEntry[] = [
       "A practical guide to going from coaching on the side to running a business that pays you — pricing, packaging, your first clients, and the systems that keep it from eating your week.",
     body: [
       "Whether you're leaving a gym job or opening your first studio, the early decisions — how you price, how you package, how you get paid — set the ceiling on what comes next.",
-      "Deload Foundations exists to help with exactly this. The platform handles the programming and admin; Foundations helps you stand up the business around it.",
+      "Deload Foundations (coming soon) is being built to help with exactly this. The platform handles the programming and admin; Foundations will help you stand up the business around it.",
     ],
   },
   {
@@ -400,8 +455,9 @@ export const RESOURCES: ResourceEntry[] = [
       "Opening a space, buying equipment, or hiring your first coach takes capital. Here's where to look — and how Deload Foundations can point you in the right direction.",
     body: [
       "From small-business loans to equipment financing to studio-specific lenders, there are more options than most first-time owners realise.",
-      "Through Deload Foundations we can connect you with financing partners and walk through what makes sense for your stage.",
+      "Through Deload Foundations (coming soon) we'll connect you with financing partners and walk through what makes sense for your stage.",
     ],
+    comingSoon: true,
   },
   {
     slug: "blog",
@@ -454,95 +510,140 @@ export interface PricingTier {
   features: string[];
 }
 
+// 2026-09 pricing. Individual tiers are the post-beta standard rates; the
+// Founders beta rate renders as a banner above the cards (BETA_OFFERS below).
+// Keep in sync with the backend's TIER_DETAILS (deload-backend
+// src/lib/subscriptions.ts) — the API serves the same numbers at GET /pricing.
 export const PRICING: {
   individuals: PricingTier[];
   studio: PricingTier[];
 } = {
   individuals: [
     {
-      name: "Individual",
-      price: "$—",
+      name: "Solo",
+      price: "$89",
       cadence: "/mo",
-      blurb: "For the solo coach running their own roster.",
+      blurb: "One coach, up to 15 athletes — a full personal roster.",
       cta: { label: "Start 7-day free trial", href: "" },
       features: [
-        "AI-assisted programming",
+        "$75/mo billed annually — save $168/yr",
+        "AI super agent — exercise programming",
         "Plain-English editing with full history",
-        "Athlete app + in-app messaging",
-        "Booking and built-in Stripe billing",
-        "7-day free trial — 1 client, 1 generation",
+        "Athlete app + in-app messaging & check-ins",
+        "Booking, invoicing, and built-in Stripe billing",
       ],
     },
     {
-      name: "Individual Growth",
-      price: "$—",
+      name: "Pro",
+      price: "$149",
       cadence: "/mo",
-      blurb: "More athletes, automations, and check-ins.",
-      cta: { label: "Start 7-day free trial", href: "" },
+      blurb: "One coach, up to 50 athletes — for scaling past 15 or running groups.",
+      cta: { label: "Start 14-day free trial", href: "" },
       highlight: true,
       badge: "Most popular",
       features: [
-        "Everything in Individual, plus…",
-        "Higher client and generation limits",
-        "Structured check-ins and advisories",
-        "Roster triage dashboard and reports",
+        "$124/mo billed annually — save $300/yr",
+        "Everything in Solo, plus…",
+        "Long-program optimizer (8+ weeks)",
+        "Roster triage + automations",
+        "Accounting dashboard + reports",
+        "Priority support",
       ],
     },
     {
-      name: "Individual Suite",
-      price: "$—",
+      name: "Elite",
+      price: "$229",
       cadence: "/mo",
-      blurb: "The full individual toolkit at scale.",
-      cta: { label: "Book a demo", href: "/book-a-demo" },
+      blurb: "One coach, unlimited athletes — high-volume and influencer rosters.",
+      cta: { label: "Start 14-day free trial", href: "" },
       features: [
-        "Everything in Growth, plus…",
-        "Highest client and generation limits",
-        "Priority support",
-        "Early access to new features",
+        "$190/mo billed annually — save $468/yr",
+        "Everything in Pro, plus…",
+        "Unlimited active athletes",
+        "White-label client portal",
+        "Advanced AI agent customization",
+        "Dedicated onboarding call",
       ],
     },
   ],
   studio: [
     {
-      name: "Studio Core",
-      price: "Custom",
-      blurb: "Run your studio in one place with reporting and analytics.",
+      name: "Studio",
+      price: "$199",
+      cadence: "/mo",
+      blurb: "Up to 5 coaches and 75 athletes — single-location studios and small group practices.",
       cta: { label: "Book a demo", href: "/book-a-demo" },
       features: [
-        "Unlimited team members",
-        "Org-level defaults and shared protocols",
-        "Roster and schedule triage across the team",
-        "Built-in billing, booking, and reporting",
+        "$165/mo billed annually — save $408/yr",
+        "5 coach seats included",
+        "AI programming per coach",
+        "Shared athlete roster + profiles",
+        "Studio analytics dashboard",
       ],
     },
     {
-      name: "Studio Growth",
-      price: "Custom",
-      blurb: "Manage and grow your studio with automations.",
+      name: "Performance",
+      price: "$399",
+      cadence: "/mo",
+      blurb: "Up to 15 coaches and 200 athletes — growing studios and remote teams.",
       cta: { label: "Book a demo", href: "/book-a-demo" },
       highlight: true,
-      badge: "Most popular",
+      badge: "Best value",
       features: [
-        "Everything in Core, plus…",
-        "Advanced automations and check-ins",
-        "Admin impersonation with audit log",
-        "Enterprise SSO and SCIM provisioning",
+        "$332/mo billed annually — save $804/yr",
+        "Everything in Studio, plus…",
+        "15 coach seats included",
+        "Admin + coach role hierarchy",
+        "Full accounting + revenue reports",
+        "White-label client portal",
       ],
     },
     {
-      name: "Studio Suite",
+      name: "Enterprise",
       price: "Custom",
-      blurb: "All your studio needs: platform, branding, and an app.",
+      blurb: "16+ coaches, 200+ athletes, multi-location — franchises and large gym groups.",
       cta: { label: "Book a demo", href: "/book-a-demo" },
       features: [
-        "Everything in Growth, plus…",
-        "White-label client portal and domain",
-        "Multi-location support",
-        "Dedicated onboarding and priority support",
+        "Everything in Performance, plus…",
+        "Unlimited coach seats + multi-location management",
+        "Custom branded app + SSO with audit log",
+        "Dedicated success manager",
+        "Negotiated Stripe processing rate",
       ],
     },
   ],
 };
+
+/**
+ * Founders / beta rate banners rendered above the tier cards on /pricing.
+ * Everyone who joins during beta pays one flat rate for year one and keeps a
+ * permanent 25% discount off any standard tier after that.
+ */
+export const BETA_OFFERS: Record<
+  "individuals" | "studio",
+  { headline: string; body: string; cta: { label: string; href: string } } | null
+> = {
+  individuals: {
+    headline: "Founders / beta rate — $59/mo flat, locked for your first year",
+    body:
+      "Every feature as it launches, up to 15 athletes. Year two you keep 25% off any plan — permanently — in exchange for being an early tester. Scale past 15 athletes anytime on Pro or Elite at your founders discount.",
+    cta: { label: "Claim the founders rate", href: "" },
+  },
+  studio: {
+    headline: "Enterprise beta — $59 per coach/mo, flat, for year one",
+    body:
+      "A 5-coach studio runs $295/mo during beta (vs. $1,000–1,700 all-in elsewhere), with a permanent 25% discount off standard enterprise pricing after year one.",
+    cta: { label: "Book a demo", href: "/book-a-demo" },
+  },
+};
+
+/**
+ * Payment-processing disclosure shown under the tier cards. Standard Stripe
+ * rates pass through with no Deload markup until the negotiated processing
+ * agreement is finalized.
+ */
+export const PAYMENTS_NOTE =
+  "Payments are processed by Stripe at the standard 2.9% + $0.30 per transaction — no Deload markup on processing.";
 
 // ---------------------------------------------------------------------------
 // Home-page content blocks
@@ -557,12 +658,12 @@ export const pillars = [
   {
     eyebrow: "Run",
     title: "A roster you can actually keep up with.",
-    body: "Triage who needs attention, send structured check-ins, message athletes in-app, and catch high-RPE or off-target weeks before they become a problem.",
+    body: "See who needs attention, message athletes in-app, and catch high-RPE or off-target weeks before they become a problem.",
   },
   {
     eyebrow: "Ship",
     title: "An athlete app athletes actually open.",
-    body: "Today's session on the phone, fast logging with RPE and PRs, an in-app chat assistant for quick questions — and you stay the coach of record.",
+    body: "Today's session on the phone, fast logging with RPE and PRs, messages tied to the training — and you stay the coach of record.",
   },
 ];
 
@@ -594,6 +695,46 @@ export const proofPoints = [
   "Full edit history with one-click undo — you stay the coach of record.",
 ];
 
+// ---------------------------------------------------------------------------
+// Waitlist form (/beta) — posts to deload-backend's /api/public/beta-signup,
+// which saves the signup, puts it on Clerk's waitlist and emails the
+// questionnaire.
+// ---------------------------------------------------------------------------
+
+export const BETA_SIGNUP_ENDPOINT = `${API_BASE_URL.replace(/\/+$/, "")}/api/public/beta-signup`;
+
+// The `value`s must match the backend's BETA_ROSTER_BUCKETS /
+// BETA_COACHING_TYPES (deload-shared); the server drops anything else.
+export const BETA_ROSTER_OPTIONS = [
+  { value: "1-5", label: "1–5 athletes" },
+  { value: "6-20", label: "6–20 athletes" },
+  { value: "21-50", label: "21–50 athletes" },
+  { value: "51-150", label: "51–150 athletes" },
+  { value: "150+", label: "150+ athletes" },
+] as const;
+
+export const BETA_COACHING_TYPE_OPTIONS = [
+  { value: "online", label: "Online / remote" },
+  { value: "in_person", label: "In person" },
+  { value: "hybrid", label: "Hybrid (online + in person)" },
+  { value: "gym_studio", label: "Gym / studio" },
+  { value: "other", label: "Other" },
+] as const;
+
+// Social links, shown after someone joins the waitlist and in the footer.
+// Fill in the real ones here; an empty href is left out.
+export interface SocialLink {
+  label: string;
+  href: string;
+}
+export const SOCIALS: SocialLink[] = [
+  { label: "Instagram", href: "" },
+  { label: "TikTok", href: "" },
+  { label: "YouTube", href: "" },
+  { label: "LinkedIn", href: "" },
+];
+export const ACTIVE_SOCIALS = SOCIALS.filter((s) => s.href.trim() !== "");
+
 // Testimonials are intentionally empty until we have real beta feedback to
 // quote. The UI falls back to a "coming soon" state when this is empty.
 export interface Testimonial {
@@ -614,14 +755,14 @@ export const faqs = [
   },
   {
     q: "What does the athlete actually see?",
-    a: "A clean mobile app with today's session, fast logging, and a chat tab tied to you. There's also an in-app AI assistant for quick questions so you're not answering “what's my weight today?” at 7am.",
+    a: "A clean app on their phone with today's session, the weights to use, fast logging, and messages tied to you — so you're not answering “what's my weight today?” at 7am. It runs in the browser today; native apps are on the way.",
   },
   {
-    q: "How does the free trial work?",
-    a: "Start a 7-day individual trial with no commitment. During the trial you can add one client and run one program generation, so you can see the voice for yourself. When you subscribe, your normal client and generation limits unlock.",
+    q: "How do I get access?",
+    a: "Deload is in private beta. Join the waitlist and answer a short questionnaire, and we'll invite coaches in small groups. Beta coaches use Deload free while the beta runs.",
   },
   {
     q: "Can I move my roster over from another tool?",
-    a: "Yes. You can start with a single athlete to evaluate the voice, or migrate an existing client list — and Deload Foundations can help if you're coming from Arketa, Jane, Mindbody, or a spreadsheet.",
+    a: "Yes. Import the programs you already have from Excel, Word or PDF, and invite your athletes by email. Hands-on migration help from Arketa, Jane, Mindbody and other tools is coming with Deload Foundations.",
   },
 ];

@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import LeadForm from "../components/LeadForm.astro";
+import BetaSignupForm from "../components/BetaSignupForm.astro";
 import Testimonials from "../components/Testimonials.astro";
 import { proofPoints } from "../config";
 
@@ -8,8 +8,10 @@ const highlights = proofPoints.slice(0, 4);
 ---
 <Layout
   title="Coach more, without losing your evenings"
-  description="The all-in-one AI coaching platform. Generate block-aware programs, run your roster, and ship to your athletes' phones. Tell us about yourself and we'll show you how."
+  description="The all-in-one AI coaching platform. Generate block-aware programs, run your roster, and ship to your athletes' phones. Join the private beta waitlist."
   minimalNav={true}
+  hideHeaderCtas={true}
+  noindex={true}
 >
   <section class="px-6 pt-16 pb-20 md:pt-24">
     <div class="mx-auto grid max-w-container items-start gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
@@ -20,8 +22,8 @@ const highlights = proofPoints.slice(0, 4);
           More athletes. Fewer evenings.
         </h1>
         <p class="mt-6 max-w-xl text-lg text-ink/70 md:text-xl">
-          Deload writes block-aware training in your voice, edits with you in plain English, runs your
-          roster, books and bills your clients, and ships the program straight to your athletes' phones
+          Deload writes block-aware training in your voice, edits with you in plain English, brings in the
+          programs you already have, runs your roster, and ships the program straight to your athletes' phones
           &mdash; so you can keep the relationship and skip the spreadsheet.
         </p>
         <ul class="mt-8 grid gap-3 sm:grid-cols-2">
@@ -32,16 +34,16 @@ const highlights = proofPoints.slice(0, 4);
             </li>
           ))}
         </ul>
-        <p class="mt-8 text-sm text-ink/50">Start with a 7-day free trial &middot; no credit card</p>
+        <p class="mt-8 text-sm text-ink/50">Now in private beta &middot; we invite coaches in small groups</p>
       </div>
 
       <!-- Lead form (right) -->
       <div class="lg:pt-2">
         <div class="mb-4">
-          <h2 class="text-2xl font-medium tracking-tight text-ink">Tell us about yourself</h2>
-          <p class="mt-1 text-sm text-ink/60">We'll point you to the right starting place.</p>
+          <h2 class="text-2xl font-medium tracking-tight text-ink">Join the waitlist</h2>
+          <p class="mt-1 text-sm text-ink/60">Tell us a little about how you coach and we'll be in touch.</p>
         </div>
-        <LeadForm id="landing-form" submitLabel="Get started" topic="landing" />
+        <BetaSignupForm id="landing-form" submitLabel="Join Waitlist" />
       </div>
     </div>
   </section>

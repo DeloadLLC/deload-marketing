@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { BUSINESS_TYPES, TRIAL_URL, getBusinessType } from "../../config";
+import { BUSINESS_TYPES, PRIMARY_CTA, getBusinessType } from "../../config";
 
 export function getStaticPaths() {
   return BUSINESS_TYPES.map((b) => ({ params: { slug: b.slug } }));
@@ -12,19 +12,35 @@ const base = import.meta.env.BASE_URL;
 const root = base.replace(/\/$/, "");
 
 const resolveHref = (href: string) =>
-  href === "" ? TRIAL_URL : href.startsWith("http") ? href : `${root}${href}`;
+  href === "" ? PRIMARY_CTA.href : href.startsWith("http") ? href : `${root}${href}`;
 
-const cta = biz.cta ?? { label: "Try for free", href: "" };
+// An empty label or href means the site's main sign-up button (Join Waitlist
+// during the private beta).
+const cta = biz.cta
+  ? { label: biz.cta.label || PRIMARY_CTA.label, href: biz.cta.href }
+  : biz.comingSoon
+    ? { label: "Book a demo", href: "/book-a-demo" }
+    : { label: PRIMARY_CTA.label, href: "" };
 const others = BUSINESS_TYPES.filter((b) => b.slug !== biz.slug);
 ---
 <Layout title={biz.nav} description={biz.intro}>
   <section class="px-6 pt-20 pb-16 md:pt-28">
     <div class="mx-auto max-w-container">
-      <p class="text-sm uppercase tracking-[0.18em] text-clay">{biz.eyebrow}</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <p class="text-sm uppercase tracking-[0.18em] text-clay">{biz.eyebrow}</p>
+        {biz.comingSoon && (
+          <span class="rounded-full bg-sage/15 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-sage">Coming soon</span>
+        )}
+      </div>
       <h1 class="mt-4 max-w-4xl text-balance text-4xl font-medium leading-[1.05] tracking-tight text-ink md:text-6xl">
         {biz.title}
       </h1>
       <p class="mt-6 max-w-2xl text-lg text-ink/70 md:text-xl">{biz.intro}</p>
+      {biz.comingSoon && (
+        <p class="mt-4 max-w-2xl text-sm text-ink/55">
+          This is on the way and opens after the private beta. Book a demo to talk it through and be first in line.
+        </p>
+      )}
       <div class="mt-8 flex flex-wrap items-center gap-3">
         <a href={resolveHref(cta.href)} class="rounded-full bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">{cta.label}</a>
         <a href={`${root}/features`} class="rounded-full border border-ink/20 px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">See features</a>
@@ -52,11 +68,14 @@ const others = BUSINESS_TYPES.filter((b) => b.slug !== biz.slug);
   <section class="px-6 py-16 md:py-20">
     <div class="mx-auto max-w-container">
       <h2 class="text-sm uppercase tracking-[0.18em] text-clay">Other business types</h2>
-      <ul class="mt-6 grid gap-px overflow-hidden rounded-2xl bg-ink/10 md:grid-cols-2 lg:grid-cols-4">
+      <ul class="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {others.map((b) => (
-          <li class="bg-bg p-6">
+          <li class="rounded-2xl border border-ink/10 bg-bg p-6">
             <a href={`${root}/business-types/${b.slug}`} class="group block">
-              <p class="font-medium text-ink group-hover:text-clay">{b.nav}</p>
+              <p class="font-medium text-ink group-hover:text-clay">
+                {b.nav}
+                {b.comingSoon && <span class="ml-1.5 inline-block whitespace-nowrap rounded-full bg-sage/15 px-1.5 py-0.5 align-middle text-[10px] font-medium uppercase tracking-wide text-sage">Coming soon</span>}
+              </p>
               <p class="mt-1 text-sm text-ink/60">{b.menuBlurb}</p>
             </a>
           </li>

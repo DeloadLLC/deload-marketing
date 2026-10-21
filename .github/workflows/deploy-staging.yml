@@ -16,8 +16,14 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ~/deload/deload-marketing
+            PREV_COMMIT=$(git rev-parse HEAD)
             git pull origin staging
-            pnpm install
+            if ! git diff --quiet "$PREV_COMMIT" HEAD -- package.json pnpm-lock.yaml; then
+              echo "Marketing dependencies changed. Running pnpm install..."
+              pnpm install
+            else
+              echo "No marketing dependency changes. Skipping pnpm install."
+            fi
             pnpm run build
             sudo chmod -R 755 ~/deload/deload-marketing/dist
             sudo systemctl restart nginx

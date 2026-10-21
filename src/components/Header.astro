@@ -1,7 +1,7 @@
 ---
 import {
   SIGN_IN_URL,
-  TRIAL_URL,
+  PRIMARY_CTA,
   FEATURES,
   FEATURE_GROUPS,
   BUSINESS_TYPES,
@@ -29,13 +29,13 @@ const featureColumns = FEATURE_GROUPS.map((group) => ({
     </a>
 
     <!-- Desktop nav -->
-    <nav class="hidden items-center gap-6 text-sm font-medium tracking-tight text-ink/80 lg:flex">
-      <a href={link("/why")} class="uppercase tracking-[0.12em] transition-colors hover:text-ink">Why we're different</a>
+    <nav class="hidden items-center gap-5 text-[13px] font-medium tracking-tight text-ink/80 xl:flex 2xl:gap-8">
+      <a href={link("/why")} class="whitespace-nowrap uppercase tracking-[0.1em] transition-colors hover:text-ink">Why we're different</a>
 
       <!-- Features mega-menu -->
       <div class="group relative">
         <button
-          class="flex items-center gap-1 uppercase tracking-[0.12em] transition-colors hover:text-ink"
+          class="flex items-center gap-1 whitespace-nowrap uppercase tracking-[0.1em] transition-colors hover:text-ink"
           aria-haspopup="true"
         >
           Features
@@ -49,14 +49,11 @@ const featureColumns = FEATURE_GROUPS.map((group) => ({
                 <ul class="space-y-3">
                   {col.items.map((f) => (
                     <li>
-                      <a href={link(`/features/${f.slug}`)} class="group/item block">
-                        <span class="flex items-center gap-2 text-sm font-medium text-ink">
-                          {f.nav}
-                          {f.status === "soon" && (
-                            <span class="rounded-full bg-sage/15 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-sage">Soon</span>
-                          )}
-                        </span>
-                        <span class="mt-0.5 block text-xs leading-snug text-ink/55">{f.menuBlurb}</span>
+                      <a href={link(`/features/${f.slug}`)} class="block text-sm font-medium text-ink transition-colors hover:text-clay">
+                        {f.nav}
+                        {f.status === "soon" && (
+                          <span class="ml-1.5 inline-block whitespace-nowrap rounded-full bg-sage/15 px-1.5 py-0.5 align-middle text-[10px] font-medium uppercase tracking-wide text-sage">Coming soon</span>
+                        )}
                       </a>
                     </li>
                   ))}
@@ -69,7 +66,7 @@ const featureColumns = FEATURE_GROUPS.map((group) => ({
 
       <!-- Business types -->
       <div class="group relative">
-        <button class="flex items-center gap-1 uppercase tracking-[0.12em] transition-colors hover:text-ink" aria-haspopup="true">
+        <button class="flex items-center gap-1 whitespace-nowrap uppercase tracking-[0.1em] transition-colors hover:text-ink" aria-haspopup="true">
           Business types
           <svg class="h-3.5 w-3.5 opacity-60 transition-transform group-hover:rotate-180" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -77,9 +74,11 @@ const featureColumns = FEATURE_GROUPS.map((group) => ({
           <ul class="space-y-1 rounded-2xl border border-ink/10 bg-bg p-3 shadow-xl shadow-ink/5">
             {BUSINESS_TYPES.map((b) => (
               <li>
-                <a href={link(`/business-types/${b.slug}`)} class="block rounded-xl px-3 py-2 transition-colors hover:bg-ink/5">
-                  <span class="block text-sm font-medium text-ink">{b.nav}</span>
-                  <span class="block text-xs leading-snug text-ink/55">{b.menuBlurb}</span>
+                <a href={link(`/business-types/${b.slug}`)} class="block rounded-xl px-3 py-2 text-sm font-medium text-ink transition-colors hover:bg-ink/5">
+                  {b.nav}
+                  {b.comingSoon && (
+                    <span class="ml-1.5 inline-block whitespace-nowrap rounded-full bg-sage/15 px-1.5 py-0.5 align-middle text-[10px] font-medium uppercase tracking-wide text-sage">Coming soon</span>
+                  )}
                 </a>
               </li>
             ))}
@@ -89,7 +88,7 @@ const featureColumns = FEATURE_GROUPS.map((group) => ({
 
       <!-- Resources -->
       <div class="group relative">
-        <button class="flex items-center gap-1 uppercase tracking-[0.12em] transition-colors hover:text-ink" aria-haspopup="true">
+        <button class="flex items-center gap-1 whitespace-nowrap uppercase tracking-[0.1em] transition-colors hover:text-ink" aria-haspopup="true">
           Resources
           <svg class="h-3.5 w-3.5 opacity-60 transition-transform group-hover:rotate-180" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -97,9 +96,11 @@ const featureColumns = FEATURE_GROUPS.map((group) => ({
           <ul class="space-y-1 rounded-2xl border border-ink/10 bg-bg p-3 shadow-xl shadow-ink/5">
             {RESOURCES.map((r) => (
               <li>
-                <a href={link(`/resources/${r.slug}`)} class="block rounded-xl px-3 py-2 transition-colors hover:bg-ink/5">
-                  <span class="block text-sm font-medium text-ink">{r.nav}</span>
-                  <span class="block text-xs leading-snug text-ink/55">{r.menuBlurb}</span>
+                <a href={link(`/resources/${r.slug}`)} class="block rounded-xl px-3 py-2 text-sm font-medium text-ink transition-colors hover:bg-ink/5">
+                  {r.nav}
+                  {r.comingSoon && (
+                    <span class="ml-1.5 inline-block whitespace-nowrap rounded-full bg-sage/15 px-1.5 py-0.5 align-middle text-[10px] font-medium uppercase tracking-wide text-sage">Coming soon</span>
+                  )}
                 </a>
               </li>
             ))}
@@ -107,20 +108,20 @@ const featureColumns = FEATURE_GROUPS.map((group) => ({
         </div>
       </div>
 
-      <a href={link("/pricing")} class="uppercase tracking-[0.12em] transition-colors hover:text-ink">Pricing</a>
-      <a href={SIGN_IN_URL} class="uppercase tracking-[0.12em] transition-colors hover:text-ink">Login</a>
+      <a href={link("/pricing")} class="whitespace-nowrap uppercase tracking-[0.1em] transition-colors hover:text-ink">Pricing</a>
+      <a href={SIGN_IN_URL} class="whitespace-nowrap uppercase tracking-[0.1em] transition-colors hover:text-ink">Login</a>
     </nav>
 
     <!-- CTAs -->
-    <div class="hidden items-center gap-2 lg:flex">
-      <a href={TRIAL_URL} class="rounded-full border border-ink/20 px-4 py-2 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">Try for free</a>
-      <a href={link("/book-a-demo")} class="rounded-full bg-ink px-4 py-2 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">Book a demo</a>
+    <div class="hidden items-center gap-2 xl:flex">
+      <a href={PRIMARY_CTA.href} class="whitespace-nowrap rounded-full border border-ink/20 px-3.5 py-1.5 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">{PRIMARY_CTA.label}</a>
+      <a href={link("/book-a-demo")} class="whitespace-nowrap rounded-full bg-ink px-3.5 py-1.5 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">Book a demo</a>
     </div>
 
     <!-- Mobile toggle -->
     <button
       id="menu-toggle"
-      class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-ink/15 text-ink lg:hidden"
+      class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-ink/15 text-ink xl:hidden"
       aria-label="Open menu"
       aria-expanded="false"
       aria-controls="mobile-menu"
@@ -130,7 +131,7 @@ const featureColumns = FEATURE_GROUPS.map((group) => ({
   </div>
 
   <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden border-t border-ink/10 bg-bg lg:hidden">
+  <div id="mobile-menu" class="hidden border-t border-ink/10 bg-bg xl:hidden">
     <nav class="mx-auto max-w-container space-y-1 px-6 py-4 text-sm">
       <a href={link("/why")} class="block rounded-lg px-3 py-2.5 font-medium text-ink hover:bg-ink/5">Why we're different</a>
 
@@ -138,7 +139,7 @@ const featureColumns = FEATURE_GROUPS.map((group) => ({
         <summary class="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 font-medium text-ink hover:bg-ink/5">Features<span class="text-ink/40 group-open:rotate-180">▾</span></summary>
         <ul class="space-y-0.5 pb-2 pl-3">
           {FEATURES.map((f) => (
-            <li><a href={link(`/features/${f.slug}`)} class="block rounded-lg px-3 py-2 text-ink/75 hover:bg-ink/5">{f.nav}{f.status === "soon" && <span class="ml-1 text-[10px] uppercase text-sage">soon</span>}</a></li>
+            <li><a href={link(`/features/${f.slug}`)} class="block rounded-lg px-3 py-2 text-ink/75 hover:bg-ink/5">{f.nav}{f.status === "soon" && <span class="ml-1.5 text-[10px] uppercase tracking-wide text-sage">coming soon</span>}</a></li>
           ))}
         </ul>
       </details>
@@ -147,7 +148,7 @@ const featureColumns = FEATURE_GROUPS.map((group) => ({
         <summary class="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 font-medium text-ink hover:bg-ink/5">Business types<span class="text-ink/40 group-open:rotate-180">▾</span></summary>
         <ul class="space-y-0.5 pb-2 pl-3">
           {BUSINESS_TYPES.map((b) => (
-            <li><a href={link(`/business-types/${b.slug}`)} class="block rounded-lg px-3 py-2 text-ink/75 hover:bg-ink/5">{b.nav}</a></li>
+            <li><a href={link(`/business-types/${b.slug}`)} class="block rounded-lg px-3 py-2 text-ink/75 hover:bg-ink/5">{b.nav}{b.comingSoon && <span class="ml-1.5 text-[10px] uppercase tracking-wide text-sage">coming soon</span>}</a></li>
           ))}
         </ul>
       </details>
@@ -165,7 +166,7 @@ const featureColumns = FEATURE_GROUPS.map((group) => ({
       <a href={SIGN_IN_URL} class="block rounded-lg px-3 py-2.5 font-medium text-ink hover:bg-ink/5">Login</a>
 
       <div class="flex flex-col gap-2 pt-3">
-        <a href={TRIAL_URL} class="rounded-full border border-ink/20 px-4 py-2.5 text-center text-sm font-semibold uppercase tracking-[0.08em] text-ink hover:bg-ink/5">Try for free</a>
+        <a href={PRIMARY_CTA.href} class="rounded-full border border-ink/20 px-4 py-2.5 text-center text-sm font-semibold uppercase tracking-[0.08em] text-ink hover:bg-ink/5">{PRIMARY_CTA.label}</a>
         <a href={link("/book-a-demo")} class="rounded-full bg-ink px-4 py-2.5 text-center text-sm font-semibold uppercase tracking-[0.08em] text-bg hover:bg-ink/90">Book a demo</a>
       </div>
     </nav>

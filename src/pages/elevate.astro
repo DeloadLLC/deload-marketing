@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { TRIAL_URL } from "../config";
+import { PRIMARY_CTA } from "../config";
 
 const base = import.meta.env.BASE_URL;
 const root = base.replace(/\/$/, "");
@@ -35,27 +35,30 @@ const migrations = ["Arketa", "Jane App", "Mindbody", "TrueCoach", "TrainHeroic"
 >
   <section class="px-6 pt-20 pb-16 md:pt-28">
     <div class="mx-auto max-w-container">
-      <p class="text-sm uppercase tracking-[0.18em] text-clay">Deload Foundations</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <p class="text-sm uppercase tracking-[0.18em] text-clay">Deload Foundations</p>
+        <span class="rounded-full bg-sage/15 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-sage">Coming soon</span>
+      </div>
       <h1 class="mt-4 max-w-4xl text-balance text-4xl font-medium leading-[1.05] tracking-tight text-ink md:text-6xl">
         Open and grow your coaching business with confidence.
       </h1>
       <p class="mt-6 max-w-2xl text-lg text-ink/70 md:text-xl">
-        Deload Foundations is how we help coaches start a business from scratch — and how we help established
-        coaches migrate over from another tool without losing momentum. The platform handles the work;
-        Foundations helps you build the business around it.
+        Deload Foundations is how we'll help coaches start a business from scratch — and help established
+        coaches move over from another tool without losing momentum. The platform handles the work;
+        Foundations will help you build the business around it. It opens after the private beta.
       </p>
       <div class="mt-8 flex flex-wrap items-center gap-3">
         <a href={`${root}/book-a-demo`} class="rounded-full bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">Talk to us</a>
-        <a href={TRIAL_URL} class="rounded-full border border-ink/20 px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">Try for free</a>
+        <a href={PRIMARY_CTA.href} class="rounded-full border border-ink/20 px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">{PRIMARY_CTA.label}</a>
       </div>
     </div>
   </section>
 
   <section class="border-y border-ink/10 px-6 py-20 md:py-24">
     <div class="mx-auto max-w-container">
-      <ul class="grid gap-px overflow-hidden rounded-2xl bg-ink/10 md:grid-cols-3">
+      <ul class="grid gap-6 md:grid-cols-3">
         {pillars.map((p) => (
-          <li class="bg-bg p-8">
+          <li class="rounded-2xl border border-ink/10 bg-bg p-8">
             <p class="text-xl font-medium tracking-tight text-ink">{p.title}</p>
             <p class="mt-3 text-ink/70">{p.body}</p>
           </li>
@@ -68,9 +71,9 @@ const migrations = ["Arketa", "Jane App", "Mindbody", "TrueCoach", "TrainHeroic"
     <div class="mx-auto max-w-container">
       <h2 class="text-sm uppercase tracking-[0.18em] text-clay">How it works</h2>
       <p class="mt-3 max-w-2xl text-3xl font-medium tracking-tight text-ink md:text-4xl">From wherever you are to live.</p>
-      <ol class="mt-10 grid gap-px overflow-hidden rounded-2xl bg-ink/10 md:grid-cols-2 lg:grid-cols-4">
+      <ol class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {steps.map((s) => (
-          <li class="bg-bg p-7">
+          <li class="rounded-2xl border border-ink/10 bg-bg p-7">
             <p class="text-sm font-semibold text-sage">{s.n}</p>
             <p class="mt-3 text-lg font-medium tracking-tight text-ink">{s.t}</p>
             <p class="mt-2 text-sm text-ink/65">{s.d}</p>
@@ -87,8 +90,8 @@ const migrations = ["Arketa", "Jane App", "Mindbody", "TrueCoach", "TrainHeroic"
         Coming from another tool? We've got you.
       </p>
       <p class="mt-4 max-w-2xl text-lg text-ink/70">
-        We regularly help coaches move across from the tools below. Bring your roster, your programs, and your
-        packages — we'll help you land softly.
+        Moving from one of the tools below? Today you can import your programs from Excel, Word or PDF;
+        hands-on help bringing your roster and packages across comes with Foundations.
       </p>
       <ul class="mt-8 flex flex-wrap gap-3">
         {migrations.map((m) => (

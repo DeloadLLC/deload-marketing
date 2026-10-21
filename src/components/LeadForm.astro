@@ -8,6 +8,8 @@ interface Props {
   showAvailability?: boolean;
   // What brings them in — used to tag the message.
   topic?: string;
+  // Minimal variant: name + email only, for a low-friction beta sign-up.
+  minimal?: boolean;
 }
 
 const {
@@ -15,6 +17,7 @@ const {
   submitLabel = "Submit",
   showAvailability = false,
   topic = "lead",
+  minimal = false,
 } = Astro.props;
 
 const businessTypes = [
@@ -50,38 +53,42 @@ const businessTypes = [
     </label>
   </div>
 
-  <div class="grid gap-4 sm:grid-cols-2">
-    <label class="block">
-      <span class="text-sm font-medium text-ink">Business name <span class="text-ink/40">(optional)</span></span>
-      <input type="text" name="business" maxlength="120"
-        class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none"
-        placeholder="Your gym or studio" />
-    </label>
-    <label class="block">
-      <span class="text-sm font-medium text-ink">What describes you?</span>
-      <select name="businessType"
-        class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink focus:border-ink focus:outline-none">
-        <option value="">Select…</option>
-        {businessTypes.map((t) => <option value={t}>{t}</option>)}
-      </select>
-    </label>
-  </div>
+  {!minimal && (
+    <Fragment>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="block">
+          <span class="text-sm font-medium text-ink">Business name <span class="text-ink/40">(optional)</span></span>
+          <input type="text" name="business" maxlength="120"
+            class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none"
+            placeholder="Your gym or studio" />
+        </label>
+        <label class="block">
+          <span class="text-sm font-medium text-ink">What describes you?</span>
+          <select name="businessType"
+            class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink focus:border-ink focus:outline-none">
+            <option value="">Select…</option>
+            {businessTypes.map((t) => <option value={t}>{t}</option>)}
+          </select>
+        </label>
+      </div>
 
-  {showAvailability && (
-    <label class="block">
-      <span class="text-sm font-medium text-ink">When's a good time to reach you?</span>
-      <input type="text" name="availability" maxlength="200"
-        class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none"
-        placeholder="e.g. weekday mornings ET" />
-    </label>
+      {showAvailability && (
+        <label class="block">
+          <span class="text-sm font-medium text-ink">When's a good time to reach you?</span>
+          <input type="text" name="availability" maxlength="200"
+            class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none"
+            placeholder="e.g. weekday mornings ET" />
+        </label>
+      )}
+
+      <label class="block">
+        <span class="text-sm font-medium text-ink">{showAvailability ? "Anything we should know?" : "Tell us a little about yourself"}</span>
+        <textarea name="message" rows="4" maxlength="5000"
+          class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none"
+          placeholder="How many athletes do you coach? What are you using today?"></textarea>
+      </label>
+    </Fragment>
   )}
-
-  <label class="block">
-    <span class="text-sm font-medium text-ink">{showAvailability ? "Anything we should know?" : "Tell us a little about yourself"}</span>
-    <textarea name="message" rows="4" maxlength="5000"
-      class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none"
-      placeholder="How many athletes do you coach? What are you using today?"></textarea>
-  </label>
 
   {/* Honeypot — real browsers leave this blank; bots fill it. */}
   <div class="hidden" aria-hidden="true">
