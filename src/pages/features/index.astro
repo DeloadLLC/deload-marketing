@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { FEATURE_GROUPS, TRIAL_URL, getFeature } from "../../config";
+import { FEATURE_GROUPS, PRIMARY_CTA, getFeature } from "../../config";
 
 const base = import.meta.env.BASE_URL;
 const root = base.replace(/\/$/, "");
@@ -11,7 +11,7 @@ const columns = FEATURE_GROUPS.map((g) => ({
 ---
 <Layout
   title="Features"
-  description="AI-assisted programming, plain-English editing, roster triage, messaging and check-ins, an athlete mobile app, scheduling, billing, analytics, and team admin — the whole job in one app."
+  description="AI-assisted programming, plain-English editing, program import, your roster, messaging, the athlete app and a program marketplace — with scheduling, billing and reporting on the way."
 >
   <section class="px-6 pt-20 pb-12 md:pt-28">
     <div class="mx-auto max-w-container">
@@ -20,11 +20,12 @@ const columns = FEATURE_GROUPS.map((g) => ({
         Everything you'd cobble together &mdash; in one app, designed like one app.
       </h1>
       <p class="mt-6 max-w-2xl text-lg text-ink/70">
-        Programming, editing, roster, messaging, scheduling, an athlete mobile app, billing, analytics, and team admin
-        &mdash; all sharing the same data, so a change in one place doesn't strand the other.
+        Programming, editing, program import, your roster, messaging, the athlete app and a program marketplace
+        &mdash; all sharing the same data, so a change in one place doesn't strand the other. Scheduling, billing
+        and reporting are on the way.
       </p>
       <div class="mt-8">
-        <a href={TRIAL_URL} class="rounded-full bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">Try for free</a>
+        <a href={PRIMARY_CTA.href} class="rounded-full bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">{PRIMARY_CTA.label}</a>
       </div>
     </div>
   </section>

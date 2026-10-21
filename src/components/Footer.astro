@@ -5,8 +5,17 @@ import {
   BUSINESS_TYPES,
   RESOURCES,
   SIGN_IN_URL,
-  TRIAL_URL,
+  PRIMARY_CTA,
+  PRIVACY_URL,
+  TERMS_URL,
 } from "../config";
+
+interface Props {
+  // Pages whose own form is the call to action (the waitlist pages) hide the
+  // footer's sign-up band.
+  hideCta?: boolean;
+}
+const { hideCta = false } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
 const root = base.replace(/\/$/, "");
@@ -16,7 +25,7 @@ const year = new Date().getFullYear();
 
 // Keep the footer feature list tight — the most marketable surfaces.
 const footerFeatures = FEATURES.filter((f) =>
-  ["ai-programming", "program-editing", "roster", "athlete-app", "scheduling", "billing"].includes(f.slug),
+  ["ai-programming", "program-editing", "program-import", "roster", "athlete-app", "marketplace"].includes(f.slug),
 );
 
 const company = [
@@ -29,23 +38,25 @@ const company = [
 ];
 
 const legal = [
-  { label: "Privacy", href: "/privacy" },
-  { label: "Terms", href: "/terms" },
+  { label: "Privacy", href: PRIVACY_URL },
+  { label: "Terms", href: TERMS_URL },
 ];
 ---
 <footer class="border-t border-ink/10 bg-bg">
   <!-- CTA band -->
+  {!hideCta && (
   <div class="border-b border-ink/10">
     <div class="mx-auto flex max-w-container flex-col items-start gap-6 px-6 py-12 md:flex-row md:items-center md:justify-between">
       <p class="max-w-xl text-2xl font-medium tracking-tight text-ink md:text-3xl">
         Give the programming, the roster, and the admin to one app.
       </p>
       <div class="flex flex-wrap gap-3">
-        <a href={TRIAL_URL} class="rounded-full bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">Try for free</a>
+        <a href={PRIMARY_CTA.href} class="rounded-full bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">{PRIMARY_CTA.label}</a>
         <a href={link("/book-a-demo")} class="rounded-full border border-ink/20 px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">Book a demo</a>
       </div>
     </div>
   </div>
+  )}
 
   <!-- Link columns -->
   <div class="mx-auto grid max-w-container grid-cols-2 gap-8 px-6 py-14 md:grid-cols-5">

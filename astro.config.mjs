@@ -17,7 +17,13 @@ export default defineConfig({
   base,
   trailingSlash: "ignore",
   server: { port, host: "0.0.0.0", allowedHosts: true },
-  integrations: [tailwind({ applyBaseStyles: true }), sitemap(), mdx()],
+  integrations: [
+    tailwind({ applyBaseStyles: true }),
+    // Forwarding pages (legal lives in the app) and the ad landing page stay
+    // out of the sitemap.
+    sitemap({ filter: (page) => !/\/(privacy|terms|landing-page)\/?$/.test(new URL(page).pathname) }),
+    mdx(),
+  ],
   vite: {
     server: { allowedHosts: true },
     preview: { allowedHosts: true },

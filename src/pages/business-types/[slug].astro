@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { BUSINESS_TYPES, TRIAL_URL, getBusinessType } from "../../config";
+import { BUSINESS_TYPES, PRIMARY_CTA, getBusinessType } from "../../config";
 
 export function getStaticPaths() {
   return BUSINESS_TYPES.map((b) => ({ params: { slug: b.slug } }));
@@ -12,13 +12,15 @@ const base = import.meta.env.BASE_URL;
 const root = base.replace(/\/$/, "");
 
 const resolveHref = (href: string) =>
-  href === "" ? TRIAL_URL : href.startsWith("http") ? href : `${root}${href}`;
+  href === "" ? PRIMARY_CTA.href : href.startsWith("http") ? href : `${root}${href}`;
 
-const cta =
-  biz.cta ??
-  (biz.comingSoon
+// An empty label or href means the site's main sign-up button (Join Waitlist
+// during the private beta).
+const cta = biz.cta
+  ? { label: biz.cta.label || PRIMARY_CTA.label, href: biz.cta.href }
+  : biz.comingSoon
     ? { label: "Book a demo", href: "/book-a-demo" }
-    : { label: "Try for free", href: "" });
+    : { label: PRIMARY_CTA.label, href: "" };
 const others = BUSINESS_TYPES.filter((b) => b.slug !== biz.slug);
 ---
 <Layout title={biz.nav} description={biz.intro}>
@@ -36,7 +38,7 @@ const others = BUSINESS_TYPES.filter((b) => b.slug !== biz.slug);
       <p class="mt-6 max-w-2xl text-lg text-ink/70 md:text-xl">{biz.intro}</p>
       {biz.comingSoon && (
         <p class="mt-4 max-w-2xl text-sm text-ink/55">
-          This tier is built and launching once our first coaches are live. Book a demo to get early access and be first in line.
+          This is on the way and opens after the private beta. Book a demo to talk it through and be first in line.
         </p>
       )}
       <div class="mt-8 flex flex-wrap items-center gap-3">

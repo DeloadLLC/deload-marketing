@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import LeadForm from "../components/LeadForm.astro";
+import BetaSignupForm from "../components/BetaSignupForm.astro";
 
 const betaPerks = [
   "Early access to the full platform",
@@ -47,10 +47,10 @@ const check = `<svg class="h-4 w-4" ${svgAttrs}><path d="M20 6 9 17l-5-5"/></svg
       <!-- Simple sign-up -->
       <div class="lg:pt-2">
         <div class="mb-4">
-          <h2 class="text-2xl font-medium tracking-tight text-ink">Get early access</h2>
-          <p class="mt-1 text-sm text-ink/70">No credit card required.</p>
+          <h2 class="text-2xl font-medium tracking-tight text-ink">Join the waitlist</h2>
+          <p class="mt-1 text-sm text-ink/70">We invite coaches in small groups. It takes a minute.</p>
         </div>
-        <LeadForm id="beta-form" minimal={true} submitLabel="Join the beta" topic="beta" />
+        <BetaSignupForm id="beta-form" submitLabel="Join Waitlist" />
       </div>
     </div>
   </section>

@@ -27,7 +27,28 @@ pnpm run typecheck
 
 ## Routes
 
-`/`, `/features`, `/pricing`, `/about`, `/contact`, `/privacy`, `/terms`.
+`/`, `/why`, `/features` (+ one page per feature), `/business-types`
+(+ one per type), `/resources` (+ one per resource), `/pricing`, `/beta`
+(Join Waitlist), `/book-a-demo`, `/elevate` (Deload Foundations, coming soon),
+`/about`, `/contact`, `/landing-page` (ad page, not indexed).
+
+`/privacy` and `/terms` forward to the app's legal pages
+(`PUBLIC_APP_URL/privacy`, `/terms`), which are the one maintained copy.
+
+## Private beta (2026-10-19)
+
+- Every sign-up button reads **Join Waitlist** and goes to `/beta`. Its form
+  posts to the backend's `/api/public/beta-signup`, which saves the signup
+  (Admin → Beta invites), puts it on Clerk's waitlist and emails the
+  questionnaire. `PUBLIC_SIGNUP_MODE=open` turns the buttons back into
+  "Try for free" → the app's sign-up.
+- `/pricing` shows "Pricing opens after the private beta". The tier data in
+  `src/config.ts` is kept; `PUBLIC_SHOW_PRICES=1` shows it again.
+- Features that are switched off for the beta (scheduling, client billing,
+  reports, check-ins, white label) carry a **Coming soon** badge via
+  `status: "soon"` in `src/config.ts`.
+- The backend must allow this site's origin: `ALLOWED_ORIGINS` includes
+  `https://deloadapp.io` (and `www`).
 
 A sitemap is produced at build time (`/sitemap-index.xml`) by
 `@astrojs/sitemap`. `public/robots.txt` allows all crawlers and points at it.
@@ -42,15 +63,16 @@ A sitemap is produced at build time (`/sitemap-index.xml`) by
 - `src/pages/about.astro` — founder bio + portrait are placeholders.
 - `src/pages/contact.astro` — form is non-functional. Wire to Formspree /
   Resend / our own endpoint per the deferred follow-up task.
-- `src/pages/privacy.astro`, `src/pages/terms.astro` — placeholder legal copy;
-  replace with reviewed text before launch.
 
 ## Env contract
 
 | Var               | Default                      | Purpose                                       |
 | ----------------- | ---------------------------- | --------------------------------------------- |
-| `PUBLIC_APP_URL`  | `https://app.deloadapp.io`   | Where Log in / Start free buttons point.      |
+| `PUBLIC_APP_URL`  | `https://app.deloadapp.io`   | Where Log in and app links point.             |
 | `PUBLIC_SITE_URL` | `https://deloadapp.io`       | Canonical site URL used for OG + sitemap.     |
+| `PUBLIC_API_BASE_URL` | `https://app.deloadapp.io` | Where the forms post (waitlist, contact, demo). |
+| `PUBLIC_SIGNUP_MODE` | `waitlist`                | `open` when sign-up opens to everyone.        |
+| `PUBLIC_SHOW_PRICES` | unset                     | `1` shows the pricing tiers again.            |
 | `PORT`            | `4321`                       | Dev/preview server port (set by the workflow). |
 | `BASE_PATH`       | `/`                          | URL prefix when served behind the workspace proxy. |
 
