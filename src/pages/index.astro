@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Testimonials from "../components/Testimonials.astro";
-import { PRIMARY_CTA, absorbed, proofPoints, pillars, SITE_DESCRIPTION } from "../config";
+import { FOUNDERS_OFFER, PRIMARY_CTA, absorbed, proofPoints, pillars, SITE_DESCRIPTION } from "../config";
 
 const description = SITE_DESCRIPTION;
 const root = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -42,8 +42,8 @@ const root = import.meta.env.BASE_URL.replace(/\/$/, "");
           class="inline-block px-2 py-3 text-sm font-medium text-ink/70 underline-offset-4 transition-colors hover:text-ink hover:underline"
         >Why we're different</a>
       </div>
-      <p class="mt-5 text-sm text-ink/50">
-        Book a 15-minute demo &middot; or join the waitlist for the private beta
+      <p class="mt-5 max-w-2xl text-sm text-ink/60">
+        {FOUNDERS_OFFER.pitch}
       </p>
     </div>
   </section>
@@ -148,7 +148,7 @@ const root = import.meta.env.BASE_URL.replace(/\/$/, "");
         Get your Sunday back.
       </h2>
       <p class="mx-auto mt-5 max-w-xl text-lg text-ink/70">
-        Book a 15-minute demo and we'll write your first program live &mdash; or join the waitlist for the private beta.
+        Book a 15-minute demo and we'll write your first program live &mdash; or join the waitlist for early access, the Founders Rate and 25% off a future upgrade.
       </p>
       <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
         <a

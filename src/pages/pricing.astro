@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { BETA_OFFERS, PAYMENTS_NOTE, PRICING, PRIMARY_CTA, SHOW_PRICES, faqs } from "../config";
+import { BETA_OFFERS, FOUNDERS_OFFER, PAYMENTS_NOTE, PRICING, PRIMARY_CTA, SHOW_PRICES, faqs } from "../config";
 
 const base = import.meta.env.BASE_URL;
 const root = base.replace(/\/$/, "");
@@ -11,8 +11,8 @@ const resolveHref = (href: string) =>
 <Layout
   title="Pricing"
   description={SHOW_PRICES
-    ? "Simple pricing for you or your studio. Join during beta for the $59/mo founders rate — every feature as it launches, locked for your first year — or book a demo for studio and multi-location pricing."
-    : "Deload is in private beta. Beta coaches use it free while the beta runs; pricing opens after. Join the waitlist or book a demo."}
+    ? "Simple monthly pricing for you or your studio: Solo $149, Pro $199, Elite $249. Waitlist and beta coaches get the Founders Rate — Solo at $99/mo — plus 25% off one upgrade. Book a demo for studio and multi-location pricing."
+    : "Deload is in private beta. Beta coaches use it free while the beta runs and get the Founders Rate at launch. Join the waitlist or book a demo."}
 >
   {!SHOW_PRICES && (
     <section class="px-6 pt-20 pb-20 md:pt-28" data-testid="pricing-beta">
@@ -25,8 +25,9 @@ const resolveHref = (href: string) =>
           Pricing opens after the private beta.
         </h1>
         <p class="mx-auto mt-5 max-w-xl text-lg text-ink/70">
-          Coaches we invite during the beta use Deload free while it runs, and founding coaches keep a founders discount afterwards.
+          Coaches we invite during the beta use Deload free while it runs. At launch they get the Founders Rate — the Solo plan at $99/mo instead of $149 — plus 25% off one future upgrade.
         </p>
+        <p class="mx-auto mt-4 max-w-2xl text-xs leading-relaxed text-ink/45" data-testid="founders-fine-print">{FOUNDERS_OFFER.finePrint}</p>
         <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
           <a href={PRIMARY_CTA.href} class="rounded-full bg-ink px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">{PRIMARY_CTA.label}</a>
           <a href={`${root}/book-a-demo`} class="rounded-full border border-ink/20 px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">Book a demo</a>
@@ -42,7 +43,7 @@ const resolveHref = (href: string) =>
         Simple pricing for you or your studio.
       </h1>
       <p class="mx-auto mt-5 max-w-xl text-lg text-ink/70">
-        Join during beta at one flat founders rate. Upgrade as you grow.
+        Monthly, no annual lock-in. Waitlist and beta coaches get the Founders Rate. Upgrade as you grow.
       </p>
     </div>
   </section>
@@ -84,7 +85,7 @@ const resolveHref = (href: string) =>
           )}
           {plan === "individuals" && (
             <p class="mb-6 text-center text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">
-              Individual tiers — post-beta standard pricing
+              Individual tiers — standard monthly pricing
             </p>
           )}
           <div class="grid gap-6 md:grid-cols-3">
@@ -117,6 +118,7 @@ const resolveHref = (href: string) =>
         {PAYMENTS_NOTE} Multi-location enterprise plans are
         custom — <a href={`${root}/book-a-demo`} class="underline underline-offset-4 hover:text-ink">book a demo</a> for a quote.
       </p>
+      <p class="mx-auto mt-4 max-w-2xl text-center text-xs leading-relaxed text-ink/45" data-testid="founders-fine-print">{FOUNDERS_OFFER.finePrint}</p>
     </div>
   </section>
   </>)}
