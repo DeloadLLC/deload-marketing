@@ -524,7 +524,7 @@ export const PRICING: {
       name: "Solo",
       price: "$149",
       cadence: "/mo",
-      blurb: "One coach, up to 15 athletes — a full personal roster.",
+      blurb: "One coach, up to 25 athletes — a full personal roster.",
       cta: { label: "Start 7-day free trial", href: "" },
       features: [
         "AI program generation and editing in plain English",
@@ -626,11 +626,11 @@ export const FOUNDERS_OFFER = {
   /** Pricing-page banner. */
   headline: "Founders Rate — the Solo plan at $99/mo, for as long as you keep it",
   body:
-    "For coaches who join the waitlist and use Deload in the private beta. Beta coaches use Deload free while the beta runs; when we launch, their Solo plan is $99/mo instead of $149, and moving up to Pro or Elite comes with 25% off that plan.",
+    "For coaches who take part in the beta — the private beta from the waitlist, or the public beta once it opens. Beta coaches use Deload free while the beta runs; when we launch, their Solo plan is $99/mo instead of $149, and moving up to Pro or Elite comes with 25% off that plan.",
   cta: { label: "Join the waitlist", href: "" },
   /** The stipulations, kept short and shown wherever the offer is. */
   finePrint:
-    "Founders Rate: the Solo plan at $99/mo for coaches who joined the waitlist and took part in the private beta, for as long as they keep that plan; one per account, not transferable. Upgrade discount: 25% off Pro or Elite from the day a Founders-rate coach moves up, for as long as they stay on that plan; it covers one upgrade, and a later move to a different plan is at the standard price. Prices are monthly, in USD, billed through Stripe; plans and prices may change before launch, but a Founders Rate already granted stays at $99.",
+    "Founders Rate: the Solo plan at $99/mo for coaches who took part in the beta (private or public) before launch, for as long as they keep that plan; one per account, not transferable. Upgrade discount: 25% off Pro or Elite from the day a Founders-rate coach moves up, for as long as they stay on that plan; it covers one upgrade, and a later move to a different plan is at the standard price. Prices are monthly, in USD, billed through Stripe; plans and prices may change before launch, but a Founders Rate already granted stays at $99.",
 };
 
 /**
