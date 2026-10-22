@@ -510,10 +510,11 @@ export interface PricingTier {
   features: string[];
 }
 
-// 2026-09 pricing. Individual tiers are the post-beta standard rates; the
-// Founders beta rate renders as a banner above the cards (BETA_OFFERS below).
-// Keep in sync with the backend's TIER_DETAILS (deload-backend
-// src/lib/subscriptions.ts) — the API serves the same numbers at GET /pricing.
+// 2026-10 pricing (founder, 2026-10-22). Individual tiers are the standard
+// monthly rates; the Founders rate renders as a banner above the cards
+// (FOUNDERS_OFFER below). Keep in sync with the backend's TIER_DETAILS
+// (deload-backend src/lib/subscriptions.ts) — the API serves the same numbers
+// at GET /pricing. Monthly only: there is no annual plan.
 export const PRICING: {
   individuals: PricingTier[];
   studio: PricingTier[];
@@ -521,28 +522,26 @@ export const PRICING: {
   individuals: [
     {
       name: "Solo",
-      price: "$89",
+      price: "$149",
       cadence: "/mo",
       blurb: "One coach, up to 15 athletes — a full personal roster.",
       cta: { label: "Start 7-day free trial", href: "" },
       features: [
-        "$75/mo billed annually — save $168/yr",
-        "AI super agent — exercise programming",
-        "Plain-English editing with full history",
+        "AI program generation and editing in plain English",
+        "Full edit history on every program",
         "Athlete app + in-app messaging & check-ins",
-        "Booking, invoicing, and built-in Stripe billing",
+        "Program import from Excel, Word or PDF",
       ],
     },
     {
       name: "Pro",
-      price: "$149",
+      price: "$199",
       cadence: "/mo",
       blurb: "One coach, up to 50 athletes — for scaling past 15 or running groups.",
       cta: { label: "Start 14-day free trial", href: "" },
       highlight: true,
       badge: "Most popular",
       features: [
-        "$124/mo billed annually — save $300/yr",
         "Everything in Solo, plus…",
         "Long-program optimizer (8+ weeks)",
         "Roster triage + automations",
@@ -552,14 +551,13 @@ export const PRICING: {
     },
     {
       name: "Elite",
-      price: "$229",
+      price: "$249",
       cadence: "/mo",
-      blurb: "One coach, unlimited athletes — high-volume and influencer rosters.",
+      blurb: "One coach, 100+ athletes — built to scale online programs and growth.",
       cta: { label: "Start 14-day free trial", href: "" },
       features: [
-        "$190/mo billed annually — save $468/yr",
         "Everything in Pro, plus…",
-        "Unlimited active athletes",
+        "No athlete cap",
         "White-label client portal",
         "Advanced AI agent customization",
         "Dedicated onboarding call",
@@ -574,7 +572,6 @@ export const PRICING: {
       blurb: "Up to 5 coaches and 75 athletes — single-location studios and small group practices.",
       cta: { label: "Book a demo", href: "/book-a-demo" },
       features: [
-        "$165/mo billed annually — save $408/yr",
         "5 coach seats included",
         "AI programming per coach",
         "Shared athlete roster + profiles",
@@ -590,7 +587,6 @@ export const PRICING: {
       highlight: true,
       badge: "Best value",
       features: [
-        "$332/mo billed annually — save $804/yr",
         "Everything in Studio, plus…",
         "15 coach seats included",
         "Admin + coach role hierarchy",
@@ -615,24 +611,41 @@ export const PRICING: {
 };
 
 /**
- * Founders / beta rate banners rendered above the tier cards on /pricing.
- * Everyone who joins during beta pays one flat rate for year one and keeps a
- * permanent 25% discount off any standard tier after that.
+ * The Founders offer (founder, 2026-10-22): what joining the waitlist buys.
+ * One source for the hero sub-line, the /beta perks, the /pricing banner and
+ * the fine print under each of them.
+ */
+export const FOUNDERS_OFFER = {
+  /** The one-line pitch next to every Join Waitlist button. */
+  pitch: "Join the waitlist: early access to Deload, the exclusive Founders Rate, and 25% off a future upgrade.",
+  perks: [
+    "Early access to the full platform",
+    "The Founders Rate — the Solo plan at $99/mo instead of $149, for as long as you keep it",
+    "25% off one future upgrade to Pro or Elite, for as long as you stay on it",
+  ],
+  /** Pricing-page banner. */
+  headline: "Founders Rate — the Solo plan at $99/mo, for as long as you keep it",
+  body:
+    "For coaches who join the waitlist and use Deload in the private beta. Beta coaches use Deload free while the beta runs; when we launch, their Solo plan is $99/mo instead of $149, and moving up to Pro or Elite comes with 25% off that plan.",
+  cta: { label: "Join the waitlist", href: "" },
+  /** The stipulations, kept short and shown wherever the offer is. */
+  finePrint:
+    "Founders Rate: the Solo plan at $99/mo for coaches who joined the waitlist and took part in the private beta, for as long as they keep that plan; one per account, not transferable. Upgrade discount: 25% off Pro or Elite from the day a Founders-rate coach moves up, for as long as they stay on that plan; it covers one upgrade, and a later move to a different plan is at the standard price. Prices are monthly, in USD, billed through Stripe; plans and prices may change before launch, but a Founders Rate already granted stays at $99.",
+};
+
+/**
+ * Beta banners rendered above the tier cards on /pricing (studio only — the
+ * individual banner is FOUNDERS_OFFER).
  */
 export const BETA_OFFERS: Record<
   "individuals" | "studio",
   { headline: string; body: string; cta: { label: string; href: string } } | null
 > = {
-  individuals: {
-    headline: "Founders / beta rate — $59/mo flat, locked for your first year",
-    body:
-      "Every feature as it launches, up to 15 athletes. Year two you keep 25% off any plan — permanently — in exchange for being an early tester. Scale past 15 athletes anytime on Pro or Elite at your founders discount.",
-    cta: { label: "Claim the founders rate", href: "" },
-  },
+  individuals: { headline: FOUNDERS_OFFER.headline, body: FOUNDERS_OFFER.body, cta: FOUNDERS_OFFER.cta },
   studio: {
-    headline: "Enterprise beta — $59 per coach/mo, flat, for year one",
+    headline: "Studio beta — a flat per-coach rate for year one",
     body:
-      "A 5-coach studio runs $295/mo during beta (vs. $1,000–1,700 all-in elsewhere), with a permanent 25% discount off standard enterprise pricing after year one.",
+      "Studios that join during the beta lock a flat per-coach rate for their first year and keep 25% off standard enterprise pricing afterwards. Book a demo for the numbers.",
     cta: { label: "Book a demo", href: "/book-a-demo" },
   },
 };
@@ -759,7 +772,7 @@ export const faqs = [
   },
   {
     q: "How do I get access?",
-    a: "Deload is in private beta. Join the waitlist and answer a short questionnaire, and we'll invite coaches in small groups. Beta coaches use Deload free while the beta runs.",
+    a: "Deload is in private beta. Join the waitlist and answer a short questionnaire, and we'll invite coaches in small groups. Beta coaches use Deload free while the beta runs, and at launch they get the Founders Rate — the Solo plan at $99/mo instead of $149 — plus 25% off one future upgrade.",
   },
   {
     q: "Can I move my roster over from another tool?",

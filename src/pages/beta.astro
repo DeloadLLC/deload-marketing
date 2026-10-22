@@ -1,12 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import BetaSignupForm from "../components/BetaSignupForm.astro";
+import { FOUNDERS_OFFER } from "../config";
 
-const betaPerks = [
-  "Early access to the full platform",
-  "A direct line to the founder",
-  "Help shape what we build next",
-];
+const betaPerks = [...FOUNDERS_OFFER.perks, "A direct line to the founder"];
 
 const svgAttrs =
   'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
@@ -14,7 +11,7 @@ const check = `<svg class="h-4 w-4" ${svgAttrs}><path d="M20 6 9 17l-5-5"/></svg
 ---
 <Layout
   title="Join the Deload beta"
-  description="Be among the first coaches on Deload — the all-in-one AI coaching platform. Generate block-aware programs with simple AI chat, manage your clients, and ship to your athletes' phones."
+  description="Join the waitlist: early access to Deload, the exclusive Founders Rate (Solo at $99/mo) and 25% off a future upgrade. Generate block-aware programs with simple AI chat, manage your clients, and ship to your athletes' phones."
   minimalNav={true}
   hideHeaderCtas={true}
 >
@@ -34,14 +31,16 @@ const check = `<svg class="h-4 w-4" ${svgAttrs}><path d="M20 6 9 17l-5-5"/></svg
           Deload is the all-in-one AI coaching platform. Generate block-aware programs with
           simple AI chat, manage your clients, and grow your business.
         </p>
-        <ul class="mt-7 grid gap-2.5 sm:grid-cols-3">
+        <p class="mt-6 text-base font-medium text-ink">{FOUNDERS_OFFER.pitch}</p>
+        <ul class="mt-4 grid gap-2.5 sm:grid-cols-2">
           {betaPerks.map((perk) => (
-            <li class="flex items-center gap-2 text-sm font-medium text-ink/80">
-              <span class="text-sage" set:html={check} />
+            <li class="flex items-start gap-2 text-sm font-medium text-ink/80">
+              <span class="mt-0.5 shrink-0 text-sage" set:html={check} />
               <span>{perk}</span>
             </li>
           ))}
         </ul>
+        <p class="mt-5 max-w-xl text-xs leading-relaxed text-ink/45" data-testid="founders-fine-print">{FOUNDERS_OFFER.finePrint}</p>
       </div>
 
       <!-- Simple sign-up -->
