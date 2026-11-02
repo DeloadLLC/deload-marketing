@@ -232,10 +232,11 @@ export const FEATURES: FeatureEntry[] = [
     eyebrow: "Marketplace",
     title: "Sell the programs you're proud of.",
     intro:
-      "List your programs on the Deload marketplace and athletes can buy them directly. Payments go to your own Stripe account — connect it once, right from the marketplace.",
+      "List your programs on the Deload marketplace and athletes buy them in the Deload app. Payments go to your own Stripe account — connect it once, right from the marketplace.",
     points: [
-      "Publish a program with its price, description and preview.",
-      "Athletes pay by card through Stripe; the money lands in your Stripe account.",
+      "Publish a program with its price and description.",
+      "Athletes pay by card through Stripe. The program lands in their Deload app, and they join your roster as a buyer you can message or upgrade to a client.",
+      "Deload's marketplace fee is 15% of each sale. Payments from your own clients carry no Deload fee.",
       "Connect or manage your Stripe account from the marketplace itself.",
     ],
   },
@@ -656,7 +657,7 @@ export const BETA_OFFERS: Record<
  * agreement is finalized.
  */
 export const PAYMENTS_NOTE =
-  "Payments are processed by Stripe at the standard 2.9% + $0.30 per transaction — no Deload markup on processing.";
+  "Payments from your own clients are processed by Stripe at the standard 2.9% + $0.30 per transaction — no Deload markup on processing. Marketplace sales carry Deload's 15% fee.";
 
 // ---------------------------------------------------------------------------
 // Home-page content blocks
