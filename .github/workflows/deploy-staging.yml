@@ -9,12 +9,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Staging EC2
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@0ff4204d59e8e51228ff73bce53f80d53301dee2 # v1.2.5 (pinned SHA, audit F-9)
         with:
           host: ${{ secrets.STAGING_HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
+          command_timeout: 30m
           script: |
+            # Fail the deploy when any step fails (a failed build used to
+            # restart nginx on the old dist and still report success).
+            set -eo pipefail
+            # One deploy at a time per box, like the backend and the two
+            # apps (2026-10-31: concurrent builds starved each other and hit
+            # the SSH timeout). Waits up to 25 minutes for the lock.
+            exec 9>/tmp/deload-deploy.lock
+            flock -w 1500 9
             cd ~/deload/deload-marketing
             PREV_COMMIT=$(git rev-parse HEAD)
             git pull origin staging
