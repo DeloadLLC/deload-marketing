@@ -11,7 +11,7 @@ const resolveHref = (href: string) =>
 <Layout
   title="Pricing"
   description={SHOW_PRICES
-    ? "Simple monthly pricing for you or your studio: Solo $149, Pro $199, Elite $249. Waitlist and beta coaches get the Founders Rate — Solo at $99/mo — plus 25% off one upgrade. Book a demo for studio and multi-location pricing."
+    ? "Simple monthly pricing for you or your team: Solo $149, Pro $199, Elite $249, and $79 or $99 a month for each coach on a Pro or Elite team. Waitlist and beta coaches get the Founders Rate — Solo at $99/mo — plus 25% off one upgrade. Book a demo for multi-location pricing."
     : "Deload is in private beta. Beta coaches use it free while the beta runs and get the Founders Rate at launch. Join the waitlist or book a demo."}
 >
   {!SHOW_PRICES && (
@@ -25,7 +25,7 @@ const resolveHref = (href: string) =>
           Pricing opens after the private beta.
         </h1>
         <p class="mx-auto mt-5 max-w-xl text-lg text-ink/70">
-          Coaches we invite during the beta use Deload free while it runs. At launch they get the Founders Rate — the Solo plan at $99/mo instead of $149 — plus 25% off one future upgrade.
+          Coaches we invite during the beta use Deload free while it runs, and so do the coaches they bring onto their team. At launch they get the Founders Rate — the Solo plan at $99/mo instead of $149 — plus 25% off one future upgrade.
         </p>
         <p class="mx-auto mt-4 max-w-2xl text-xs leading-relaxed text-ink/45" data-testid="founders-fine-print">{FOUNDERS_OFFER.finePrint}</p>
         <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -40,7 +40,7 @@ const resolveHref = (href: string) =>
   <section class="px-6 pt-20 pb-8 md:pt-28">
     <div class="mx-auto max-w-container text-center">
       <h1 class="mx-auto max-w-3xl text-balance text-4xl font-medium leading-[1.05] tracking-tight text-ink md:text-6xl">
-        Simple pricing for you or your studio.
+        Simple pricing for you or your team.
       </h1>
       <p class="mx-auto mt-5 max-w-xl text-lg text-ink/70">
         Monthly, no annual lock-in. Waitlist and beta coaches get the Founders Rate. Upgrade as you grow.
@@ -53,7 +53,7 @@ const resolveHref = (href: string) =>
     <div class="mx-auto flex max-w-container justify-center">
       <div id="plan-toggle" class="inline-flex items-center gap-1 rounded-full border border-ink/15 bg-bg p-1" role="tablist" aria-label="Plan audience">
         <button data-plan="individuals" role="tab" aria-selected="true" class="plan-tab rounded-full px-6 py-2 text-sm font-semibold transition-colors">Individuals</button>
-        <button data-plan="studio" role="tab" aria-selected="false" class="plan-tab rounded-full px-6 py-2 text-sm font-semibold transition-colors">Studio</button>
+        <button data-plan="teams" role="tab" aria-selected="false" class="plan-tab rounded-full px-6 py-2 text-sm font-semibold transition-colors">Teams</button>
       </div>
     </div>
   </section>
@@ -61,14 +61,8 @@ const resolveHref = (href: string) =>
   <!-- Cards -->
   <section class="px-6 pt-10 pb-20">
     <div class="mx-auto max-w-container">
-      {(["individuals", "studio"] as const).map((plan) => (
+      {(["individuals", "teams"] as const).map((plan) => (
         <div class="plan-panel" data-panel={plan} hidden={plan !== "individuals"}>
-          {plan === "studio" && (
-            <div class="mb-6 rounded-2xl border border-sage/30 bg-sage/5 px-5 py-4 text-center text-sm text-ink/70">
-              <span class="font-semibold uppercase tracking-wide text-sage">Coming soon</span>
-              <span class="ml-2">Studio &amp; multi-location plans launch once our first coaches are live. <a href={`${root}/book-a-demo`} class="underline underline-offset-4 hover:text-ink">Book a demo</a> to get early access.</span>
-            </div>
-          )}
           {BETA_OFFERS[plan] && (
             <div class="mb-8 flex flex-col items-start gap-4 rounded-2xl border border-ink/15 bg-ink/[0.03] p-6 md:flex-row md:items-center md:justify-between md:p-7">
               <div>
@@ -83,11 +77,11 @@ const resolveHref = (href: string) =>
               </a>
             </div>
           )}
-          {plan === "individuals" && (
-            <p class="mb-6 text-center text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">
-              Individual tiers — standard monthly pricing
-            </p>
-          )}
+          <p class="mb-6 text-center text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">
+            {plan === "individuals"
+              ? "Individual tiers — standard monthly pricing"
+              : "Team plans — your plan, plus a seat for each Coach or Admin. Viewers are free."}
+          </p>
           <div class="grid gap-6 md:grid-cols-3">
             {PRICING[plan].map((tier) => (
               <div class={`relative flex flex-col rounded-2xl border bg-bg p-7 md:p-8 ${tier.highlight ? "border-ink shadow-xl shadow-ink/5" : "border-ink/10"}`}>
@@ -99,6 +93,7 @@ const resolveHref = (href: string) =>
                   <span class="text-3xl font-medium tracking-tight text-ink">{tier.price}</span>
                   {tier.cadence && <span class="text-sm text-ink/50">{tier.cadence}</span>}
                 </p>
+                {tier.perSeat && <p class="mt-1 text-sm font-medium text-ink/70" data-testid="tier-per-seat">{tier.perSeat}</p>}
                 <p class="mt-3 text-sm text-ink/65">{tier.blurb}</p>
                 <a href={resolveHref(tier.cta.href)} class={`mt-6 rounded-full px-5 py-3 text-center text-sm font-semibold uppercase tracking-[0.08em] transition-colors ${tier.highlight ? "bg-ink text-bg hover:bg-ink/90" : "border border-ink/20 text-ink hover:bg-ink/5"}`}>{tier.cta.label}</a>
                 <ul class="mt-7 space-y-3 text-sm text-ink/75">
