@@ -495,15 +495,15 @@ export function getResource(slug: string): ResourceEntry | undefined {
 }
 
 // ---------------------------------------------------------------------------
-// Pricing — Studio vs Individuals, led by the 7-day individual trial.
-// Prices are placeholders pending finalisation; clearly marked as such so
-// nothing wrong is published. Update `price`/`cadence` when numbers are final.
+// Pricing — Individuals vs Teams. Shown only when PUBLIC_SHOW_PRICES=1.
 // ---------------------------------------------------------------------------
 
 export interface PricingTier {
   name: string;
   price: string;
   cadence?: string;
+  /** A team plan's per-coach line under the price ("+ $79/mo per coach"). */
+  perSeat?: string;
   blurb: string;
   cta: { label: string; href: string };
   highlight?: boolean;
@@ -511,14 +511,29 @@ export interface PricingTier {
   features: string[];
 }
 
+/**
+ * Teams billing (founder, 2026-11-02): a team is Pro or Elite plus a seat for
+ * each Coach or Admin besides the owner, billed to the owner and prorated
+ * from the day they join. Viewers are free. A Pro seat adds 25 athletes to
+ * the roster the team shares; Elite has no cap. Keep in sync with the
+ * backend's SEAT_PRICE_USD and SEAT_CLIENT_ALLOWANCE
+ * (deload-backend src/lib/teamSeats.ts).
+ */
+export const TEAM_SEATS = {
+  pro: { priceUsd: 79, clientsPerSeat: 25 as number | null },
+  elite: { priceUsd: 99, clientsPerSeat: null as number | null },
+} as const;
+
 // 2026-10 pricing (founder, 2026-10-22). Individual tiers are the standard
 // monthly rates; the Founders rate renders as a banner above the cards
 // (FOUNDERS_OFFER below). Keep in sync with the backend's TIER_DETAILS
 // (deload-backend src/lib/subscriptions.ts) — the API serves the same numbers
-// at GET /pricing. Monthly only: there is no annual plan.
+// at GET /pricing. Monthly only: there is no annual plan. Team plans are the
+// same Pro and Elite plans plus seats (TEAM_SEATS above); the old Studio
+// ($199, 5 coaches) and Performance ($399, 15 coaches) plans are retired.
 export const PRICING: {
   individuals: PricingTier[];
-  studio: PricingTier[];
+  teams: PricingTier[];
 } = {
   individuals: [
     {
@@ -565,45 +580,46 @@ export const PRICING: {
       ],
     },
   ],
-  studio: [
+  teams: [
     {
-      name: "Studio",
+      name: "Pro team",
       price: "$199",
       cadence: "/mo",
-      blurb: "Up to 5 coaches and 75 athletes — single-location studios and small group practices.",
-      cta: { label: "Book a demo", href: "/book-a-demo" },
+      perSeat: `+ $${TEAM_SEATS.pro.priceUsd}/mo per coach`,
+      blurb: `Your Pro plan covers you and 50 athletes. Each coach you add is $${TEAM_SEATS.pro.priceUsd}/mo and adds ${TEAM_SEATS.pro.clientsPerSeat} athletes to the roster your team shares.`,
+      cta: { label: "Start 14-day free trial", href: "" },
       features: [
-        "5 coach seats included",
-        "AI programming per coach",
-        "Shared athlete roster + profiles",
-        "Studio analytics dashboard",
+        "Everything in Pro, for every coach",
+        "Owner, Admin, Coach and Viewer roles — Viewers are free",
+        "Assign coaches to athletes, or let every coach see the roster",
+        "Seats prorated from the day a coach joins",
       ],
     },
     {
-      name: "Performance",
-      price: "$399",
+      name: "Elite team",
+      price: "$249",
       cadence: "/mo",
-      blurb: "Up to 15 coaches and 200 athletes — growing studios and remote teams.",
-      cta: { label: "Book a demo", href: "/book-a-demo" },
+      perSeat: `+ $${TEAM_SEATS.elite.priceUsd}/mo per coach`,
+      blurb: `No athlete cap for the whole team. Each coach you add is $${TEAM_SEATS.elite.priceUsd}/mo.`,
+      cta: { label: "Start 14-day free trial", href: "" },
       highlight: true,
-      badge: "Best value",
+      badge: "Growing teams",
       features: [
-        "Everything in Studio, plus…",
-        "15 coach seats included",
-        "Admin + coach role hierarchy",
-        "Full accounting + revenue reports",
-        "White-label client portal",
+        "Everything in Elite, for every coach",
+        "One uncapped roster the team shares",
+        "Org-level defaults and a shared protocol library",
+        "An audit trail of every admin action",
       ],
     },
     {
       name: "Enterprise",
       price: "Custom",
-      blurb: "16+ coaches, 200+ athletes, multi-location — franchises and large gym groups.",
+      blurb: "Multi-location groups, franchises and large gyms.",
       cta: { label: "Book a demo", href: "/book-a-demo" },
       features: [
-        "Everything in Performance, plus…",
-        "Unlimited coach seats + multi-location management",
-        "Custom branded app + SSO with audit log",
+        "Everything in Elite team, plus…",
+        "Multi-location management",
+        "Single sign-on and directory provisioning",
         "Dedicated success manager",
         "Negotiated Stripe processing rate",
       ],
@@ -635,19 +651,20 @@ export const FOUNDERS_OFFER = {
 };
 
 /**
- * Beta banners rendered above the tier cards on /pricing (studio only — the
- * individual banner is FOUNDERS_OFFER).
+ * Beta banners rendered above the tier cards on /pricing (the individual
+ * banner is FOUNDERS_OFFER). Comped beta owners' seats are comped too
+ * (deload-backend src/lib/teamSeats.ts), so beta teams pay nothing until launch.
  */
 export const BETA_OFFERS: Record<
-  "individuals" | "studio",
+  "individuals" | "teams",
   { headline: string; body: string; cta: { label: string; href: string } } | null
 > = {
   individuals: { headline: FOUNDERS_OFFER.headline, body: FOUNDERS_OFFER.body, cta: FOUNDERS_OFFER.cta },
-  studio: {
-    headline: "Studio beta — a flat per-coach rate for year one",
+  teams: {
+    headline: "Bring your team into the beta — seats are free while it runs",
     body:
-      "Studios that join during the beta lock a flat per-coach rate for their first year and keep 25% off standard enterprise pricing afterwards. Book a demo for the numbers.",
-    cta: { label: "Book a demo", href: "/book-a-demo" },
+      "Beta coaches can invite their coaches now, and nobody pays for a seat until launch. Running several locations? Book a demo.",
+    cta: { label: "Join the waitlist", href: "" },
   },
 };
 
