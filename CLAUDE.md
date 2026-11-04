@@ -11,7 +11,10 @@ Full vision: `deload-backend/docs/project-vision.md` (sibling repo). Short versi
 - **Goal:** web-only MVP in weeks; land the **first paying coaches**.
 - **What this site must sell:** AI program generation (the hook) and the
   all-in-one pitch — replace 3–4 tools (programming, payments, comms,
-  tracking) with one. Pricing is a coach SaaS subscription; athletes free.
+  tracking) with one. Pricing is a coach SaaS subscription; a coach's
+  athletes are free. Deload's paid AI coach for self-coached athletes comes
+  after launch (R2, price open). Don't market it, or a coach Discoverable fee,
+  until it ships.
 - **CTA target:** coach signup in the coach UI (`deload-coach-ui`).
 - **Prioritization test:** does this get a real coach to pay for Deload sooner?
   If not, it's post-MVP.
