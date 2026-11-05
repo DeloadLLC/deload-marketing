@@ -1,0 +1,56 @@
+# CI for the marketing site (2026-11-05). Until now nothing checked this repo
+# before a deploy: deploy.yml / deploy-staging.yml built straight on the box.
+# This runs the same build the box runs, plus `astro check`, on every PR and
+# on pushes to the deploy branches; the deploys are called from here and run
+# only when it passes. Actions are pinned to the SHAs the other repos use
+# (audit F-9).
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, staging]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+
+      # No `packageManager` pin here, so pin the pnpm that matches the
+      # lockfile (same as the coach and athlete UIs).
+      - name: Enable pnpm (corepack)
+        run: |
+          corepack enable
+          corepack install -g pnpm@10.28.0
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck (astro check)
+        run: pnpm typecheck
+
+      - name: Build
+        run: pnpm build
+
+  # Deploys wait for CI (2026-11-05): the deploy workflows are called from
+  # here, after the checks above pass for this push, and deploy exactly this
+  # commit. Pull requests never deploy. (A workflow_run trigger would only
+  # fire from the copy of the file on main, so staging could not use it
+  # before a promotion.)
+  deploy-staging:
+    needs: [check]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/staging'
+    uses: ./.github/workflows/deploy-staging.yml
+    secrets: inherit
+
+  deploy-production:
+    needs: [check]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit
