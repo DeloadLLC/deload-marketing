@@ -720,8 +720,8 @@ export const proofPoints = [
   "Powerlifting, weightlifting, hypertrophy, sport-specific — plus masters, HRT-aware, and post-surgical programming.",
   "RPE, RIR, and %1RM — mix them inside the same block without breaking the math.",
   "Mesocycles, deloads, and peaks that match the athlete in front of you.",
-  "Edit any session inline; downstream weeks adjust to match.",
-  "Drag-and-drop days and exercises; bulk-edit across sessions.",
+  "Change one session and the weeks after it keep up.",
+  "Rearrange days and change many sessions at once.",
   "Every edit kept and reversible — you stay the coach of record.",
 ];
 
