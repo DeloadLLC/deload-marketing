@@ -1,186 +1,216 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Testimonials from "../components/Testimonials.astro";
-import { FOUNDERS_OFFER, PRIMARY_CTA, absorbed, proofPoints, pillars, SITE_DESCRIPTION } from "../config";
+import Arrow from "../components/Arrow.astro";
+import { FOUNDERS_OFFER, PRIMARY_CTA, absorbed, pillars, SITE_DESCRIPTION } from "../config";
 
 const description = SITE_DESCRIPTION;
 const root = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+// The tools Deload stands in for (approved home sketch, 2026-11-06), plus
+// payments, which the marketplace covers today.
+const replaces = [
+  { area: "Programming", old: "the spreadsheet", now: "written with you, in your voice" },
+  { area: "Roster", old: "the notes app", now: "every athlete, today's triage" },
+  { area: "Athlete app", old: "the PDF", now: "today's workout, logged in the gym. Free for your athletes." },
+  { area: "Messages", old: "the group chat", now: "in the same window" },
+  { area: "Payments", old: "the storefront", now: "program sales, paid to your own Stripe account" },
+];
+
+// Approved home sketch: "Built for real programming" lists outcomes, not features.
+const outcomes = [
+  { lead: "Blocks and phases", rest: " that progress the way you plan them." },
+  { lead: "Your voice", rest: ", not a generic template." },
+  { lead: "Checks before your athlete feels it", rest: ", not after." },
+];
+
+const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 ---
-<Layout title="deload" description={description}>
+<Layout title="deload" description={description} hideFooterCta={true}>
   <!-- Hero -->
-  <section class="px-6 pt-20 pb-24 md:pt-28 md:pb-32">
-    <div class="mx-auto max-w-container">
-      <p class="mb-6 text-sm uppercase tracking-[0.18em] text-ink/50">
-        The all-in-one AI coaching platform
+  <section class="wrap pt-16 md:pt-24">
+    <p class="label">The all-in-one AI coaching platform</p>
+    <h1 class="display mt-5 max-w-[16ch] text-ink">
+      Give your <span class="hero-noun inline-grid text-clay">
+        <span class="invisible col-start-1 row-start-1" aria-hidden="true">athletes</span>
+        <span class="invisible col-start-1 row-start-1" aria-hidden="true">patients</span>
+        <span class="invisible col-start-1 row-start-1" aria-hidden="true">clients</span>
+        <span id="hero-noun" data-nouns="athletes,clients,patients" class="col-start-1 row-start-1">athletes</span>
+      </span> the program they deserve &mdash; without losing your Sunday night.
+    </h1>
+    <p class="lede mt-7">
+      Deload writes block-aware training in your voice, edits with you in plain English, runs your roster, and ships the program straight to your athletes' phones &mdash; so you can keep the relationship and skip the spreadsheet.
+    </p>
+    <div class="mt-8 flex flex-wrap items-center gap-2.5">
+      <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
+      <a href={`${root}/book-a-demo`} class="btn btn-lg">Book a demo</a>
+      <a href={`${root}/why`} class="btn btn-quiet btn-lg">Why we're different <Arrow /></a>
+    </div>
+    <p class="mt-5 max-w-[60ch] text-[0.9375rem] text-muted">{FOUNDERS_OFFER.pitch}</p>
+  </section>
+
+  <!-- The thesis band: type only -->
+  <section class="wrap mt-14 md:mt-20" aria-labelledby="band-title">
+    <div class="ink-field overflow-hidden rounded-[20px] px-6 pb-8 pt-12 sm:px-10 md:px-14 md:pb-12 md:pt-20">
+      <h2 id="band-title" class="display text-ink">Sunday, <span class="num">9:40</span> pm.</h2>
+      <p class="mt-5 max-w-[40ch] text-[1.1875rem] leading-snug text-muted">
+        Programs written. Roster checked. Athletes ready for Monday. Laptop closed.
       </p>
-      <h1 class="max-w-3xl text-4xl font-medium leading-[1.05] tracking-tight text-ink md:text-6xl">
-        Give your <span class="inline-grid text-sage">
-          <span class="invisible col-start-1 row-start-1" aria-hidden="true">athletes</span>
-          <span class="invisible col-start-1 row-start-1" aria-hidden="true">patients</span>
-          <span class="invisible col-start-1 row-start-1" aria-hidden="true">clients</span>
-          <span
-            id="hero-noun"
-            data-nouns="athletes,clients,patients"
-            class="col-start-1 row-start-1"
-          >athletes</span>
-        </span> the program they deserve &mdash; without losing your Sunday night.
-      </h1>
-      <p class="mt-6 max-w-2xl text-lg text-ink/70 md:text-xl">
-        Deload writes block-aware training in your voice, edits with you in plain English, runs your roster, and ships the program straight to your athletes' phones &mdash; so you can keep the relationship and skip the spreadsheet.
-      </p>
-      <div class="mt-8 flex flex-wrap items-center gap-3">
-        <a
-          href={`${root}/book-a-demo`}
-          class="inline-block rounded-full bg-ink px-5 py-3 text-sm font-medium text-bg transition-colors hover:bg-ink/90"
-        >Book a demo</a>
-        <a
-          href={PRIMARY_CTA.href}
-          class="inline-block rounded-full border border-ink/15 px-5 py-3 text-sm font-medium text-ink transition-colors hover:bg-ink/5"
-        >{PRIMARY_CTA.label}</a>
-        <a
-          href={`${root}/why`}
-          class="inline-block px-2 py-3 text-sm font-medium text-ink/70 underline-offset-4 transition-colors hover:text-ink hover:underline"
-        >Why we're different</a>
+
+      <div class="week mt-14 md:mt-20" data-reveal aria-hidden="true">
+        <div class="relative h-[3px] rounded-full bg-rule">
+          <div class="week-fill absolute inset-y-0 left-0 w-[96%] rounded-full bg-clay"></div>
+          <div class="week-dot absolute right-[4%] top-1/2 h-3.5 w-3.5 -translate-y-1/2 translate-x-1/2 rounded-full bg-clay ring-4 ring-[rgb(var(--c-bg))]"></div>
+        </div>
+        <ol class="num mt-3 grid grid-cols-7 text-[0.75rem] text-muted sm:text-[0.8125rem]">
+          {days.map((d, i) => (
+            <li class:list={[i === 6 ? "text-right font-medium text-ink" : ""]}>{d}</li>
+          ))}
+        </ol>
       </div>
-      <p class="mt-5 max-w-2xl text-sm text-ink/60">
-        {FOUNDERS_OFFER.pitch}
-      </p>
     </div>
   </section>
 
-  <!-- Three pillars: Build / Run / Ship -->
-  <section class="border-t border-ink/10 px-6 py-20 md:py-28">
-    <div class="mx-auto max-w-container">
-      <div class="mb-12 max-w-2xl">
-        <h2 class="text-sm uppercase tracking-[0.18em] text-clay">
-          One app, the whole job
-        </h2>
-        <p class="mt-3 text-3xl font-medium tracking-tight text-ink md:text-4xl">
-          Programming, roster, athlete app &mdash; in the same window.
-        </p>
+  <!-- What it replaces -->
+  <section class="wrap pt-10 md:pt-12" aria-labelledby="replaces-title" data-reveal>
+    <h2 id="replaces-title" class="sr-only">What Deload replaces</h2>
+    <ul class="grid border-t border-rule sm:grid-cols-2 lg:grid-cols-5">
+      {replaces.map((r) => (
+        <li class="border-b border-rule py-6 pr-6 sm:[&:nth-child(odd)]:pr-8 lg:border-b-0 lg:py-7">
+          <p class="text-[1.0625rem] font-semibold text-ink">{r.area}</p>
+          <p class="mt-1.5 text-[0.9375rem] leading-snug text-muted">
+            <span class="strike">{r.old}</span> {r.now}
+          </p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- One app, the whole job: a sage field -->
+  <section class="mt-20 md:mt-28" aria-labelledby="whole-job">
+    <div class="field">
+      <div class="wrap py-20 md:py-28">
+        <div class="grid gap-6 lg:grid-cols-[14rem_1fr] lg:gap-12">
+          <p class="label">One app, the whole job</p>
+          <h2 id="whole-job" class="h2 max-w-[22ch] text-ink">Programming, roster, athlete app &mdash; in the same window.</h2>
+        </div>
+        <ol class="mt-14 grid gap-y-10 md:mt-20 md:grid-cols-3 md:gap-x-10">
+          {pillars.map((p) => (
+            <li class="border-t border-rule/50 pt-6">
+              <p class="text-[clamp(2.75rem,2rem+2.6vw,4.25rem)] font-semibold leading-none tracking-[-0.045em] text-ink">{p.eyebrow}.</p>
+              <h3 class="h3 mt-6 text-ink">{p.title}</h3>
+              <p class="mt-3 max-w-[40ch] text-muted">{p.body}</p>
+            </li>
+          ))}
+        </ol>
       </div>
-      <ul class="grid gap-6 md:grid-cols-3">
-        {pillars.map((p) => (
-          <li class="rounded-2xl border border-ink/10 bg-bg p-7 md:p-8">
-            <p class="text-xs uppercase tracking-[0.16em] text-sage">{p.eyebrow}</p>
-            <p class="mt-3 text-xl font-medium tracking-tight text-ink">{p.title}</p>
-            <p class="mt-3 text-ink/70">{p.body}</p>
-          </li>
-        ))}
-      </ul>
     </div>
   </section>
 
   <!-- What this absorbs -->
-  <section class="border-t border-ink/10 px-6 py-20 md:py-28">
-    <div class="mx-auto max-w-container">
-      <div class="mb-12 max-w-2xl">
-        <h2 class="text-sm uppercase tracking-[0.18em] text-clay">
-          What this absorbs for you
-        </h2>
-        <p class="mt-3 text-3xl font-medium tracking-tight text-ink md:text-4xl">
-          The hours that don't show up on a roster.
-        </p>
-      </div>
-      <ul class="grid gap-6 md:grid-cols-2">
-        {absorbed.map((item) => (
-          <li class="rounded-2xl border border-ink/10 bg-bg p-7 md:p-8">
-            <p class="text-xs uppercase tracking-[0.16em] text-sage">
-              {item.when}
-            </p>
-            <p class="mt-3 text-lg text-ink md:text-xl">{item.what}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <!-- Proof points -->
-  <section class="border-t border-ink/10 px-6 py-20 md:py-28">
-    <div class="mx-auto grid max-w-container gap-12 md:grid-cols-[1fr_1.2fr]">
+  <section class="wrap py-20 md:py-28" aria-labelledby="absorbs">
+    <div class="grid gap-6 lg:grid-cols-[14rem_1fr] lg:gap-12">
+      <p class="label pt-2">What this absorbs for you</p>
       <div>
-        <h2 class="text-sm uppercase tracking-[0.18em] text-clay">
-          Built for real programming
-        </h2>
-        <p class="mt-3 text-3xl font-medium tracking-tight text-ink md:text-4xl">
-          Not a workout app pretending to coach.
+        <h2 id="absorbs" class="h2 max-w-[20ch] text-ink">The hours that don't show up on a roster.</h2>
+        <ul class="rows mt-12">
+          {absorbed.map((item) => (
+            <li class="grid gap-2 !py-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] md:gap-10">
+              <p class="text-[1.625rem] font-semibold leading-tight tracking-[-0.03em] text-ink md:text-[2rem]">{item.when}</p>
+              <p class="text-[1.125rem] leading-snug text-muted md:pt-1.5">{item.what}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Built for real programming -->
+  <section class="border-t border-rule">
+    <div class="wrap grid gap-12 py-20 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-center lg:gap-16">
+      <div>
+        <p class="label">Built for real programming</p>
+        <h2 class="h2 mt-4 max-w-[16ch] text-ink">Not a workout app pretending to coach.</h2>
+        <p class="mt-5 max-w-[48ch] text-[1.0625rem] text-muted">
+          Blocks, phases, %1RM and RPE, supersets, deloads and tapers: the structure a real program has, with checks that catch a <span class="num">20%</span> jump before your athlete feels it.
         </p>
       </div>
-      <ul class="space-y-5 text-lg text-ink/80">
-        {proofPoints.map((p) => (
-          <li class="flex gap-3">
-            <span aria-hidden="true" class="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sage" />
-            <span>{p}</span>
+      <ul class="rows">
+        {outcomes.map((o) => (
+          <li class="text-[clamp(1.25rem,1.05rem+0.7vw,1.625rem)] leading-snug tracking-[-0.015em] text-muted">
+            <span class="font-semibold text-ink">{o.lead}</span>{o.rest}
           </li>
         ))}
       </ul>
     </div>
   </section>
-
-  <!-- Social proof -->
-  <Testimonials />
 
   <!-- Built by a coach -->
-  <section class="border-t border-ink/10 px-6 py-20 md:py-28">
-    <div class="mx-auto grid max-w-container gap-10 md:grid-cols-[1fr_1.3fr] md:items-center">
+  <section class="border-t border-rule">
+    <div class="wrap grid gap-10 py-20 md:py-28 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-16">
       <div>
-        <h2 class="text-sm uppercase tracking-[0.18em] text-clay">Built by a coach</h2>
-        <p class="mt-3 text-3xl font-medium tracking-tight text-ink md:text-4xl">
-          I built Deload because I needed it.
-        </p>
+        <p class="label">Built by a coach</p>
+        <p class="display-sm mt-5 max-w-[14ch] text-ink">&ldquo;I built Deload because I needed it.&rdquo;</p>
+        <p class="mt-5 text-[0.9375rem] text-muted">Derek Miranda, founder</p>
       </div>
-      <div class="space-y-5 text-lg text-ink/75">
+      <div class="space-y-5 text-[1.0625rem] text-muted lg:pt-10">
         <p>
           I'm Derek &mdash; I coached at Equinox, earned my Precision Nutrition cert, then went out on my own with the teams at Sportslab NYC and Fitness360NYC, programming for everyone from gen-pop and weight-loss clients to marathoners and competitive lifters.
         </p>
         <p>
           I started automating my own programming the moment I realized how far AI can go in the hands of someone who already knows the craft. Getting from an AI draft to something you can actually run on the gym floor? Nobody had done it &mdash; honestly, still hasn't, whatever the competition advertises. So I built it.
         </p>
-        <a href={`${root}/about`} class="inline-block font-medium text-ink underline underline-offset-4 transition-colors hover:text-clay">Read the full story &rarr;</a>
+        <a href={`${root}/about`} class="link-arrow pt-1">Read the full story <Arrow /></a>
       </div>
     </div>
   </section>
 
-  <!-- Closing CTA -->
-  <section class="border-t border-ink/10 px-6 py-24 md:py-32">
-    <div class="mx-auto max-w-container text-center">
-      <h2 class="mx-auto max-w-2xl text-balance text-3xl font-medium tracking-tight text-ink md:text-5xl">
-        Get your Sunday back.
-      </h2>
-      <p class="mx-auto mt-5 max-w-xl text-lg text-ink/70">
-        Book a 15-minute demo and we'll write your first program live &mdash; or join the waitlist for early access, the Founders Rate and 25% off a future upgrade.
-      </p>
-      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <a
-          href={`${root}/book-a-demo`}
-          class="inline-block rounded-full bg-ink px-6 py-3 text-sm font-medium text-bg transition-colors hover:bg-ink/90"
-        >Book a demo</a>
-        <a
-          href={PRIMARY_CTA.href}
-          class="inline-block rounded-full border border-ink/15 px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-ink/5"
-        >{PRIMARY_CTA.label}</a>
+  <!-- Social proof: text only -->
+  <Testimonials />
+
+  <!-- Closing -->
+  <section class="wrap pb-16 md:pb-24" aria-labelledby="close-title">
+    <div class="ink-field flex flex-col gap-10 rounded-[20px] px-6 py-14 sm:px-10 md:px-14 md:py-20 lg:flex-row lg:items-end lg:justify-between">
+      <div class="max-w-[40rem]">
+        <h2 id="close-title" class="display text-ink">Get your Sunday back.</h2>
+        <p class="mt-5 max-w-[52ch] text-[1.0625rem] text-muted">
+          Book a <span class="num">15</span>-minute demo and we'll write your first program live &mdash; or join the waitlist for early access, the Founders Rate and <span class="num">25%</span> off a future upgrade.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-2.5">
+        <a href={`${root}/book-a-demo`} class="btn btn-lg">Book a demo</a>
+        <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
       </div>
     </div>
   </section>
 </Layout>
 
+<style>
+  #hero-noun {
+    transition: opacity 320ms var(--ease-out), transform 320ms var(--ease-out), filter 320ms var(--ease-out);
+  }
+  #hero-noun.is-out {
+    opacity: 0;
+    transform: translateY(0.12em);
+    filter: blur(4px);
+  }
+</style>
+
 <script is:inline>
   (function () {
-    const el = document.getElementById("hero-noun");
+    var el = document.getElementById("hero-noun");
     if (!el) return;
-    const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
-    const nouns = (el.getAttribute("data-nouns") || "").split(",").map(function (n) { return n.trim(); }).filter(Boolean);
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var nouns = (el.getAttribute("data-nouns") || "").split(",").map(function (n) { return n.trim(); }).filter(Boolean);
     if (nouns.length < 2) return;
-    let i = 0;
-    el.style.transition = "opacity 350ms ease";
+    var i = 0;
     setInterval(function () {
-      el.style.opacity = "0";
+      el.classList.add("is-out");
       setTimeout(function () {
         i = (i + 1) % nouns.length;
         el.textContent = nouns[i];
-        el.style.opacity = "1";
-      }, 350);
-    }, 2200);
+        el.classList.remove("is-out");
+      }, 320);
+    }, 2400);
   })();
 </script>
