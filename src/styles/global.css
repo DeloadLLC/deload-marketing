@@ -28,11 +28,11 @@
     --c-muted: var(--t-muted);
     --c-faint: var(--t-faint);
     --c-rule: var(--t-rule);
-    --c-sage: 94 127 98;
+    --c-sage: 85 116 87;   /* #557457, the apps' sage: 5.22:1 on white, 4.76:1 on cream */
     --c-clay: 184 114 74;
     --c-warn: 178 58 43;   /* needs-you */
     /* sage as a whole field, and the text that sits on it */
-    --c-field: 63 95 69;
+    --c-field: 63 95 69;   /* deep sage field #3F5F45: cream 6.52:1, on-field-muted 4.86:1 */
     --c-on-field: 247 244 239;
     --c-on-field-muted: 201 217 202;
 
@@ -108,6 +108,10 @@
     letter-spacing: -0.04em;
     font-weight: 600;
     text-wrap: balance;
+  }
+  /* The home hero sets one notch tighter, as in the founder's sketch. */
+  .display-hero {
+    letter-spacing: -0.045em;
   }
   .display-sm {
     font-size: clamp(2.3rem, 1.3rem + 3.6vw, 3.75rem);
@@ -215,7 +219,7 @@
     border: 1px solid rgb(var(--c-rule));
     border-radius: 999px;
     padding: 0.1rem 0.5rem;
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     font-weight: 500;
     line-height: 1.5;
     color: rgb(var(--c-muted));
