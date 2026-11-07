@@ -1,5 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import PageHero from "../../components/PageHero.astro";
+import Arrow from "../../components/Arrow.astro";
 import { RESOURCES, faqs, getResource } from "../../config";
 
 export function getStaticPaths() {
@@ -13,37 +15,26 @@ const root = base.replace(/\/$/, "");
 const isSupport = resource.slug === "support";
 ---
 <Layout title={resource.nav} description={resource.intro}>
-  <section class="px-6 pt-20 pb-12 md:pt-28">
-    <div class="mx-auto max-w-container">
-      <div class="flex items-center gap-3">
-        <p class="text-sm uppercase tracking-[0.18em] text-clay">{resource.eyebrow}</p>
-        {resource.comingSoon && (
-          <span class="rounded-full bg-sage/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sage">Coming soon</span>
-        )}
-      </div>
-      <h1 class="mt-4 max-w-3xl text-balance text-4xl font-medium leading-[1.1] tracking-tight md:text-5xl">{resource.title}</h1>
-      <p class="mt-6 max-w-2xl text-lg text-ink/70">{resource.intro}</p>
-    </div>
-  </section>
+  <PageHero label={resource.eyebrow} title={resource.title} intro={resource.intro} soon={resource.comingSoon} />
 
   {resource.body && (
-    <section class="px-6 pb-16">
-      <div class="mx-auto max-w-prose space-y-5 text-lg text-ink/80">
+    <section class="wrap pb-16">
+      <div class="max-w-[65ch] space-y-5 border-t border-rule pt-10 text-[1.125rem] leading-relaxed text-ink lg:ml-[calc(14rem+3rem)]">
         {resource.body.map((p) => <p>{p}</p>)}
-        <p>
-          <a href={`${root}/elevate`} class="font-medium text-ink underline underline-offset-4 hover:text-clay">Explore Deload Foundations →</a>
+        <p class="pt-2">
+          <a href={`${root}/elevate`} class="link-arrow">Explore Deload Foundations <Arrow /></a>
         </p>
       </div>
     </section>
   )}
 
   {resource.comingSoon && (
-    <section class="px-6 pb-24">
-      <div class="mx-auto max-w-container rounded-2xl border border-ink/10 bg-ink/[0.02] p-8 md:p-12">
-        <p class="text-lg text-ink/70">
+    <section class="wrap pb-24">
+      <div class="rounded-[20px] bg-sunk px-6 py-10 sm:px-10 md:px-14 md:py-14">
+        <p class="max-w-[52ch] text-[1.25rem] leading-snug text-ink">
           We're putting this together. In the meantime,
-          <a href={`${root}/book-a-demo`} class="font-medium text-ink underline underline-offset-4 hover:text-clay">book a demo</a>
-          or <a href={`${root}/contact`} class="font-medium text-ink underline underline-offset-4 hover:text-clay">drop us a note</a>
+          <a href={`${root}/book-a-demo`} class="link">book a demo</a>
+          or <a href={`${root}/contact`} class="link">drop us a note</a>
           and we'll keep you posted.
         </p>
       </div>
@@ -51,22 +42,20 @@ const isSupport = resource.slug === "support";
   )}
 
   {isSupport && (
-    <section class="px-6 pb-24">
-      <div class="mx-auto max-w-container">
-        <dl class="divide-y divide-ink/10 border-y border-ink/10">
-          {faqs.map((f) => (
-            <div class="grid gap-4 py-7 md:grid-cols-[1fr_1.6fr] md:gap-10">
-              <dt class="text-lg font-medium text-ink">{f.q}</dt>
-              <dd class="text-ink/75">{f.a}</dd>
-            </div>
-          ))}
-        </dl>
-        <p class="mt-10 text-lg text-ink/70">
-          Still stuck?
-          <a href={`${root}/contact`} class="font-medium text-ink underline underline-offset-4 hover:text-clay">Contact us</a>
-          &mdash; we read everything.
-        </p>
-      </div>
+    <section class="wrap pb-24">
+      <dl class="border-t border-rule">
+        {faqs.map((f) => (
+          <div class="grid gap-3 border-b border-rule py-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] md:gap-12">
+            <dt class="text-[1.25rem] font-semibold leading-snug tracking-[-0.02em] text-ink">{f.q}</dt>
+            <dd class="text-[1.0625rem] text-muted">{f.a}</dd>
+          </div>
+        ))}
+      </dl>
+      <p class="mt-10 text-[1.125rem] text-muted">
+        Still stuck?
+        <a href={`${root}/contact`} class="link">Contact us</a>
+        &mdash; we read everything.
+      </p>
     </section>
   )}
 </Layout>

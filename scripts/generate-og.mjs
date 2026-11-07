@@ -8,7 +8,8 @@
 //   Edit COPY, then run:  pnpm og
 //
 // The committed PNG is what actually ships; this script just keeps it
-// reproducible. Inter fonts live in scripts/fonts/ and resvg renders the SVG.
+// reproducible. Geist and Space Grotesk (logo only) live in scripts/fonts/ and
+// resvg renders the SVG.
 
 import { Resvg } from "@resvg/resvg-js";
 import { writeFileSync } from "node:fs";
@@ -19,12 +20,17 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const FONT_DIR = resolve(__dirname, "fonts");
 const PUBLIC_DIR = resolve(__dirname, "..", "public");
 
-// Brand tokens — kept in sync with tailwind.config.mjs.
+// Brand tokens — palette A, Sage & clay (src/styles/global.css, light).
 const C = {
-  bg: "#FFFFFF",
-  ink: "#14161A",
-  sage: "#6B8E6F",
+  bg: "#F7F4EF",
+  ink: "#1B1D1A",
+  muted: "#6A6C64",
+  rule: "#E6E1D8",
+  sage: "#5E7F62",
   clay: "#B8724A",
+  // The monogram's own colours, as supplied (deload-coach-ui/public/deload-monogram.svg).
+  tile: "#F7F4EF",
+  tileInk: "#14161A",
 };
 
 // The canonical link-preview headline. Two lines: an ink lead and a sage tail.
@@ -36,10 +42,10 @@ const COPY = {
 };
 
 const FONTS = [
-  "Inter_400Regular.ttf",
-  "Inter_500Medium.ttf",
-  "Inter_600SemiBold.ttf",
-  "Inter_700Bold.ttf",
+  "Geist_500Medium.ttf",
+  "Geist_600SemiBold.ttf",
+  "SpaceGrotesk_600SemiBold.ttf",
+  "SpaceGrotesk_700Bold.ttf",
 ].map((f) => resolve(FONT_DIR, f));
 
 const esc = (s) =>
@@ -52,14 +58,14 @@ function buildSvg({ line1, line2, domain }) {
   const usable = W - marginX * 2;
 
   // Auto-fit the headline: keep it large, but shrink if a line would overrun.
-  // 0.53 is a safe average advance-width ratio for Inter at semibold.
+  // 0.53 is a safe average advance-width ratio for Geist at semibold.
   const longest = Math.max(line1.length, line2.length);
   let fs = 64;
   const estWidth = longest * fs * 0.53;
   if (estWidth > usable) fs = Math.floor((fs * usable) / estWidth);
   const lineGap = Math.round(fs * 1.2);
-  // Match the site's headline tracking (Tailwind tracking-tight = -0.02em).
-  const headTrack = (-0.02 * fs).toFixed(2);
+  // Match the site's display tracking.
+  const headTrack = (-0.035 * fs).toFixed(2);
   const wordTrack = (-0.02 * 60).toFixed(2);
 
   // Vertical rhythm.
@@ -74,27 +80,30 @@ function buildSvg({ line1, line2, domain }) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
   <rect width="${W}" height="${H}" fill="${C.bg}"/>
 
-  <!-- Wordmark: ink rounded square with cream "d", then lowercase "deload" -->
-  <rect x="${marginX}" y="${logoY}" width="${logoSize}" height="${logoSize}" rx="18" fill="${C.ink}"/>
-  <text x="${marginX + logoSize / 2}" y="${logoCenterY}" text-anchor="middle" dominant-baseline="central"
-        font-family="Inter" font-weight="700" font-size="46" fill="${C.bg}">d</text>
+  <!-- The monogram as supplied (cream tile, Space Grotesk "d", cream slot) with
+       the 1px hairline it carries on light surfaces, then the wordmark. -->
+  <g transform="translate(${marginX} ${logoY}) scale(${logoSize / 100})">
+    <rect x="0.6" y="0.6" width="98.8" height="98.8" rx="21" fill="${C.tile}" stroke="${C.rule}" stroke-width="1.6"/>
+    <text x="50" y="70" text-anchor="middle" font-family="Space Grotesk" font-weight="700" font-size="64" fill="${C.tileInk}">d</text>
+    <rect x="44" y="72" width="12" height="3" fill="${C.tile}"/>
+  </g>
   <text x="${marginX + logoSize + 24}" y="${logoCenterY}" dominant-baseline="central" letter-spacing="${wordTrack}"
-        font-family="Inter" font-weight="500" font-size="${wordSize}" fill="${C.ink}">deload</text>
+        font-family="Space Grotesk" font-weight="600" font-size="${wordSize}" fill="${C.ink}">deload</text>
 
   <!-- Headline -->
-  <text x="${marginX}" y="${line1Y}" letter-spacing="${headTrack}" font-family="Inter" font-weight="500" font-size="${fs}" fill="${C.ink}">${esc(line1)}</text>
-  <text x="${marginX}" y="${line2Y}" letter-spacing="${headTrack}" font-family="Inter" font-weight="500" font-size="${fs}" fill="${C.sage}">${esc(line2)}</text>
+  <text x="${marginX}" y="${line1Y}" letter-spacing="${headTrack}" font-family="Geist" font-weight="600" font-size="${fs}" fill="${C.ink}">${esc(line1)}</text>
+  <text x="${marginX}" y="${line2Y}" letter-spacing="${headTrack}" font-family="Geist" font-weight="600" font-size="${fs}" fill="${C.sage}">${esc(line2)}</text>
 
   <!-- Footer: clay dot + domain -->
   <circle cx="${marginX + 6}" cy="${footerY - 9}" r="6" fill="${C.clay}"/>
-  <text x="${marginX + 26}" y="${footerY}" font-family="Inter" font-weight="500" font-size="30" fill="${C.ink}" fill-opacity="0.5">${esc(domain)}</text>
+  <text x="${marginX + 26}" y="${footerY}" font-family="Geist" font-weight="500" font-size="30" fill="${C.muted}">${esc(domain)}</text>
 </svg>`;
 }
 
 function render(copy, outPath) {
   const svg = buildSvg(copy);
   const resvg = new Resvg(svg, {
-    font: { fontFiles: FONTS, loadSystemFonts: false, defaultFontFamily: "Inter" },
+    font: { fontFiles: FONTS, loadSystemFonts: false, defaultFontFamily: "Geist" },
     fitTo: { mode: "width", value: 1200 },
   });
   writeFileSync(outPath, resvg.render().asPng());

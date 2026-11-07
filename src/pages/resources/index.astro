@@ -1,5 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import PageHero from "../../components/PageHero.astro";
+import Arrow from "../../components/Arrow.astro";
 import { RESOURCES } from "../../config";
 
 const base = import.meta.env.BASE_URL;
@@ -9,29 +11,28 @@ const root = base.replace(/\/$/, "");
   title="Resources"
   description="Guides on starting and funding your coaching business, plus the blog, webinars, and support — everything around running the business, not just the software."
 >
-  <section class="px-6 pt-20 pb-12 md:pt-28">
-    <div class="mx-auto max-w-container">
-      <p class="text-sm uppercase tracking-[0.18em] text-ink/50">Resources</p>
-      <h1 class="mt-4 max-w-3xl text-balance text-4xl font-medium leading-[1.1] tracking-tight md:text-5xl">
-        Help with the business, not just the software.
-      </h1>
-      <p class="mt-6 max-w-2xl text-lg text-ink/70">
-        Starting out, finding funding, or looking for answers — here's where to begin.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    label="Resources"
+    title="Help with the business, not just the software."
+    intro="Starting out, finding funding, or looking for answers — here's where to begin."
+  />
 
-  <section class="px-6 pb-24">
-    <div class="mx-auto grid max-w-container gap-6 md:grid-cols-2 lg:grid-cols-3">
+  <section class="wrap pb-24">
+    <ul class="border-t border-rule">
       {RESOURCES.map((r) => (
-        <a href={`${root}/resources/${r.slug}`} class="group block rounded-2xl border border-ink/10 bg-bg p-7 transition-colors hover:bg-ink/[0.02]">
-          <p class="flex items-center gap-2 text-xl font-medium tracking-tight text-ink group-hover:text-clay">
-            {r.nav}
-            {r.comingSoon && <span class="rounded-full bg-sage/15 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-sage">Coming soon</span>}
-          </p>
-          <p class="mt-2 text-ink/65">{r.menuBlurb}</p>
-        </a>
+        <li class="border-b border-rule">
+          <a href={`${root}/resources/${r.slug}`} class="group grid gap-2 py-7 md:grid-cols-[14rem_minmax(0,1fr)_auto] md:items-baseline md:gap-12">
+            <span class="label">{r.eyebrow}</span>
+            <span>
+              <span class="flex flex-wrap items-center gap-2 text-[clamp(1.5rem,1.2rem+1vw,2rem)] font-semibold leading-tight tracking-[-0.03em] text-ink transition-colors group-hover:text-clay">
+                {r.nav}{r.comingSoon && <span class="soon">Coming soon</span>}
+              </span>
+              <span class="mt-1.5 block text-muted">{r.menuBlurb}</span>
+            </span>
+            <Arrow class="hidden h-6 w-6 text-muted transition-transform group-hover:translate-x-1 group-hover:text-ink md:block" />
+          </a>
+        </li>
       ))}
-    </div>
+    </ul>
   </section>
 </Layout>

@@ -1,30 +1,25 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
 import { API_BASE_URL, TURNSTILE_SITE_KEY } from "../config";
 ---
 <Layout
   title="Contact"
   description="Questions, feedback, or want a look at the private beta? Send us a note."
 >
-  <section class="px-6 pt-20 pb-12 md:pt-28">
-    <div class="mx-auto max-w-container">
-      <p class="text-sm uppercase tracking-[0.18em] text-ink/50">Contact</p>
-      <h1 class="mt-4 max-w-3xl text-balance text-4xl font-medium leading-[1.1] tracking-tight md:text-5xl">
-        Tell us about your roster.
-      </h1>
-      <p class="mt-5 max-w-2xl text-lg text-ink/70">
-        Whether you're curious about the beta or you've got a feature in mind, drop a line. We read everything.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    label="Contact"
+    title="Tell us about your roster."
+    intro="Whether you're curious about the beta or you've got a feature in mind, drop a line. We read everything."
+  />
 
-  <section class="px-6 pb-24">
-    <div class="mx-auto max-w-2xl">
+  <section class="wrap pb-24">
+    <div class="max-w-2xl">
       <form
         id="contact-form"
         data-endpoint={`${API_BASE_URL.replace(/\/$/, "")}/api/public/contact`}
         data-turnstile-sitekey={TURNSTILE_SITE_KEY}
-        class="space-y-5 rounded-2xl border border-ink/10 bg-ink/[0.02] p-6 md:p-8"
+        class="space-y-5 rounded-[20px] border border-rule bg-surface p-6 md:p-8"
         novalidate
       >
         <div class="grid gap-5 md:grid-cols-2">
@@ -35,7 +30,7 @@ import { API_BASE_URL, TURNSTILE_SITE_KEY } from "../config";
               name="name"
               required
               maxlength="120"
-              class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none"
+              class="field-input"
               placeholder="Your name"
             />
           </label>
@@ -46,7 +41,7 @@ import { API_BASE_URL, TURNSTILE_SITE_KEY } from "../config";
               name="email"
               required
               maxlength="254"
-              class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none"
+              class="field-input"
               placeholder="you@example.com"
             />
           </label>
@@ -57,7 +52,7 @@ import { API_BASE_URL, TURNSTILE_SITE_KEY } from "../config";
             type="text"
             name="roster"
             maxlength="120"
-            class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none"
+            class="field-input"
             placeholder="e.g. 14 athletes"
           />
         </label>
@@ -68,7 +63,7 @@ import { API_BASE_URL, TURNSTILE_SITE_KEY } from "../config";
             rows="5"
             required
             maxlength="5000"
-            class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none"
+            class="field-input"
             placeholder="What's on your mind?"
           ></textarea>
         </label>
@@ -98,11 +93,11 @@ import { API_BASE_URL, TURNSTILE_SITE_KEY } from "../config";
           <button
             type="submit"
             id="contact-submit"
-            class="inline-block rounded-full bg-ink px-5 py-3 text-sm font-medium text-bg transition-colors hover:bg-ink/90 disabled:opacity-60"
+            class="btn btn-pri btn-lg"
           >Send</button>
           <p
             id="contact-status"
-            class="text-sm text-ink/60"
+            class="text-sm text-muted"
             role="status"
             aria-live="polite"
           ></p>
@@ -201,14 +196,14 @@ import { API_BASE_URL, TURNSTILE_SITE_KEY } from "../config";
         };
         if (!payload.name.trim() || !payload.email.trim() || !payload.message.trim()) {
           status.textContent = "Please fill in your name, email, and a message.";
-          status.className = "text-sm text-red-600";
+          status.className = "text-sm text-warn";
           return;
         }
         submitBtn.disabled = true;
         const originalLabel = submitBtn.textContent;
         submitBtn.textContent = "Sending\u2026";
         status.textContent = "";
-        status.className = "text-sm text-ink/60";
+        status.className = "text-sm text-muted";
         try {
           const res = await fetch(endpoint, {
             method: "POST",
@@ -228,11 +223,11 @@ import { API_BASE_URL, TURNSTILE_SITE_KEY } from "../config";
             status.textContent = detail
               ? `Couldn't send: ${detail}. Please try again.`
               : "Couldn't send right now. Please try again in a moment.";
-            status.className = "text-sm text-red-600";
+            status.className = "text-sm text-warn";
           }
         } catch {
           status.textContent = "Network error. Please check your connection and try again.";
-          status.className = "text-sm text-red-600";
+          status.className = "text-sm text-warn";
         } finally {
           submitBtn.disabled = false;
           submitBtn.textContent = originalLabel;

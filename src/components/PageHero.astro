@@ -1,0 +1,26 @@
+---
+// The opening of every inner page: a short page label, a large headline and
+// the intro, with the page's actions in the slot. An optional drawing sits
+// beside it on wide screens (slot "aside").
+interface Props {
+  label: string;
+  title: string;
+  intro?: string;
+  soon?: boolean;
+  wide?: boolean; // headline may run wider (no aside)
+}
+const { label, title, intro, soon = false, wide = false } = Astro.props;
+const hasAside = Astro.slots.has("aside");
+---
+<section class="wrap pt-14 pb-14 md:pt-24 md:pb-20">
+  <div class:list={["grid gap-12", hasAside && "lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-end lg:gap-16"]}>
+    <div>
+      <p class="label flex flex-wrap items-center gap-2">{label}{soon && <span class="soon">Coming soon</span>}</p>
+      <h1 class:list={["display-sm mt-5 text-ink", wide ? "max-w-[22ch]" : "max-w-[18ch]"]}>{title}</h1>
+      {intro && <p class="lede mt-6">{intro}</p>}
+      <slot name="after-intro" />
+      {Astro.slots.has("default") && <div class="mt-8 flex flex-wrap items-center gap-2.5"><slot /></div>}
+    </div>
+    {hasAside && <div class="hidden lg:block"><slot name="aside" /></div>}
+  </div>
+</section>

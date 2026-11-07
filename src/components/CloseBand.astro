@@ -1,0 +1,14 @@
+---
+// The closing call to action: the ink field (cream at night).
+interface Props { title: string; body?: string }
+const { title, body } = Astro.props;
+---
+<section class="wrap pb-16 md:pb-24" aria-label={title}>
+  <div class="ink-field flex flex-col gap-10 rounded-[20px] px-6 py-14 sm:px-10 md:px-14 md:py-20 lg:flex-row lg:items-end lg:justify-between">
+    <div class="max-w-[40rem]">
+      <h2 class="display-sm text-ink">{title}</h2>
+      {body && <p class="mt-5 max-w-[52ch] text-[1.0625rem] text-muted"><Fragment set:html={body} /></p>}
+    </div>
+    <div class="flex flex-wrap gap-2.5"><slot /></div>
+  </div>
+</section>
