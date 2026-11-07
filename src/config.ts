@@ -370,7 +370,7 @@ export const BUSINESS_TYPES: BusinessTypeEntry[] = [
       "A handful of coaches, one shared standard. Deload keeps everyone's programming consistent, every athlete accounted for, and the admin off your plate.",
     points: [
       "Invite your coaches and share org-level defaults.",
-      "One roster and schedule view across the whole team.",
+      "One roster and one schedule for the whole team.",
       "Shared protocol library so the bar stays high.",
       "Per-coach voice preserved by the AI, even on shared standards.",
     ],
@@ -388,7 +388,7 @@ export const BUSINESS_TYPES: BusinessTypeEntry[] = [
       "Org-level defaults with per-location and per-coach overrides.",
       "Enterprise SSO (SAML / OIDC) and SCIM provisioning.",
       "Help any coach directly, with every admin action on record.",
-      "Roster and schedule triage across every location from one dashboard.",
+      "See who and what needs attention across every location, in one place.",
     ],
     comingSoon: true,
     cta: { label: "Book a demo", href: "/book-a-demo" },
@@ -402,8 +402,8 @@ export const BUSINESS_TYPES: BusinessTypeEntry[] = [
     intro:
       "For studios and platforms that want the Deload engine behind their own brand — your name, logo, colours, and domain on the athlete portal and client emails today, with a fully branded native app on the way.",
     points: [
-      "Branded athlete portal with custom logo and colours.",
-      "Your own domain on the client-facing surfaces.",
+      "Your logo and colours on the athlete portal.",
+      "Your own web address on everything clients see.",
       "Branded client emails and check-ins.",
       "Branded native mobile app coming soon.",
     ],
