@@ -21,39 +21,34 @@ const featureColumns = FEATURE_GROUPS.map((group) => ({
     .map((slug) => getFeature(slug))
     .filter((f): f is NonNullable<typeof f> => Boolean(f)),
 }));
+
+const chevron = `<svg class="h-3 w-3 opacity-60 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const navLink = "whitespace-nowrap rounded-lg px-2.5 py-2 text-muted transition-colors hover:text-ink";
+const menuPanel =
+  "invisible absolute top-full z-50 pt-2 opacity-0 transition-[opacity,transform] duration-200 ease-out -translate-y-1 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 motion-reduce:transition-none";
+const panelBox = "rounded-2xl border border-rule bg-surface shadow-[0_18px_40px_-20px_rgb(0_0_0/0.25)]";
 ---
-<header class="sticky top-0 z-50 border-b border-ink/10 bg-bg/90 backdrop-blur">
-  <div class="mx-auto flex max-w-container items-center justify-between gap-4 px-6 py-4">
-    <a href={link("/")} class="text-ink hover:opacity-80" aria-label="deload home">
-      <Wordmark class="text-base" />
+<header class="sticky top-0 z-50 border-b border-rule/70 bg-bg/90 backdrop-blur-md">
+  <div class="wrap flex h-16 items-center gap-6">
+    <a href={link("/")} class="shrink-0 text-ink" aria-label="deload home">
+      <Wordmark />
     </a>
 
     <!-- Desktop nav -->
-    <nav class="hidden items-center gap-5 text-[13px] font-medium tracking-tight text-ink/80 xl:flex 2xl:gap-8">
-      <a href={link("/why")} class="whitespace-nowrap uppercase tracking-[0.1em] transition-colors hover:text-ink">Why we're different</a>
-
-      <!-- Features mega-menu -->
+    <nav class="hidden items-center gap-1 text-[0.9375rem] xl:flex" aria-label="Main">
       <div class="group relative">
-        <button
-          class="flex items-center gap-1 whitespace-nowrap uppercase tracking-[0.1em] transition-colors hover:text-ink"
-          aria-haspopup="true"
-        >
-          Features
-          <svg class="h-3.5 w-3.5 opacity-60 transition-transform group-hover:rotate-180" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="invisible absolute left-1/2 top-full z-50 w-[min(56rem,90vw)] -translate-x-1/2 pt-3 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-          <div class="grid grid-cols-2 gap-x-8 gap-y-6 rounded-2xl border border-ink/10 bg-bg p-7 shadow-xl shadow-ink/5 md:grid-cols-4">
+        <button class={`${navLink} flex items-center gap-1.5`} aria-haspopup="true">Features <Fragment set:html={chevron} /></button>
+        <div class={`${menuPanel} left-0 w-[min(58rem,90vw)]`}>
+          <div class={`${panelBox} grid grid-cols-4 gap-x-8 p-7`}>
             {featureColumns.map((col) => (
               <div>
-                <p class="mb-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-clay">{col.heading}</p>
-                <ul class="space-y-3">
+                <p class="mb-3 text-[0.8125rem] font-medium text-muted">{col.heading}</p>
+                <ul class="space-y-2.5">
                   {col.items.map((f) => (
                     <li>
-                      <a href={link(`/features/${f.slug}`)} class="block text-sm font-medium text-ink transition-colors hover:text-clay">
+                      <a href={link(`/features/${f.slug}`)} class="block text-[0.9375rem] font-medium leading-snug text-ink transition-colors hover:text-clay">
                         {f.nav}
-                        {f.status === "soon" && (
-                          <span class="ml-1.5 inline-block whitespace-nowrap rounded-full bg-sage/15 px-1.5 py-0.5 align-middle text-[10px] font-medium uppercase tracking-wide text-sage">Coming soon</span>
-                        )}
+                        {f.status === "soon" && <span class="soon ml-1">Coming soon</span>}
                       </a>
                     </li>
                   ))}
@@ -64,21 +59,15 @@ const featureColumns = FEATURE_GROUPS.map((group) => ({
         </div>
       </div>
 
-      <!-- Business types -->
       <div class="group relative">
-        <button class="flex items-center gap-1 whitespace-nowrap uppercase tracking-[0.1em] transition-colors hover:text-ink" aria-haspopup="true">
-          Business types
-          <svg class="h-3.5 w-3.5 opacity-60 transition-transform group-hover:rotate-180" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="invisible absolute left-0 top-full z-50 w-80 pt-3 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-          <ul class="space-y-1 rounded-2xl border border-ink/10 bg-bg p-3 shadow-xl shadow-ink/5">
+        <button class={`${navLink} flex items-center gap-1.5`} aria-haspopup="true">Business types <Fragment set:html={chevron} /></button>
+        <div class={`${menuPanel} left-0 w-80`}>
+          <ul class={`${panelBox} p-2`}>
             {BUSINESS_TYPES.map((b) => (
               <li>
-                <a href={link(`/business-types/${b.slug}`)} class="block rounded-xl px-3 py-2 text-sm font-medium text-ink transition-colors hover:bg-ink/5">
+                <a href={link(`/business-types/${b.slug}`)} class="block rounded-xl px-3 py-2.5 text-[0.9375rem] font-medium text-ink transition-colors hover:bg-sunk">
                   {b.nav}
-                  {b.comingSoon && (
-                    <span class="ml-1.5 inline-block whitespace-nowrap rounded-full bg-sage/15 px-1.5 py-0.5 align-middle text-[10px] font-medium uppercase tracking-wide text-sage">Coming soon</span>
-                  )}
+                  {b.comingSoon && <span class="soon ml-1">Coming soon</span>}
                 </a>
               </li>
             ))}
@@ -86,102 +75,113 @@ const featureColumns = FEATURE_GROUPS.map((group) => ({
         </div>
       </div>
 
-      <!-- Resources -->
+      <a href={link("/why")} class={navLink}>Why we're different</a>
+      <a href={link("/pricing")} class={navLink}>Pricing</a>
+
       <div class="group relative">
-        <button class="flex items-center gap-1 whitespace-nowrap uppercase tracking-[0.1em] transition-colors hover:text-ink" aria-haspopup="true">
-          Resources
-          <svg class="h-3.5 w-3.5 opacity-60 transition-transform group-hover:rotate-180" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="invisible absolute left-0 top-full z-50 w-80 pt-3 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-          <ul class="space-y-1 rounded-2xl border border-ink/10 bg-bg p-3 shadow-xl shadow-ink/5">
+        <button class={`${navLink} flex items-center gap-1.5`} aria-haspopup="true">Resources <Fragment set:html={chevron} /></button>
+        <div class={`${menuPanel} left-0 w-80`}>
+          <ul class={`${panelBox} p-2`}>
             {RESOURCES.map((r) => (
               <li>
-                <a href={link(`/resources/${r.slug}`)} class="block rounded-xl px-3 py-2 text-sm font-medium text-ink transition-colors hover:bg-ink/5">
+                <a href={link(`/resources/${r.slug}`)} class="block rounded-xl px-3 py-2.5 text-[0.9375rem] font-medium text-ink transition-colors hover:bg-sunk">
                   {r.nav}
-                  {r.comingSoon && (
-                    <span class="ml-1.5 inline-block whitespace-nowrap rounded-full bg-sage/15 px-1.5 py-0.5 align-middle text-[10px] font-medium uppercase tracking-wide text-sage">Coming soon</span>
-                  )}
+                  {r.comingSoon && <span class="soon ml-1">Coming soon</span>}
                 </a>
               </li>
             ))}
           </ul>
         </div>
       </div>
-
-      <a href={link("/pricing")} class="whitespace-nowrap uppercase tracking-[0.1em] transition-colors hover:text-ink">Pricing</a>
-      <a href={SIGN_IN_URL} class="whitespace-nowrap uppercase tracking-[0.1em] transition-colors hover:text-ink">Login</a>
     </nav>
 
-    <!-- CTAs -->
-    <div class="hidden items-center gap-2 xl:flex">
-      <a href={PRIMARY_CTA.href} class="whitespace-nowrap rounded-full border border-ink/20 px-3.5 py-1.5 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">{PRIMARY_CTA.label}</a>
-      <a href={link("/book-a-demo")} class="whitespace-nowrap rounded-full bg-ink px-3.5 py-1.5 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">Book a demo</a>
+    <div class="ml-auto hidden items-center gap-2 xl:flex">
+      <a href={SIGN_IN_URL} class={`${navLink} mr-1`}>Sign in</a>
+      <a href={link("/book-a-demo")} class="btn">Book a demo</a>
+      <a href={PRIMARY_CTA.href} class="btn btn-pri">{PRIMARY_CTA.label}</a>
     </div>
 
-    <!-- Mobile toggle -->
-    <button
-      id="menu-toggle"
-      class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-ink/15 text-ink xl:hidden"
-      aria-label="Open menu"
-      aria-expanded="false"
-      aria-controls="mobile-menu"
-    >
-      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-    </button>
+    <!-- Phone and iPad: the sign-up button stays in reach, the rest folds into the menu -->
+    <div class="ml-auto flex items-center gap-2 xl:hidden">
+      <a href={PRIMARY_CTA.href} class="btn btn-pri hidden sm:inline-flex">{PRIMARY_CTA.label}</a>
+      <button
+        id="menu-toggle"
+        class="btn h-11 w-11 !px-0"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path data-open d="M4 8h16M4 16h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path data-close class="hidden" d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+    </div>
   </div>
 
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden border-t border-ink/10 bg-bg xl:hidden">
-    <nav class="mx-auto max-w-container space-y-1 px-6 py-4 text-sm">
-      <a href={link("/why")} class="block rounded-lg px-3 py-2.5 font-medium text-ink hover:bg-ink/5">Why we're different</a>
-
-      <details class="group">
-        <summary class="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 font-medium text-ink hover:bg-ink/5">Features<span class="text-ink/40 group-open:rotate-180">▾</span></summary>
-        <ul class="space-y-0.5 pb-2 pl-3">
-          {FEATURES.map((f) => (
-            <li><a href={link(`/features/${f.slug}`)} class="block rounded-lg px-3 py-2 text-ink/75 hover:bg-ink/5">{f.nav}{f.status === "soon" && <span class="ml-1.5 text-[10px] uppercase tracking-wide text-sage">coming soon</span>}</a></li>
-          ))}
-        </ul>
-      </details>
-
-      <details class="group">
-        <summary class="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 font-medium text-ink hover:bg-ink/5">Business types<span class="text-ink/40 group-open:rotate-180">▾</span></summary>
-        <ul class="space-y-0.5 pb-2 pl-3">
-          {BUSINESS_TYPES.map((b) => (
-            <li><a href={link(`/business-types/${b.slug}`)} class="block rounded-lg px-3 py-2 text-ink/75 hover:bg-ink/5">{b.nav}{b.comingSoon && <span class="ml-1.5 text-[10px] uppercase tracking-wide text-sage">coming soon</span>}</a></li>
-          ))}
-        </ul>
-      </details>
-
-      <details class="group">
-        <summary class="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 font-medium text-ink hover:bg-ink/5">Resources<span class="text-ink/40 group-open:rotate-180">▾</span></summary>
-        <ul class="space-y-0.5 pb-2 pl-3">
-          {RESOURCES.map((r) => (
-            <li><a href={link(`/resources/${r.slug}`)} class="block rounded-lg px-3 py-2 text-ink/75 hover:bg-ink/5">{r.nav}</a></li>
-          ))}
-        </ul>
-      </details>
-
-      <a href={link("/pricing")} class="block rounded-lg px-3 py-2.5 font-medium text-ink hover:bg-ink/5">Pricing</a>
-      <a href={SIGN_IN_URL} class="block rounded-lg px-3 py-2.5 font-medium text-ink hover:bg-ink/5">Login</a>
-
-      <div class="flex flex-col gap-2 pt-3">
-        <a href={PRIMARY_CTA.href} class="rounded-full border border-ink/20 px-4 py-2.5 text-center text-sm font-semibold uppercase tracking-[0.08em] text-ink hover:bg-ink/5">{PRIMARY_CTA.label}</a>
-        <a href={link("/book-a-demo")} class="rounded-full bg-ink px-4 py-2.5 text-center text-sm font-semibold uppercase tracking-[0.08em] text-bg hover:bg-ink/90">Book a demo</a>
+  <!-- Phone and iPad menu -->
+  <div id="mobile-menu" class="hidden max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-rule bg-bg xl:hidden">
+    <nav class="wrap py-4" aria-label="Main">
+      <ul class="divide-y divide-rule border-b border-rule text-[1.0625rem]">
+        <li>
+          <details class="group">
+            <summary class="flex min-h-[52px] cursor-pointer list-none items-center justify-between font-medium text-ink">Features <Fragment set:html={chevron} /></summary>
+            <ul class="grid gap-x-6 pb-3 sm:grid-cols-2">
+              {FEATURES.map((f) => (
+                <li><a href={link(`/features/${f.slug}`)} class="flex min-h-[44px] items-center gap-2 text-muted hover:text-ink">{f.nav}{f.status === "soon" && <span class="soon">Soon</span>}</a></li>
+              ))}
+            </ul>
+          </details>
+        </li>
+        <li>
+          <details class="group">
+            <summary class="flex min-h-[52px] cursor-pointer list-none items-center justify-between font-medium text-ink">Business types <Fragment set:html={chevron} /></summary>
+            <ul class="grid gap-x-6 pb-3 sm:grid-cols-2">
+              {BUSINESS_TYPES.map((b) => (
+                <li><a href={link(`/business-types/${b.slug}`)} class="flex min-h-[44px] items-center gap-2 text-muted hover:text-ink">{b.nav}{b.comingSoon && <span class="soon">Soon</span>}</a></li>
+              ))}
+            </ul>
+          </details>
+        </li>
+        <li><a href={link("/why")} class="flex min-h-[52px] items-center font-medium text-ink">Why we're different</a></li>
+        <li><a href={link("/pricing")} class="flex min-h-[52px] items-center font-medium text-ink">Pricing</a></li>
+        <li>
+          <details class="group">
+            <summary class="flex min-h-[52px] cursor-pointer list-none items-center justify-between font-medium text-ink">Resources <Fragment set:html={chevron} /></summary>
+            <ul class="grid gap-x-6 pb-3 sm:grid-cols-2">
+              {RESOURCES.map((r) => (
+                <li><a href={link(`/resources/${r.slug}`)} class="flex min-h-[44px] items-center text-muted hover:text-ink">{r.nav}</a></li>
+              ))}
+            </ul>
+          </details>
+        </li>
+        <li><a href={SIGN_IN_URL} class="flex min-h-[52px] items-center font-medium text-ink">Sign in</a></li>
+      </ul>
+      <div class="grid gap-2 pt-5 sm:grid-cols-2">
+        <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
+        <a href={link("/book-a-demo")} class="btn btn-lg">Book a demo</a>
       </div>
     </nav>
   </div>
 </header>
+
+<style>
+  summary::-webkit-details-marker { display: none; }
+  details[open] > summary :global(svg) { transform: rotate(180deg); }
+</style>
 
 <script is:inline>
   (function () {
     var btn = document.getElementById("menu-toggle");
     var menu = document.getElementById("mobile-menu");
     if (!btn || !menu) return;
-    btn.addEventListener("click", function () {
-      var open = menu.classList.toggle("hidden") === false;
+    function set(open) {
+      menu.classList.toggle("hidden", !open);
       btn.setAttribute("aria-expanded", String(open));
       btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      btn.querySelector("[data-open]").classList.toggle("hidden", open);
+      btn.querySelector("[data-close]").classList.toggle("hidden", !open);
+    }
+    btn.addEventListener("click", function () { set(menu.classList.contains("hidden")); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !menu.classList.contains("hidden")) { set(false); btn.focus(); }
     });
   })();
 </script>

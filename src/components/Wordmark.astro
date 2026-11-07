@@ -1,13 +1,40 @@
 ---
+// The Deload monogram and wordmark as supplied (deload-coach-ui/public/
+// deload-monogram.svg): cream tile, Space Grotesk 700 lowercase "d" with its
+// cream slot, and the lowercase wordmark in Space Grotesk 600. On light
+// surfaces the tile carries a 1px hairline so it doesn't vanish on cream.
 interface Props {
   class?: string;
+  size?: number; // tile size in px
 }
-const { class: className } = Astro.props;
+const { class: className = "", size = 28 } = Astro.props;
 ---
-<span class={`inline-flex items-baseline gap-1.5 font-medium tracking-tight ${className ?? ""}`}>
-  <span
-    aria-hidden="true"
-    class="inline-flex h-5 w-5 items-center justify-center rounded-[6px] bg-ink text-bg text-[11px] font-semibold leading-none"
-  >d</span>
-  <span class="lowercase">deload</span>
+<span class={`deload-lockup inline-flex items-center ${className}`} style={`--mk:${size}px`}>
+  <svg class="deload-mk" width={size} height={size} viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+    <rect width="100" height="100" rx="21" fill="#F7F4EF" />
+    <text x="50" y="70" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="64" fill="#14161A" text-anchor="middle">d</text>
+    <rect x="44" y="72" width="12" height="3" fill="#F7F4EF" />
+  </svg>
+  <span class="deload-wm">deload</span>
 </span>
+
+<style>
+  .deload-lockup { gap: calc(var(--mk) * 0.34); }
+  .deload-mk {
+    border-radius: calc(var(--mk) * 0.21);
+    box-shadow: 0 0 0 1px rgb(var(--c-rule));
+    flex: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    .deload-mk { box-shadow: none; }
+  }
+  .deload-wm {
+    font-family: "Space Grotesk", Geist, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    font-size: calc(var(--mk) * 0.72);
+    line-height: 1;
+    text-transform: lowercase;
+    color: currentColor;
+  }
+</style>

@@ -2,15 +2,320 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Palette A, Sage & clay (founder, 2026-11-06) with the 2026-11-07 "more life"
+ * pass: ink primary buttons, sage and clay as the brand accents.
+ * Colours are RGB triplets so Tailwind's /alpha modifiers keep working.
+ * Light and dark follow the visitor's system setting.
+ */
 @layer base {
+  :root {
+    --t-bg: 247 244 239;      /* warm cream page */
+    --t-surface: 255 255 255;
+    --t-sunk: 243 239 232;
+    --t-ink: 27 29 26;
+    --t-muted: 106 108 100;
+    --t-faint: 156 157 148;
+    --t-rule: 230 225 216;
+    /* the same roles on the opposite field (an ink band on a light page) */
+    --t-muted-inv: 169 171 159;
+    --t-rule-inv: 52 56 50;
+
+    --c-bg: var(--t-bg);
+    --c-surface: var(--t-surface);
+    --c-sunk: var(--t-sunk);
+    --c-ink: var(--t-ink);
+    --c-muted: var(--t-muted);
+    --c-faint: var(--t-faint);
+    --c-rule: var(--t-rule);
+    --c-sage: 94 127 98;
+    --c-clay: 184 114 74;
+    --c-warn: 178 58 43;   /* needs-you */
+    /* sage as a whole field, and the text that sits on it */
+    --c-field: 63 95 69;
+    --c-on-field: 247 244 239;
+    --c-on-field-muted: 201 217 202;
+
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --t-bg: 20 22 19;
+      --t-surface: 27 30 26;
+      --t-sunk: 32 36 31;
+      --t-ink: 236 235 228;
+      --t-muted: 163 166 155;
+      --t-faint: 124 127 117;
+      --t-rule: 44 49 42;
+      --t-muted-inv: 92 94 87;
+      --t-rule-inv: 214 211 202;
+      --c-sage: 143 179 147;
+      --c-clay: 217 151 114;
+      --c-warn: 240 138 123;
+      --c-field: 143 179 147;
+      --c-on-field: 20 22 19;
+      --c-on-field-muted: 38 52 41;
+      color-scheme: dark;
+    }
+  }
+
   html {
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
+    background: rgb(var(--c-bg));
+    scrollbar-color: rgb(var(--c-faint) / 0.6) transparent;
   }
   body {
-    font-feature-settings: "ss01", "cv11";
+    font-family: Geist, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   h1, h2, h3, h4 {
     letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  ::selection {
+    background: rgb(var(--c-clay) / 0.28);
+    color: rgb(var(--c-ink));
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--c-sage));
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  input, textarea, select { caret-color: rgb(var(--c-clay)); }
+  input::placeholder, textarea::placeholder { color: rgb(var(--c-muted)); opacity: 1; }
+  a { text-underline-offset: 0.22em; text-decoration-thickness: 1px; }
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 78rem;
+    margin-inline: auto;
+    padding-inline: clamp(16px, 4vw, 40px);
+  }
+
+  /* Type */
+  .display {
+    font-size: clamp(2.6rem, 1.2rem + 5.4vw, 4.75rem);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+  .display-sm {
+    font-size: clamp(2.3rem, 1.3rem + 3.6vw, 3.75rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+  .h2 {
+    font-size: clamp(2rem, 1.25rem + 2.4vw, 2.75rem);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+  }
+  .h3 {
+    font-size: 1.375rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+  .lede {
+    font-size: clamp(1.0625rem, 0.95rem + 0.45vw, 1.1875rem);
+    line-height: 1.55;
+    color: rgb(var(--c-muted));
+    max-width: 58ch;
+  }
+  /* The one small line that names a page or section (never stacked over a heading
+     on its own: it sits in its own column on wide screens). */
+  .label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: rgb(var(--c-muted));
+    letter-spacing: 0;
+  }
+  .num {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  /* Mono numerals inside display type: pulled tighter so they sit in the line. */
+  .display .num, .display-sm .num, .h2 .num { letter-spacing: -0.075em; font-weight: 500; }
+
+  /* Buttons: ink primary, hairline secondary, quiet text (founder, 2026-11-07) */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0 1.05rem;
+    border-radius: 10px;
+    border: 1px solid rgb(var(--c-rule));
+    background: rgb(var(--c-surface));
+    color: rgb(var(--c-ink));
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background-color 160ms var(--ease-out), border-color 160ms var(--ease-out), transform 160ms var(--ease-out), opacity 160ms;
+  }
+  .btn:hover { border-color: rgb(var(--c-ink) / 0.35); }
+  .btn:active { transform: translateY(1px); }
+  .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+  .btn-pri {
+    background: rgb(var(--c-ink));
+    border-color: rgb(var(--c-ink));
+    color: rgb(var(--c-bg));
+  }
+  .btn-pri:hover { background: rgb(var(--c-ink) / 0.86); border-color: rgb(var(--c-ink) / 0.86); }
+  .btn-quiet {
+    border-color: transparent;
+    background: transparent;
+    color: rgb(var(--c-muted));
+    padding-inline: 0.5rem;
+  }
+  .btn-quiet:hover { color: rgb(var(--c-ink)); border-color: transparent; }
+  .btn-lg { min-height: 52px; padding: 0 1.35rem; font-size: 1rem; border-radius: 12px; }
+  .btn .arr { transition: transform 200ms var(--ease-out); }
+  .btn:hover .arr, .link-arrow:hover .arr { transform: translateX(3px); }
+
+  .link {
+    color: rgb(var(--c-ink));
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: rgb(var(--c-ink) / 0.3);
+    transition: text-decoration-color 160ms;
+  }
+  .link:hover { text-decoration-color: rgb(var(--c-clay)); }
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    color: rgb(var(--c-ink));
+    text-decoration: none;
+  }
+
+  /* "Coming soon" tag */
+  .soon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+    border: 1px solid rgb(var(--c-rule));
+    border-radius: 999px;
+    padding: 0.1rem 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: rgb(var(--c-muted));
+    vertical-align: middle;
+  }
+  .soon::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgb(var(--c-clay));
+  }
+
+  /* Fields of colour. .ink-field swaps ink and page, so an ink band on a light page
+     becomes a cream band on a dark one, and everything inside follows. */
+  .ink-field {
+    --c-ink: var(--t-bg);
+    --c-bg: var(--t-ink);
+    --c-surface: var(--t-ink);
+    --c-muted: var(--t-muted-inv);
+    --c-rule: var(--t-rule-inv);
+    background: rgb(var(--c-bg));
+    color: rgb(var(--c-ink));
+  }
+  .field {
+    --c-ink: var(--c-on-field);
+    --c-muted: var(--c-on-field-muted);
+    --c-rule: var(--c-on-field-muted);
+    background: rgb(var(--c-field));
+    color: rgb(var(--c-ink));
+  }
+
+  /* Outcome lists: hairline rows, no bullets */
+  .rows > * {
+    border-top: 1px solid rgb(var(--c-rule));
+    padding-block: 1.1rem;
+  }
+  .rows > *:last-child { border-bottom: 1px solid rgb(var(--c-rule)); }
+
+  /* Form controls (waitlist, demo and contact forms) */
+  .field-input {
+    display: block;
+    width: 100%;
+    margin-top: 0.4rem;
+    min-height: 44px;
+    border-radius: 10px;
+    border: 1px solid rgb(var(--c-rule));
+    background: rgb(var(--c-surface));
+    color: rgb(var(--c-ink));
+    padding: 0.6rem 0.8rem;
+    font-size: 1rem;
+    transition: border-color 160ms, box-shadow 160ms;
+  }
+  .field-input:hover { border-color: rgb(var(--c-ink) / 0.3); }
+  .field-input:focus {
+    outline: none;
+    border-color: rgb(var(--c-ink));
+    box-shadow: 0 0 0 3px rgb(var(--c-sage) / 0.25);
+  }
+
+  /* The struck-through tool names: the strike is drawn as it scrolls in. */
+  .strike {
+    position: relative;
+    color: rgb(var(--c-muted));
+    white-space: nowrap;
+  }
+  .strike::after {
+    content: "";
+    position: absolute;
+    left: -0.06em;
+    right: -0.06em;
+    top: 54%;
+    height: 0.09em;
+    min-height: 2px;
+    background: rgb(var(--c-clay));
+    transform-origin: left center;
+  }
+  .js .strike::after {
+    transform: scaleX(0);
+    transition: transform 700ms var(--ease-out);
+  }
+  .js .is-in .strike::after { transform: scaleX(1); }
+  .js .is-in li:nth-child(2) .strike::after { transition-delay: 120ms; }
+  .js .is-in li:nth-child(3) .strike::after { transition-delay: 240ms; }
+  .js .is-in li:nth-child(4) .strike::after { transition-delay: 360ms; }
+  .js .is-in li:nth-child(5) .strike::after { transition-delay: 480ms; }
+
+  /* The week rail in the Sunday band */
+  .week-fill {
+    transform-origin: left center;
+  }
+  .js .week .week-fill { transform: scaleX(0); transition: transform 1400ms var(--ease-out); }
+  .js .week.is-in .week-fill { transform: scaleX(1); }
+  .js .week .week-dot { opacity: 0; transition: opacity 300ms 1200ms; }
+  .js .week.is-in .week-dot { opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js .strike::after,
+    .js .week .week-fill { transform: none; transition: none; }
+    .js .week .week-dot { opacity: 1; transition: none; }
+    .btn, .btn .arr { transition: none; }
   }
 }

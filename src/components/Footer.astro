@@ -11,7 +11,7 @@ import {
 } from "../config";
 
 interface Props {
-  // Pages whose own form is the call to action (the waitlist pages) hide the
+  // Pages whose own form or closing band is the call to action hide the
   // footer's sign-up band.
   hideCta?: boolean;
 }
@@ -41,80 +41,81 @@ const legal = [
   { label: "Privacy", href: PRIVACY_URL },
   { label: "Terms", href: TERMS_URL },
 ];
+const colHead = "mb-4 text-[0.8125rem] font-medium text-ink";
+const colList = "space-y-2.5 text-[0.9375rem] text-muted";
+const colLink = "transition-colors hover:text-ink";
 ---
-<footer class="border-t border-ink/10 bg-bg">
-  <!-- CTA band -->
+<footer class="border-t border-rule bg-bg">
   {!hideCta && (
-  <div class="border-b border-ink/10">
-    <div class="mx-auto flex max-w-container flex-col items-start gap-6 px-6 py-12 md:flex-row md:items-center md:justify-between">
-      <p class="max-w-xl text-2xl font-medium tracking-tight text-ink md:text-3xl">
-        Give the programming, the roster, and the admin to one app.
-      </p>
-      <div class="flex flex-wrap gap-3">
-        <a href={PRIMARY_CTA.href} class="rounded-full bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">{PRIMARY_CTA.label}</a>
-        <a href={link("/book-a-demo")} class="rounded-full border border-ink/20 px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">Book a demo</a>
+    <div class="border-b border-rule">
+      <div class="wrap flex flex-col items-start gap-6 py-14 md:flex-row md:items-end md:justify-between md:py-16">
+        <p class="h2 max-w-[22ch] text-ink">
+          Give the programming, the roster, and the admin to one app.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
+          <a href={link("/book-a-demo")} class="btn btn-lg">Book a demo</a>
+        </div>
       </div>
     </div>
-  </div>
   )}
 
-  <!-- Link columns -->
-  <div class="mx-auto grid max-w-container grid-cols-2 gap-8 px-6 py-14 md:grid-cols-5">
+  <div class="wrap grid grid-cols-2 gap-x-6 gap-y-10 py-14 md:grid-cols-[1.4fr_repeat(4,1fr)]">
     <div class="col-span-2 md:col-span-1">
-      <a href={link("/")} aria-label="deload home"><Wordmark class="text-base text-ink" /></a>
-      <p class="mt-4 max-w-xs text-sm leading-relaxed text-ink/55">
+      <a href={link("/")} aria-label="deload home" class="text-ink"><Wordmark /></a>
+      <p class="mt-4 max-w-[30ch] text-[0.9375rem] text-muted">
         The all-in-one AI coaching platform for coaches who write their own training.
       </p>
     </div>
 
     <div>
-      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-ink/40">Features</p>
-      <ul class="space-y-2.5 text-sm text-ink/65">
+      <p class={colHead}>Features</p>
+      <ul class={colList}>
         {footerFeatures.map((f) => (
-          <li><a class="transition-colors hover:text-ink" href={link(`/features/${f.slug}`)}>{f.nav}</a></li>
+          <li><a class={colLink} href={link(`/features/${f.slug}`)}>{f.nav}</a></li>
         ))}
-        <li><a class="transition-colors hover:text-ink" href={link("/features")}>All features</a></li>
+        <li><a class={colLink} href={link("/features")}>All features</a></li>
       </ul>
     </div>
 
     <div>
-      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-ink/40">Business types</p>
-      <ul class="space-y-2.5 text-sm text-ink/65">
+      <p class={colHead}>Business types</p>
+      <ul class={colList}>
         {BUSINESS_TYPES.map((b) => (
           <li>
-            <a class="transition-colors hover:text-ink" href={link(`/business-types/${b.slug}`)}>{b.nav}</a>
-            {b.comingSoon && <span class="ml-1.5 text-[10px] uppercase tracking-wide text-sage">Coming soon</span>}
+            <a class={colLink} href={link(`/business-types/${b.slug}`)}>{b.nav}</a>
+            {b.comingSoon && <span class="soon ml-1">Soon</span>}
           </li>
         ))}
       </ul>
     </div>
 
     <div>
-      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-ink/40">Resources</p>
-      <ul class="space-y-2.5 text-sm text-ink/65">
+      <p class={colHead}>Resources</p>
+      <ul class={colList}>
         {RESOURCES.map((r) => (
-          <li><a class="transition-colors hover:text-ink" href={link(`/resources/${r.slug}`)}>{r.nav}</a></li>
+          <li><a class={colLink} href={link(`/resources/${r.slug}`)}>{r.nav}</a></li>
         ))}
       </ul>
     </div>
 
     <div>
-      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-ink/40">Company</p>
-      <ul class="space-y-2.5 text-sm text-ink/65">
+      <p class={colHead}>Company</p>
+      <ul class={colList}>
         {company.map((c) => (
-          <li><a class="transition-colors hover:text-ink" href={link(c.href)}>{c.label}</a></li>
+          <li><a class={colLink} href={link(c.href)}>{c.label}</a></li>
         ))}
-        <li><a class="transition-colors hover:text-ink" href={SIGN_IN_URL}>Login</a></li>
+        <li><a class={colLink} href={SIGN_IN_URL}>Sign in</a></li>
       </ul>
     </div>
   </div>
 
-  <div class="border-t border-ink/10">
-    <div class="mx-auto flex max-w-container flex-col gap-3 px-6 py-6 text-xs text-ink/50 md:flex-row md:items-center md:justify-between">
-      <span>&copy; {year} Deload. All rights reserved.</span>
-      <nav class="flex flex-wrap items-center gap-x-6 gap-y-2">
+  <div class="border-t border-rule">
+    <div class="wrap flex flex-col gap-3 py-6 text-[0.8125rem] text-muted md:flex-row md:items-center md:justify-between">
+      <span>&copy; <span class="num">{year}</span> Deload. All rights reserved.</span>
+      <nav class="flex flex-wrap items-center gap-x-6 gap-y-2" aria-label="Legal">
         {legal.map((l) => (
-          <a class="transition-colors hover:text-ink" href={link(l.href)}>{l.label}</a>
+          <a class={colLink} href={link(l.href)}>{l.label}</a>
         ))}
       </nav>
     </div>
