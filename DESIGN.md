@@ -11,7 +11,7 @@ colors:
   hairline: "#E6E1D8"
   muted-on-ink: "#A9AB9F"
   hairline-on-ink: "#343832"
-  sage: "#5E7F62"
+  sage: "#557457"
   clay: "#B8724A"
   needs-you-red: "#B23A2B"
   deep-sage-field: "#3F5F45"
@@ -36,6 +36,12 @@ typography:
     fontWeight: 600
     lineHeight: 0.98
     letterSpacing: "-0.04em"
+  display-hero:
+    fontFamily: "Geist, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif"
+    fontSize: "clamp(2.6rem, 1.2rem + 5.4vw, 4.75rem)"
+    fontWeight: 600
+    lineHeight: 0.98
+    letterSpacing: "-0.045em"
   display-sm:
     fontFamily: "Geist, ui-sans-serif, system-ui, sans-serif"
     fontSize: "clamp(2.3rem, 1.3rem + 3.6vw, 3.75rem)"
@@ -188,8 +194,8 @@ for "watch this"; one colour per meaning, never decorative.
 - **Ink** (`ink`): headlines, body emphasis, primary button fill, the ink band's field. At night it becomes near-white (`night-ink`) and the primary button flips to near-white with green-black text.
 
 ### Secondary
-- **Sage** (`sage`; night `night-sage`): focus rings (2px outline, 3px offset), the field-input focus halo, success ticks on pricing and beta lists. Icon and halo use only in light mode: as small text it sits at 4.48:1 on white, under the 4.5:1 floor.
-- **Deep Sage Field** (`deep-sage-field`, cream text; muted text `on-field-muted`, 4.86:1): the "One app, the whole job" band. At night the field becomes `night-sage` with green-black text.
+- **Sage** (`sage`; night `night-sage`): focus rings (2px outline, 3px offset), the field-input focus halo, success ticks on pricing and beta lists, and the "You're subscribed to updates." note. The apps' `#557457`, one sage across the three surfaces: 5.22:1 on white and 4.76:1 on cream, so it may be small text (the earlier `#5E7F62` was 4.48:1 / 4.08:1).
+- **Deep Sage Field** (`deep-sage-field` #3F5F45, `--c-field`; cream text 6.52:1, muted text `on-field-muted` 4.86:1): the "One app, the whole job" band. At night the field becomes `night-sage` with green-black text (7.83:1; `night-on-field-muted` 5.63:1).
 
 ### Tertiary
 - **Clay** (`clay`; night `night-clay`): the rotating hero noun (display size only: 3.45:1 on cream, large-text use), the strike lines, the week rail fill and dot, the "Coming soon" dot, link hover underline, the text caret, the selection tint, the deload bars in the block diagram, large mono figures on `/elevate`. Never body-size text on cream.
@@ -221,7 +227,7 @@ for "watch this"; one colour per meaning, never decorative.
 **Character:** One grotesque at two extremes: very large, tight, 600-weight headlines against calm 16px body; mono numerals drop into headlines as anchors ("Sunday, 9:40 pm.", "$99").
 
 ### Hierarchy
-- **Display** (600, up to 76px, line-height 0.98, -0.04em): the home hero, the Sunday band, pricing's title, the home close.
+- **Display** (600, up to 76px, line-height 0.98, -0.04em): the Sunday band, pricing's title, the home close. The home hero is one notch tighter, -0.045em (`.display-hero`), as in the founder's sketch.
 - **Display small** (600, up to 60px, line-height 1, -0.04em): every inner page's headline (PageHero), the founder pull quote, inner-page closes.
 - **Headline** (600, up to 44px, line-height 1.04, -0.035em): section heads.
 - **Title** (600, 22px, line-height 1.2, -0.02em): pillar titles, offer panels, success headings.
@@ -233,7 +239,7 @@ for "watch this"; one colour per meaning, never decorative.
 ### Named Rules
 **The Real Numbers Rule.** Mono is for real numerals only (times, weeks, prices, counts). Words never go mono, and numbers in running copy wrap in `.num`.
 
-**The 12px Floor.** No text below 12px (0.75rem). The week-rail day names and pricing badges sit exactly at the floor.
+**The 12px Floor.** No text below 12px (0.75rem). The week-rail day names, pricing badges and the "Coming soon" tag sit exactly at the floor.
 
 ## Layout
 
@@ -287,7 +293,7 @@ Confident and quiet: weight from ink, not from size.
 - **Focus:** 2px sage outline, 3px offset. **Disabled:** 55% opacity, not-allowed cursor.
 
 ### Tags and badges
-- **Coming soon tag:** fully round, hairline border, muted text, a 6px clay dot before the words. The build sets it at 11px; the system size is 12px (see Don'ts).
+- **Coming soon tag:** fully round, hairline border, 12px muted text, a 6px clay dot before the words.
 - **Tier badge:** solid ink pill, page-coloured 12px semibold text.
 
 ### Bands and fields
@@ -357,8 +363,8 @@ transitioning.
 - **Don't** invent quotes, counts or claims; testimonials come only from approved coach quotes, text only.
 - **Don't** use coloured side bars or border-left accents.
 - **Don't** tint text with opacity; choose the muted role instead.
-- **Don't** set text below 12px. The shipped "Coming soon" tag (11px) is a defect, not the size to copy.
-- **Don't** set body-size text in clay or sage on cream; both fall under 4.5:1.
+- **Don't** set text below 12px.
+- **Don't** set body-size text in clay on cream; it falls under 4.5:1 (sage now clears it).
 - **Don't** use Space Grotesk anywhere but the logo, or a black "D" tile stand-in.
 - **Don't** wrap sections in cards with shadows; use hairlines and fields.
 - **Don't** add kicker or eyebrow lines over headlines ("The all-in-one AI coaching platform" over the hero, PageHero's label, "Built for real programming"). The build carries about 25 of them via `.label`; they are recorded defects, not a pattern for new pages.
