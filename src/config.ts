@@ -544,7 +544,7 @@ export const PRICING: {
       features: [
         "AI program generation and editing in plain English",
         "Full edit history on every program",
-        "Athlete app + in-app messaging & check-ins",
+        "Athlete app, messaging and check-ins",
         "Program import from Excel, Word or PDF",
       ],
     },
@@ -558,9 +558,9 @@ export const PRICING: {
       badge: "Most popular",
       features: [
         "Everything in Solo, plus…",
-        "Long-program optimizer (8+ weeks)",
+        "Optimized long programs (8+ weeks)",
         "Roster triage + automations",
-        "Accounting dashboard + reports",
+        "Accounting and reports",
         "Priority support",
       ],
     },
