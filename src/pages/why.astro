@@ -11,22 +11,18 @@ const root = base.replace(/\/$/, "");
 
 const diffs = [
   {
-    eyebrow: "The engine",
     title: "A real programming agent, not autocomplete.",
     body: "Most “AI” tools pattern-match a workout. Deload writes a complete, block-aware program — periodization, intensity, and intent — for the athlete in front of you. It holds up to a coach's eye because it's built the way a coach would build it, not stitched together from a template.",
   },
   {
-    eyebrow: "The craft",
     title: "Block-aware, in your voice.",
     body: "Mesocycles, deloads, peaks, and taper logic that match the goal date — written in the phrasing and cadence you actually use. You change anything you like, in plain English. The agent drafts; you stay the coach of record.",
   },
   {
-    eyebrow: "The scope",
     title: "The whole job, one app.",
     body: "Programming, editing, program import, your roster, messaging and the athlete app — sharing one source of truth, with scheduling, billing and reporting on the way. Not a tracker bolted onto a calendar bolted onto an invoicing tool.",
   },
   {
-    eyebrow: "The populations",
     title: "Built for who general tools skip.",
     body: "Masters athletes, HRT-aware and post-surgical programming, bone-density-aware work — programmed for who's actually in front of you, not stretched out of a generic template.",
   },
@@ -39,7 +35,6 @@ const diffs = [
   hideFooterCta={true}
 >
   <PageHero
-    label="Why we're different"
     title="The first true AI exercise-programming agent."
     intro="Plenty of tools bolted an “AI” button onto a workout tracker. Deload was built around the programming agent from the start — and it shows in the programs it writes."
   >
@@ -51,8 +46,7 @@ const diffs = [
 
   <section class="wrap pb-20 md:pb-28">
     {diffs.map((d) => (
-      <div class="grid gap-6 border-t border-rule py-12 md:py-16 lg:grid-cols-[14rem_minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-12">
-        <p class="label pt-2">{d.eyebrow}</p>
+      <div class="grid gap-6 border-t border-rule py-12 md:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-12">
         <h2 class="h2 text-ink">{d.title}</h2>
         <p class="text-[1.125rem] leading-relaxed text-muted lg:pt-2">{d.body}</p>
       </div>

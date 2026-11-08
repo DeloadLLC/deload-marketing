@@ -245,12 +245,16 @@ for "watch this"; one colour per meaning, never decorative.
 
 One centred container (max 78rem, gutter clamp(16px, 4vw, 40px)). Sections
 breathe at 80px top and bottom on phones and 112px from `md`; inner-page
-heroes start at 56px / 96px. On `lg` many sections use an asymmetric
-two-column grid (a 14rem left column, the headline and content on the right).
-The build fills that left column, and the space above most headlines, with a
-13px muted section name (`.label`); on phones it stacks above the heading as an
-eyebrow. That device is not part of the system (see Don'ts): the headline names
-the section on its own. Outcome lists are hairline
+heroes start at 56px / 96px. Eyebrows: not used (founder, 2026-11-08). No
+small label sits above or beside a headline; the headline names the section on
+its own, and a section that had a label in a 14rem left column now runs its
+headline and content across the container (or as an even two-column grid).
+`.label` (13px muted) is kept only where it is the text itself: a small section
+heading with nothing above it ("Explore more", "Other business types", the
+features index columns, testimonials) and captions on data (the Founders Rate
+price, the pricing tier caption, the beta form's follow-along line). Feature and
+resource pages that are not live yet show the "Coming soon" tag on its own
+line above the headline. Outcome lists are hairline
 rows (1px rule between, 1.1rem padding, larger rows 1.75rem). Buttons group
 with a 10px gap and wrap.
 
@@ -367,4 +371,4 @@ transitioning.
 - **Don't** set body-size text in clay on cream; it falls under 4.5:1 (sage now clears it).
 - **Don't** use Space Grotesk anywhere but the logo, or a black "D" tile stand-in.
 - **Don't** wrap sections in cards with shadows; use hairlines and fields.
-- **Don't** add kicker or eyebrow lines over headlines ("The all-in-one AI coaching platform" over the hero, PageHero's label, "Built for real programming"). The build carries about 25 of them via `.label`; they are recorded defects, not a pattern for new pages.
+- **Don't** add kicker or eyebrow lines over headlines. Eyebrows: not used (founder, 2026-11-08); the ones the build carried (the hero's "The all-in-one AI coaching platform", PageHero's label, "Built for real programming" and the rest) were removed.

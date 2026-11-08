@@ -12,7 +12,6 @@ const root = base.replace(/\/$/, "");
   description="Whether you're a solo coach, opening a new business, running a single studio, scaling across locations, or white-labeling the platform — Deload fits the way you work."
 >
   <PageHero
-    label="Business types"
     title="From one coach to many locations."
     intro="Deload scales from a solo roster to a multi-location studio without changing tools. Find your starting point."
   />
@@ -21,8 +20,7 @@ const root = base.replace(/\/$/, "");
     <ul class="border-t border-rule">
       {BUSINESS_TYPES.map((b) => (
         <li class="border-b border-rule">
-          <a href={`${root}/business-types/${b.slug}`} class="group grid gap-2 py-7 md:grid-cols-[14rem_minmax(0,1fr)_auto] md:items-baseline md:gap-12">
-            <span class="label">{b.eyebrow}</span>
+          <a href={`${root}/business-types/${b.slug}`} class="group grid gap-2 py-7 md:grid-cols-[minmax(0,1fr)_auto] md:items-baseline md:gap-12">
             <span>
               <span class="flex flex-wrap items-center gap-2 text-[clamp(1.5rem,1.2rem+1vw,2rem)] font-semibold leading-tight tracking-[-0.03em] text-ink transition-colors group-hover:text-clay">
                 {b.nav}{b.comingSoon && <span class="soon">Coming soon</span>}

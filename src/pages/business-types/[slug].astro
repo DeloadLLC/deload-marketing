@@ -26,7 +26,7 @@ const cta = biz.cta
 const others = BUSINESS_TYPES.filter((b) => b.slug !== biz.slug);
 ---
 <Layout title={biz.nav} description={biz.intro}>
-  <PageHero label={biz.eyebrow} title={biz.title} intro={biz.intro} soon={biz.comingSoon} wide>
+  <PageHero title={biz.title} intro={biz.intro} soon={biz.comingSoon} wide>
     <p slot="after-intro" class:list={["mt-4 max-w-[58ch] text-[0.9375rem] text-muted", !biz.comingSoon && "hidden"]}>
       This is on the way and opens after the private beta. Book a demo to talk it through and be first in line.
     </p>
@@ -37,8 +37,7 @@ const others = BUSINESS_TYPES.filter((b) => b.slug !== biz.slug);
   <section class="border-t border-rule">
     <div class="wrap grid gap-8 py-20 md:py-24 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] lg:gap-16">
       <div>
-        <p class="label">Why Deload fits</p>
-        <h2 class="h2 mt-4 text-ink">Built for how you actually work.</h2>
+        <h2 class="h2 text-ink">Built for how you actually work.</h2>
       </div>
       <ul class="rows">
         {biz.points.map((p) => (

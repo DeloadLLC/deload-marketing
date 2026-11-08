@@ -12,7 +12,6 @@ const root = base.replace(/\/$/, "");
   description="Guides on starting and funding your coaching business, plus the blog, webinars, and support — everything around running the business, not just the software."
 >
   <PageHero
-    label="Resources"
     title="Help with the business, not just the software."
     intro="Starting out, finding funding, or looking for answers — here's where to begin."
   />
@@ -21,8 +20,7 @@ const root = base.replace(/\/$/, "");
     <ul class="border-t border-rule">
       {RESOURCES.map((r) => (
         <li class="border-b border-rule">
-          <a href={`${root}/resources/${r.slug}`} class="group grid gap-2 py-7 md:grid-cols-[14rem_minmax(0,1fr)_auto] md:items-baseline md:gap-12">
-            <span class="label">{r.eyebrow}</span>
+          <a href={`${root}/resources/${r.slug}`} class="group grid gap-2 py-7 md:grid-cols-[minmax(0,1fr)_auto] md:items-baseline md:gap-12">
             <span>
               <span class="flex flex-wrap items-center gap-2 text-[clamp(1.5rem,1.2rem+1vw,2rem)] font-semibold leading-tight tracking-[-0.03em] text-ink transition-colors group-hover:text-clay">
                 {r.nav}{r.comingSoon && <span class="soon">Coming soon</span>}

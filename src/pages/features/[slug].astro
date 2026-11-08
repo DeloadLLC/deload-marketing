@@ -33,7 +33,7 @@ const flagshipPoints = [
 ];
 ---
 <Layout title={feature.nav} description={feature.intro}>
-  <PageHero label={feature.eyebrow} title={feature.title} intro={feature.intro} soon={feature.status === "soon"}>
+  <PageHero title={feature.title} intro={feature.intro} soon={feature.status === "soon"}>
     <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
     <a href={`${root}/book-a-demo`} class="btn btn-lg">Book a demo</a>
     {feature.flagship && <BlockDiagram slot="aside" />}
@@ -58,8 +58,7 @@ const flagshipPoints = [
   <section class="wrap py-20 md:py-24">
     <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] lg:gap-16">
       <div>
-        <p class="label">What you get</p>
-        <h2 class="h2 mt-4 text-ink">Built for the real job.</h2>
+        <h2 class="h2 text-ink">Built for the real job.</h2>
       </div>
       <ul class="rows">
         {feature.points.map((p) => (

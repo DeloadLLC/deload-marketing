@@ -15,7 +15,7 @@ const root = base.replace(/\/$/, "");
 const isSupport = resource.slug === "support";
 ---
 <Layout title={resource.nav} description={resource.intro}>
-  <PageHero label={resource.eyebrow} title={resource.title} intro={resource.intro} soon={resource.comingSoon} />
+  <PageHero title={resource.title} intro={resource.intro} soon={resource.comingSoon} />
 
   {resource.body && (
     <section class="wrap pb-16">

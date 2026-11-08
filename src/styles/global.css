@@ -138,8 +138,8 @@
     color: rgb(var(--c-muted));
     max-width: 58ch;
   }
-  /* The one small line that names a page or section (never stacked over a heading
-     on its own: it sits in its own column on wide screens). */
+  /* Small muted text for a section heading with nothing above it, or a caption on
+     data. Never an eyebrow over a headline (founder, 2026-11-08). */
   .label {
     font-size: 0.8125rem;
     font-weight: 500;
