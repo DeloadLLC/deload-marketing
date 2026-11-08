@@ -15,91 +15,90 @@ const resolveHref = (href: string) =>
     : "Deload is in private beta. Beta coaches use it free while the beta runs and get the Founders Rate at launch. Join the waitlist or book a demo."}
 >
   {!SHOW_PRICES && (
-    <section class="px-6 pt-20 pb-20 md:pt-28" data-testid="pricing-beta">
-      <div class="mx-auto max-w-container text-center">
-        <p class="inline-flex items-center gap-2 rounded-full border border-sage/30 bg-sage/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-sage">
-          <span aria-hidden="true" class="inline-block h-1.5 w-1.5 rounded-full bg-sage"></span>
-          Private beta
-        </p>
-        <h1 class="mx-auto mt-5 max-w-3xl text-balance text-4xl font-medium leading-[1.05] tracking-tight text-ink md:text-6xl">
-          Pricing opens after the private beta.
-        </h1>
-        <p class="mx-auto mt-5 max-w-xl text-lg text-ink/70">
-          Coaches we invite during the beta use Deload free while it runs, and so do the coaches they bring onto their team. At launch they get the Founders Rate — the Solo plan at $99/mo instead of $149 — plus 25% off one future upgrade.
-        </p>
-        <p class="mx-auto mt-4 max-w-2xl text-xs leading-relaxed text-ink/45" data-testid="founders-fine-print">{FOUNDERS_OFFER.finePrint}</p>
-        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <a href={PRIMARY_CTA.href} class="rounded-full bg-ink px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">{PRIMARY_CTA.label}</a>
-          <a href={`${root}/book-a-demo`} class="rounded-full border border-ink/20 px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">Book a demo</a>
+    <section class="wrap pt-14 pb-16 md:pt-24 md:pb-24" data-testid="pricing-beta">
+      <div class="grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
+        <div>
+          <h1 class="display max-w-[14ch] text-ink">Pricing opens after the private beta.</h1>
+          <p class="lede mt-6">
+            Coaches we invite during the beta use Deload free while it runs, and so do the coaches they bring onto their team. At launch they get the Founders Rate — the Solo plan at $99/mo instead of $149 — plus 25% off one future upgrade.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center gap-2.5">
+            <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
+            <a href={`${root}/book-a-demo`} class="btn btn-lg">Book a demo</a>
+          </div>
+        </div>
+        <div class="ink-field rounded-[20px] px-6 py-8 sm:px-8 md:py-10">
+          <p class="label">Founders Rate, Solo plan</p>
+          <p class="mt-4 flex items-baseline gap-3">
+            <span class="num text-[clamp(3.5rem,2.5rem+4vw,5.5rem)] font-medium leading-none tracking-[-0.06em] text-ink">$99</span>
+            <span class="num text-[1.125rem] text-muted">/mo</span>
+          </p>
+          <p class="mt-3 text-muted">instead of <span class="num">$149</span>, for as long as you keep it.</p>
+          <p class="mt-6 border-t border-rule pt-5 text-ink">Your athletes use Deload free.</p>
         </div>
       </div>
+      <p class="mt-10 max-w-[72ch] text-[0.8125rem] leading-relaxed text-muted" data-testid="founders-fine-print">{FOUNDERS_OFFER.finePrint}</p>
     </section>
   )}
 
   {SHOW_PRICES && (<>
-  <section class="px-6 pt-20 pb-8 md:pt-28">
-    <div class="mx-auto max-w-container text-center">
-      <h1 class="mx-auto max-w-3xl text-balance text-4xl font-medium leading-[1.05] tracking-tight text-ink md:text-6xl">
-        Simple pricing for you or your team.
-      </h1>
-      <p class="mx-auto mt-5 max-w-xl text-lg text-ink/70">
-        Monthly, no annual lock-in. Waitlist and beta coaches get the Founders Rate. Upgrade as you grow.
-      </p>
-    </div>
+  <section class="wrap pt-14 pb-8 md:pt-24">
+    <h1 class="display max-w-[14ch] text-ink">Simple pricing for you or your team.</h1>
+    <p class="lede mt-6">
+      Monthly, no annual lock-in. Waitlist and beta coaches get the Founders Rate. Upgrade as you grow. Your athletes use Deload free.
+    </p>
   </section>
 
   <!-- Toggle -->
-  <section class="px-6">
-    <div class="mx-auto flex max-w-container justify-center">
-      <div id="plan-toggle" class="inline-flex items-center gap-1 rounded-full border border-ink/15 bg-bg p-1" role="tablist" aria-label="Plan audience">
-        <button data-plan="individuals" role="tab" aria-selected="true" class="plan-tab rounded-full px-6 py-2 text-sm font-semibold transition-colors">Individuals</button>
-        <button data-plan="teams" role="tab" aria-selected="false" class="plan-tab rounded-full px-6 py-2 text-sm font-semibold transition-colors">Teams</button>
-      </div>
+  <section class="wrap">
+    <div id="plan-toggle" class="inline-flex items-center gap-1 rounded-[12px] border border-rule bg-surface p-1" role="tablist" aria-label="Plan audience">
+      <button data-plan="individuals" role="tab" aria-selected="true" class="plan-tab min-h-[40px] rounded-[9px] px-5 text-[0.9375rem] font-semibold transition-colors">Individuals</button>
+      <button data-plan="teams" role="tab" aria-selected="false" class="plan-tab min-h-[40px] rounded-[9px] px-5 text-[0.9375rem] font-semibold transition-colors">Teams</button>
     </div>
   </section>
 
   <!-- Cards -->
-  <section class="px-6 pt-10 pb-20">
-    <div class="mx-auto max-w-container">
+  <section class="wrap pt-10 pb-20">
+    <div>
       {(["individuals", "teams"] as const).map((plan) => (
         <div class="plan-panel" data-panel={plan} hidden={plan !== "individuals"}>
           {BETA_OFFERS[plan] && (
-            <div class="mb-8 flex flex-col items-start gap-4 rounded-2xl border border-ink/15 bg-ink/[0.03] p-6 md:flex-row md:items-center md:justify-between md:p-7">
+            <div class="mb-10 flex flex-col items-start gap-5 rounded-[20px] bg-sunk p-6 md:flex-row md:items-center md:justify-between md:p-8">
               <div>
-                <p class="text-lg font-medium tracking-tight text-ink">{BETA_OFFERS[plan]!.headline}</p>
-                <p class="mt-2 max-w-2xl text-sm text-ink/70">{BETA_OFFERS[plan]!.body}</p>
+                <p class="h3 text-ink">{BETA_OFFERS[plan]!.headline}</p>
+                <p class="mt-2 max-w-[62ch] text-muted">{BETA_OFFERS[plan]!.body}</p>
               </div>
               <a
                 href={resolveHref(BETA_OFFERS[plan]!.cta.href)}
-                class="shrink-0 rounded-full bg-ink px-5 py-3 text-center text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90"
+                class="btn btn-pri btn-lg"
               >
                 {BETA_OFFERS[plan]!.cta.label}
               </a>
             </div>
           )}
-          <p class="mb-6 text-center text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">
+          <p class="label mb-6">
             {plan === "individuals"
               ? "Individual tiers — standard monthly pricing"
               : "Team plans — your plan, plus a seat for each Coach or Admin. Viewers are free."}
           </p>
-          <div class="grid gap-6 md:grid-cols-3">
+          <div class="grid border-t border-rule md:grid-cols-3">
             {PRICING[plan].map((tier) => (
-              <div class={`relative flex flex-col rounded-2xl border bg-bg p-7 md:p-8 ${tier.highlight ? "border-ink shadow-xl shadow-ink/5" : "border-ink/10"}`}>
-                {tier.badge && (
-                  <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-ink px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-bg">{tier.badge}</span>
-                )}
-                <p class="text-xl font-medium tracking-tight text-ink">{tier.name}</p>
-                <p class="mt-3 flex items-baseline gap-1">
-                  <span class="text-3xl font-medium tracking-tight text-ink">{tier.price}</span>
-                  {tier.cadence && <span class="text-sm text-ink/50">{tier.cadence}</span>}
+              <div class:list={["relative flex flex-col border-b border-rule py-8 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0 md:last:pr-0", tier.highlight && "tier-hl"]}>
+                <p class="flex items-center gap-2">
+                  <span class="text-[1.375rem] font-semibold tracking-[-0.02em] text-ink">{tier.name}</span>
+                  {tier.badge && <span class="rounded-full bg-ink px-2.5 py-0.5 text-[0.75rem] font-semibold text-bg">{tier.badge}</span>}
                 </p>
-                {tier.perSeat && <p class="mt-1 text-sm font-medium text-ink/70" data-testid="tier-per-seat">{tier.perSeat}</p>}
-                <p class="mt-3 text-sm text-ink/65">{tier.blurb}</p>
-                <a href={resolveHref(tier.cta.href)} class={`mt-6 rounded-full px-5 py-3 text-center text-sm font-semibold uppercase tracking-[0.08em] transition-colors ${tier.highlight ? "bg-ink text-bg hover:bg-ink/90" : "border border-ink/20 text-ink hover:bg-ink/5"}`}>{tier.cta.label}</a>
-                <ul class="mt-7 space-y-3 text-sm text-ink/75">
+                <p class="mt-5 flex items-baseline gap-1.5">
+                  <span class="num text-[3.25rem] font-medium leading-none tracking-[-0.06em] text-ink">{tier.price}</span>
+                  {tier.cadence && <span class="num text-muted">{tier.cadence}</span>}
+                </p>
+                {tier.perSeat && <p class="num mt-2 text-[0.9375rem] font-medium text-ink" data-testid="tier-per-seat">{tier.perSeat}</p>}
+                <p class="mt-4 text-[0.9375rem] text-muted">{tier.blurb}</p>
+                <a href={resolveHref(tier.cta.href)} class:list={["btn btn-lg mt-6", tier.highlight && "btn-pri"]}>{tier.cta.label}</a>
+                <ul class="mt-7 space-y-2.5 text-[0.9375rem] text-ink">
                   {tier.features.map((f) => (
                     <li class="flex gap-2.5">
-                      <span aria-hidden="true" class="mt-1.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sage" />
+                      <svg class="mt-1 h-4 w-4 shrink-0 text-sage" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.5 8.3 2.8 2.8 6.2-6.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
                       <span>{f}</span>
                     </li>
                   ))}
@@ -109,35 +108,37 @@ const resolveHref = (href: string) =>
           </div>
         </div>
       ))}
-      <p class="mx-auto mt-10 max-w-2xl text-center text-sm text-ink/50">
+      <p class="mt-10 max-w-[72ch] text-[0.9375rem] text-muted">
         {PAYMENTS_NOTE} Multi-location enterprise plans are
-        custom — <a href={`${root}/book-a-demo`} class="underline underline-offset-4 hover:text-ink">book a demo</a> for a quote.
+        custom — <a href={`${root}/book-a-demo`} class="link">book a demo</a> for a quote.
       </p>
-      <p class="mx-auto mt-4 max-w-2xl text-center text-xs leading-relaxed text-ink/45" data-testid="founders-fine-print">{FOUNDERS_OFFER.finePrint}</p>
+      <p class="mt-4 max-w-[72ch] text-[0.8125rem] leading-relaxed text-muted" data-testid="founders-fine-print">{FOUNDERS_OFFER.finePrint}</p>
     </div>
   </section>
   </>)}
 
   <!-- FAQ -->
-  <section class="border-t border-ink/10 px-6 py-20 md:py-24">
-    <div class="mx-auto max-w-container">
-      <h2 class="text-sm uppercase tracking-[0.18em] text-clay">FAQ</h2>
-      <p class="mt-3 text-3xl font-medium tracking-tight md:text-4xl">Common questions.</p>
-      <dl class="mt-10 divide-y divide-ink/10 border-y border-ink/10">
-        {faqs.map((f) => (
-          <div class="grid gap-4 py-7 md:grid-cols-[1fr_1.6fr] md:gap-10">
-            <dt class="text-lg font-medium text-ink">{f.q}</dt>
-            <dd class="text-ink/75">{f.a}</dd>
-          </div>
-        ))}
-      </dl>
+  <section class="border-t border-rule">
+    <div class="wrap py-20 md:py-24">
+      <div>
+        <h2 class="h2 text-ink">Common questions.</h2>
+        <dl class="mt-10 border-t border-rule">
+          {faqs.map((f) => (
+            <div class="grid gap-3 border-b border-rule py-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] md:gap-10">
+              <dt class="text-[1.1875rem] font-semibold leading-snug tracking-[-0.015em] text-ink">{f.q}</dt>
+              <dd class="text-muted">{f.a}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
     </div>
   </section>
 </Layout>
 
 <style>
-  .plan-tab { color: rgba(20, 22, 26, 0.55); }
-  .plan-tab[aria-selected="true"] { background: #14161A; color: #FFFFFF; }
+  .plan-tab { color: rgb(var(--c-muted)); }
+  .plan-tab:hover { color: rgb(var(--c-ink)); }
+  .plan-tab[aria-selected="true"] { background: rgb(var(--c-ink)); color: rgb(var(--c-bg)); }
 </style>
 
 <script is:inline>

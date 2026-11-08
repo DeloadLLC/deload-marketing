@@ -2,35 +2,34 @@
 import Layout from "../layouts/Layout.astro";
 import LeadForm from "../components/LeadForm.astro";
 import Testimonials from "../components/Testimonials.astro";
+import PageHero from "../components/PageHero.astro";
 import { PRIMARY_CTA } from "../config";
+
+const seeItems = [
+  "Your first program, written live in front of you.",
+  "A block changed in plain English, with every change spelled out.",
+  "Your roster, your messages and your athletes' training, in one place.",
+  "Your existing programs imported from Excel, Word or PDF — and a plan for moving your athletes over.",
+];
 ---
 <Layout
   title="Book a demo"
-  description="See Deload on your own roster. Book a walkthrough and we'll show you AI-assisted programming, plain-English editing, and the athlete app — and answer anything about moving over from your current tool."
+  description="See Deload on your own roster. Book a demo and see what Deload takes off your week — programming, your roster and the athlete app — and ask anything about moving over from your current tool."
 >
-  <section class="px-6 pt-20 pb-12 md:pt-28">
-    <div class="mx-auto max-w-container">
-      <p class="text-sm uppercase tracking-[0.18em] text-ink/50">Book a demo</p>
-      <h1 class="mt-4 max-w-3xl text-balance text-4xl font-medium leading-[1.1] tracking-tight md:text-5xl">
-        See it on your own roster.
-      </h1>
-      <p class="mt-5 max-w-2xl text-lg text-ink/70">
-        We'll walk you through AI-assisted programming, plain-English editing, your roster, and the athlete app
-        &mdash; and talk through bringing your programs over from a spreadsheet or another tool. Rather wait for an invite?
-        <a href={PRIMARY_CTA.href} class="font-medium text-ink underline underline-offset-4 hover:text-clay">Join the waitlist.</a>
-      </p>
-    </div>
-  </section>
+  <PageHero title="See it on your own roster." wide>
+    <p slot="after-intro" class="lede mt-6">
+      We'll show you what Deload takes off your week &mdash; programming, your roster and the athlete app
+      &mdash; and talk through bringing your programs over from a spreadsheet or another tool. Rather wait for an invite?
+      <a href={PRIMARY_CTA.href} class="link">Join the waitlist.</a>
+    </p>
+  </PageHero>
 
-  <section class="px-6 pb-8">
-    <div class="mx-auto grid max-w-container gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+  <section class="wrap pb-20 md:pb-24">
+    <div class="grid gap-12 border-t border-rule pt-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
       <div>
-        <h2 class="text-2xl font-medium tracking-tight text-ink">What you'll see</h2>
-        <ul class="mt-6 space-y-4 text-ink/80">
-          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sage" /><span>A program written live from a plain-English brief — block by block, in front of you.</span></li>
-          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sage" /><span>Plain-English edits rippling through a block, with before/after diffs.</span></li>
-          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sage" /><span>Your roster, in-app messaging, and the app your athletes train from.</span></li>
-          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sage" /><span>Your existing programs imported from Excel, Word or PDF &mdash; and a plan for moving your athletes over.</span></li>
+        <h2 class="h3 text-[1.75rem] text-ink">What you'll see</h2>
+        <ul class="rows mt-6">
+          {seeItems.map((t) => <li class="text-[1.0625rem] text-ink">{t}</li>)}
         </ul>
       </div>
       <div>

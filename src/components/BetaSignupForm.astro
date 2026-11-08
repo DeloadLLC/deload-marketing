@@ -26,7 +26,7 @@ interface Props {
 const { id = "beta-form", submitLabel = "Join Waitlist" } = Astro.props;
 
 const inputClass =
-  "mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none";
+  "field-input";
 const nextSteps = [
   "Check your inbox — we just sent you a short questionnaire.",
   "Answering it confirms your email and helps us invite the right coaches first.",
@@ -39,7 +39,7 @@ const nextSteps = [
     id={id}
     data-beta-endpoint={BETA_SIGNUP_ENDPOINT}
     data-turnstile-sitekey={TURNSTILE_SITE_KEY}
-    class="space-y-4 rounded-2xl border border-ink/10 bg-bg p-6 shadow-sm md:p-8"
+    class="space-y-4 rounded-[20px] border border-rule bg-surface p-6 md:p-8"
     novalidate
   >
     <div class="grid gap-4 sm:grid-cols-2">
@@ -52,13 +52,13 @@ const nextSteps = [
         <span class="text-sm font-medium text-ink">Work email</span>
         <input type="email" name="email" required maxlength="254"
           class={inputClass} placeholder="you@yourgym.com" />
-        <span id={`${id}-email-hint`} class="mt-1 hidden text-xs text-clay"></span>
+        <span id={`${id}-email-hint`} class="mt-1 hidden text-xs text-muted"></span>
       </label>
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2">
       <label class="block">
-        <span class="text-sm font-medium text-ink">Business / gym <span class="text-ink/40">(optional)</span></span>
+        <span class="text-sm font-medium text-ink">Business / gym <span class="text-muted">(optional)</span></span>
         <input type="text" name="company" maxlength="120"
           class={inputClass} placeholder="Your gym or studio" />
       </label>
@@ -81,8 +81,8 @@ const nextSteps = [
 
     <label class="flex items-start gap-2.5">
       <input type="checkbox" name="consentMarketing" value="true"
-        class="mt-0.5 h-4 w-4 rounded border-ink/30 text-ink focus:ring-ink/30" />
-      <span class="text-sm text-ink/70">Send me Deload product news and early-access updates.</span>
+        class="mt-0.5 h-5 w-5 rounded accent-[rgb(var(--c-ink))]" />
+      <span class="text-sm text-muted">Send me Deload product news and early-access updates.</span>
     </label>
 
     {/* Honeypot — real browsers leave this blank; bots fill it. */}
@@ -94,22 +94,22 @@ const nextSteps = [
 
     <div class="flex flex-wrap items-center gap-4">
       <button type="submit" id={`${id}-submit`}
-        class="rounded-full bg-ink px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90 disabled:opacity-60">{submitLabel}</button>
-      <p id={`${id}-status`} class="text-sm text-ink/60" role="status" aria-live="polite"></p>
+        class="btn btn-pri btn-lg">{submitLabel}</button>
+      <p id={`${id}-status`} class="text-sm text-muted" role="status" aria-live="polite"></p>
     </div>
   </form>
 
   <!-- Success state (revealed after a successful submit) -->
-  <div id={`${id}-success`} class="hidden rounded-2xl border border-sage/30 bg-sage/5 p-6 shadow-sm md:p-8">
-    <p class="inline-flex items-center gap-2 rounded-full border border-sage/30 bg-sage/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-sage">
-      <span aria-hidden="true" class="inline-block h-1.5 w-1.5 rounded-full bg-sage"></span>
+  <div id={`${id}-success`} class="hidden rounded-[20px] border border-rule bg-surface p-6 md:p-8">
+    <p class="inline-flex items-center gap-2 text-[0.9375rem] font-semibold text-ink">
+      <svg class="h-5 w-5 text-sage" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="m6 10.2 2.6 2.6L14 7.4" stroke="rgb(var(--c-bg))" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       You're on the list
     </p>
-    <h3 class="mt-4 text-2xl font-medium tracking-tight text-ink">Welcome — here's what happens next.</h3>
+    <h3 class="h3 mt-4 text-[1.75rem] text-ink">Welcome — here's what happens next.</h3>
     <ol class="mt-5 space-y-3">
       {nextSteps.map((step, i) => (
-        <li class="flex items-start gap-3 text-sm text-ink/80">
-          <span class="mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-ink text-[11px] font-semibold text-bg">{i + 1}</span>
+        <li class="flex items-start gap-3 text-sm text-ink">
+          <span class="num mt-px flex h-6 w-6 flex-none items-center justify-center rounded-full bg-ink text-[0.75rem] font-medium text-bg">{i + 1}</span>
           <span>{step}</span>
         </li>
       ))}
@@ -117,19 +117,19 @@ const nextSteps = [
 
     <div class="mt-6 flex flex-wrap items-center gap-3">
       <a id={`${id}-questionnaire-link`} href="#"
-        class="rounded-full bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">Answer the questionnaire</a>
+        class="btn btn-pri btn-lg">Answer the questionnaire</a>
       <a id={`${id}-subscribe-link`} href="#"
-        class="hidden rounded-full border border-ink/20 px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">Get product news &amp; updates</a>
-      <span id={`${id}-subscribed-note`} class="hidden text-sm text-sage">✓ You're subscribed to updates.</span>
+        class="btn btn-lg hidden">Get product news &amp; updates</a>
+      <span id={`${id}-subscribed-note`} class="hidden text-sm text-sage">You're subscribed to updates.</span>
     </div>
 
     {ACTIVE_SOCIALS.length > 0 && (
-      <div class="mt-7 border-t border-ink/10 pt-5">
-        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-clay">While you wait, follow along</p>
+      <div class="mt-7 border-t border-rule pt-5">
+        <p class="label">While you wait, follow along</p>
         <div class="mt-3 flex flex-wrap gap-3">
           {ACTIVE_SOCIALS.map((s) => (
             <a href={s.href} target="_blank" rel="noopener noreferrer"
-              class="rounded-full border border-ink/15 px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-ink/5">{s.label}</a>
+              class="btn">{s.label}</a>
           ))}
         </div>
       </div>
@@ -228,7 +228,7 @@ const nextSteps = [
       const consentMarketing = data.get("consentMarketing") === "true";
       if (!name || !email) {
         status.textContent = "Please fill in your name and email.";
-        status.className = "text-sm text-red-600";
+        status.className = "text-sm text-warn";
         return;
       }
 
@@ -248,7 +248,7 @@ const nextSteps = [
       const original = submitBtn.textContent;
       submitBtn.textContent = "Joining…";
       status.textContent = "";
-      status.className = "text-sm text-ink/60";
+      status.className = "text-sm text-muted";
       try {
         const res = await fetch(endpoint, {
           method: "POST",
@@ -285,13 +285,13 @@ const nextSteps = [
           let detail = "";
           try { const j = await res.json(); if (j && typeof j.error === "string") detail = j.error; } catch {}
           status.textContent = detail ? `Couldn't sign up: ${detail}.` : "Couldn't sign up right now. Please try again.";
-          status.className = "text-sm text-red-600";
+          status.className = "text-sm text-warn";
           submitBtn.disabled = false;
           submitBtn.textContent = original;
         }
       } catch {
         status.textContent = "Network error. Please check your connection and try again.";
-        status.className = "text-sm text-red-600";
+        status.className = "text-sm text-warn";
         submitBtn.disabled = false;
         submitBtn.textContent = original;
       }

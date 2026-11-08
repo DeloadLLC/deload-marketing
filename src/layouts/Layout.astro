@@ -17,6 +17,8 @@ interface Props {
   hideHeaderCtas?: boolean;
   // Ad and forwarding pages stay out of search results.
   noindex?: boolean;
+  // Pages that end on their own closing call to action drop the footer's band.
+  hideFooterCta?: boolean;
 }
 
 const {
@@ -26,6 +28,7 @@ const {
   minimalNav = false,
   hideHeaderCtas = false,
   noindex = false,
+  hideFooterCta = false,
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
@@ -56,22 +59,31 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url).toString();
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#F7F4EF" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#141613" media="(prefers-color-scheme: dark)" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" />
+    <!-- Space Grotesk is for the logo only, so only its letters are fetched. -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&text=deload&display=swap" />
+    <script is:inline>document.documentElement.classList.add("js");</script>
   </head>
-  <body class="min-h-screen bg-bg text-ink antialiased selection:bg-sage/30 selection:text-ink">
+  <body class="min-h-screen bg-bg text-ink antialiased">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded focus:bg-ink focus:px-3 focus:py-2 focus:text-bg"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[60] focus:rounded-lg focus:bg-ink focus:px-3 focus:py-2 focus:text-bg"
     >Skip to content</a>
     {minimalNav ? (
-      <header class="border-b border-ink/10 bg-bg">
-        <div class="mx-auto flex max-w-container items-center justify-between px-6 py-4">
-          <a href={`${root}/`} class="text-ink hover:opacity-80" aria-label="deload home">
-            <Wordmark class="text-base" />
+      <header class="border-b border-rule bg-bg">
+        <div class="wrap flex items-center justify-between gap-4 py-4">
+          <a href={`${root}/`} class="text-ink" aria-label="deload home">
+            <Wordmark />
           </a>
           {!hideHeaderCtas && (
             <div class="flex items-center gap-2">
-              <a href={`${root}/`} class="rounded-full border border-ink/20 px-4 py-2 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">More info</a>
-              <a href={PRIMARY_CTA.href} class="rounded-full bg-ink px-4 py-2 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">{PRIMARY_CTA.label}</a>
+              <a href={`${root}/`} class="btn">More info</a>
+              <a href={PRIMARY_CTA.href} class="btn btn-pri">{PRIMARY_CTA.label}</a>
             </div>
           )}
         </div>
@@ -82,6 +94,24 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url).toString();
     <main id="main">
       <slot />
     </main>
-    <Footer hideCta={hideHeaderCtas} />
+    <Footer hideCta={hideHeaderCtas || hideFooterCta} />
+    <script is:inline>
+      // Draws the page's few reveal moments (struck tool names, the week rail)
+      // once each, when they scroll into view. Content is visible without it.
+      (function () {
+        var els = document.querySelectorAll("[data-reveal]");
+        if (!els.length) return;
+        if (!("IntersectionObserver" in window)) {
+          els.forEach(function (el) { el.classList.add("is-in"); });
+          return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
+          });
+        }, { rootMargin: "0px 0px -12% 0px" });
+        els.forEach(function (el) { io.observe(el); });
+      })();
+    </script>
   </body>
 </html>

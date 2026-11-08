@@ -1,5 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import PageHero from "../../components/PageHero.astro";
+import Arrow from "../../components/Arrow.astro";
 import { FEATURE_GROUPS, PRIMARY_CTA, getFeature } from "../../config";
 
 const base = import.meta.env.BASE_URL;
@@ -13,43 +15,33 @@ const columns = FEATURE_GROUPS.map((g) => ({
   title="Features"
   description="AI-assisted programming, plain-English editing, program import, your roster, messaging, the athlete app and a program marketplace — with scheduling, billing and reporting on the way."
 >
-  <section class="px-6 pt-20 pb-12 md:pt-28">
-    <div class="mx-auto max-w-container">
-      <p class="text-sm uppercase tracking-[0.18em] text-ink/50">Features</p>
-      <h1 class="mt-4 max-w-3xl text-balance text-4xl font-medium leading-[1.1] tracking-tight md:text-5xl">
-        Everything you'd cobble together &mdash; in one app, designed like one app.
-      </h1>
-      <p class="mt-6 max-w-2xl text-lg text-ink/70">
-        Programming, editing, program import, your roster, messaging, the athlete app and a program marketplace
-        &mdash; all sharing the same data, so a change in one place doesn't strand the other. Scheduling, billing
-        and reporting are on the way.
-      </p>
-      <div class="mt-8">
-        <a href={PRIMARY_CTA.href} class="rounded-full bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">{PRIMARY_CTA.label}</a>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    title="Everything you'd cobble together — in one app, designed like one app."
+    intro="Programming, editing, program import, your roster, messaging, the athlete app and a program marketplace — all sharing the same data, so a change in one place doesn't strand the other. Scheduling, billing and reporting are on the way."
+    wide
+  >
+    <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
+  </PageHero>
 
-  <section class="px-6 pb-24">
-    <div class="mx-auto grid max-w-container gap-10 md:grid-cols-2 lg:grid-cols-4">
-      {columns.map((col) => (
-        <div>
-          <p class="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-clay">{col.heading}</p>
-          <ul class="space-y-5">
-            {col.items.map((f) => (
-              <li>
-                <a href={`${root}/features/${f.slug}`} class="group block">
-                  <p class="flex items-center gap-2 font-medium text-ink group-hover:text-clay">
-                    {f.nav}
-                    {f.status === "soon" && <span class="rounded-full bg-sage/15 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-sage">Soon</span>}
-                  </p>
-                  <p class="mt-1 text-sm leading-snug text-ink/60">{f.menuBlurb}</p>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
+  <section class="wrap pb-24">
+    {columns.map((col) => (
+      <div class="grid gap-4 border-t border-rule py-8 lg:grid-cols-[14rem_1fr] lg:gap-12">
+        <h2 class="label pt-1">{col.heading}</h2>
+        <ul class="grid gap-x-10 sm:grid-cols-2">
+          {col.items.map((f) => (
+            <li>
+              <a href={`${root}/features/${f.slug}`} class="group block py-3">
+                <span class="flex flex-wrap items-center gap-2 text-[1.25rem] font-semibold tracking-[-0.02em] text-ink transition-colors group-hover:text-clay">
+                  {f.nav}
+                  {f.status === "soon" && <span class="soon">Soon</span>}
+                  <Arrow class="opacity-0 transition-opacity group-hover:opacity-100" />
+                </span>
+                <span class="mt-1 block text-[0.9375rem] leading-snug text-muted">{f.menuBlurb}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
   </section>
 </Layout>
