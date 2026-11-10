@@ -1,0 +1,6 @@
+---
+// The site's one arrow, drawn so it matches the chevrons' stroke.
+interface Props { class?: string }
+const { class: className = "" } = Astro.props;
+---
+<svg class={`arr h-[0.95em] w-[0.95em] shrink-0 ${className}`} viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8h9.5M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>

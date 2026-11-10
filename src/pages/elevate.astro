@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
 import { PRIMARY_CTA } from "../config";
 
 const base = import.meta.env.BASE_URL;
@@ -29,77 +30,67 @@ const steps = [
 
 const migrations = ["Arketa", "Jane App", "Mindbody", "TrueCoach", "TrainHeroic", "Spreadsheets"];
 ---
+
 <Layout
   title="Deload Foundations"
   description="Deload Foundations helps you open and grow your coaching business — from standing up a brand-new studio to migrating an existing roster over from Arketa, Jane, Mindbody, or spreadsheets."
 >
-  <section class="px-6 pt-20 pb-16 md:pt-28">
-    <div class="mx-auto max-w-container">
-      <div class="flex flex-wrap items-center gap-3">
-        <p class="text-sm uppercase tracking-[0.18em] text-clay">Deload Foundations</p>
-        <span class="rounded-full bg-sage/15 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-sage">Coming soon</span>
-      </div>
-      <h1 class="mt-4 max-w-4xl text-balance text-4xl font-medium leading-[1.05] tracking-tight text-ink md:text-6xl">
-        Open and grow your coaching business with confidence.
-      </h1>
-      <p class="mt-6 max-w-2xl text-lg text-ink/70 md:text-xl">
-        Deload Foundations is how we'll help coaches start a business from scratch — and help established
-        coaches move over from another tool without losing momentum. The platform handles the work;
-        Foundations will help you build the business around it. It opens after the private beta.
-      </p>
-      <div class="mt-8 flex flex-wrap items-center gap-3">
-        <a href={`${root}/book-a-demo`} class="rounded-full bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">Talk to us</a>
-        <a href={PRIMARY_CTA.href} class="rounded-full border border-ink/20 px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink/5">{PRIMARY_CTA.label}</a>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    title="Open and grow your coaching business with confidence."
+    intro="Deload Foundations is how we'll help coaches start a business from scratch — and help established coaches move over from another tool without losing momentum. The platform handles the work; Foundations will help you build the business around it. It opens after the private beta."
+    soon
+    wide
+  >
+    <a href={`${root}/book-a-demo`} class="btn btn-pri btn-lg">Talk to us</a>
+    <a href={PRIMARY_CTA.href} class="btn btn-lg">{PRIMARY_CTA.label}</a>
+  </PageHero>
 
-  <section class="border-y border-ink/10 px-6 py-20 md:py-24">
-    <div class="mx-auto max-w-container">
-      <ul class="grid gap-6 md:grid-cols-3">
+  <section class="field">
+    <div class="wrap py-20 md:py-24">
+      <ul class="grid gap-y-10 md:grid-cols-3 md:gap-x-10">
         {pillars.map((p) => (
-          <li class="rounded-2xl border border-ink/10 bg-bg p-8">
-            <p class="text-xl font-medium tracking-tight text-ink">{p.title}</p>
-            <p class="mt-3 text-ink/70">{p.body}</p>
+          <li class="border-t border-rule/50 pt-6">
+            <h2 class="text-[1.75rem] font-semibold leading-tight tracking-[-0.03em] text-ink">{p.title}</h2>
+            <p class="mt-4 text-muted">{p.body}</p>
           </li>
         ))}
       </ul>
     </div>
   </section>
 
-  <section class="px-6 py-20 md:py-24">
-    <div class="mx-auto max-w-container">
-      <h2 class="text-sm uppercase tracking-[0.18em] text-clay">How it works</h2>
-      <p class="mt-3 max-w-2xl text-3xl font-medium tracking-tight text-ink md:text-4xl">From wherever you are to live.</p>
-      <ol class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {steps.map((s) => (
-          <li class="rounded-2xl border border-ink/10 bg-bg p-7">
-            <p class="text-sm font-semibold text-sage">{s.n}</p>
-            <p class="mt-3 text-lg font-medium tracking-tight text-ink">{s.t}</p>
-            <p class="mt-2 text-sm text-ink/65">{s.d}</p>
-          </li>
-        ))}
-      </ol>
+  <section class="wrap py-20 md:py-24">
+    <div>
+      <div>
+        <h2 class="h2 text-ink">From wherever you are to live.</h2>
+        <ol class="mt-10 grid border-t border-rule sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map((s) => (
+            <li class="border-b border-rule py-6 pr-6 lg:border-b-0">
+              <p class="num text-[2.5rem] font-medium leading-none text-clay">{s.n}</p>
+              <h3 class="mt-5 text-[1.125rem] font-semibold tracking-[-0.01em] text-ink">{s.t}</h3>
+              <p class="mt-2 text-[0.9375rem] text-muted">{s.d}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
     </div>
   </section>
 
-  <section class="border-t border-ink/10 px-6 py-20 md:py-24">
-    <div class="mx-auto max-w-container">
-      <h2 class="text-sm uppercase tracking-[0.18em] text-clay">Migrating over</h2>
-      <p class="mt-3 max-w-2xl text-3xl font-medium tracking-tight text-ink md:text-4xl">
-        Coming from another tool? We've got you.
-      </p>
-      <p class="mt-4 max-w-2xl text-lg text-ink/70">
-        Moving from one of the tools below? Today you can import your programs from Excel, Word or PDF;
-        hands-on help bringing your roster and packages across comes with Foundations.
-      </p>
-      <ul class="mt-8 flex flex-wrap gap-3">
-        {migrations.map((m) => (
-          <li class="rounded-full border border-ink/15 bg-bg px-4 py-2 text-sm text-ink/70">{m}</li>
-        ))}
-      </ul>
-      <div class="mt-10">
-        <a href={`${root}/book-a-demo`} class="rounded-full bg-ink px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90">Plan your migration</a>
+  <section class="border-t border-rule">
+    <div class="wrap py-20 md:py-24">
+      <div>
+        <h2 class="h2 max-w-[20ch] text-ink">Coming from another tool? We've got you.</h2>
+        <p class="lede mt-5">
+          Moving from one of the tools below? Today you can import your programs from Excel, Word or PDF;
+          hands-on help bringing your roster and packages across comes with Foundations.
+        </p>
+        <ul class="mt-8 flex flex-wrap gap-x-8 gap-y-3">
+          {migrations.map((m) => (
+            <li class="text-[clamp(1.375rem,1.1rem+0.9vw,1.875rem)] font-semibold tracking-[-0.03em] text-muted">{m}</li>
+          ))}
+        </ul>
+        <div class="mt-10">
+          <a href={`${root}/book-a-demo`} class="btn btn-pri btn-lg">Plan your migration</a>
+        </div>
       </div>
     </div>
   </section>

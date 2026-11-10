@@ -13,35 +13,27 @@ const highlights = proofPoints.slice(0, 4);
   hideHeaderCtas={true}
   noindex={true}
 >
-  <section class="px-6 pt-16 pb-20 md:pt-24">
-    <div class="mx-auto grid max-w-container items-start gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-      <!-- Slogan / pitch (left) -->
+  <section class="wrap pt-12 pb-16 md:pt-20 md:pb-24">
+    <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
       <div>
-        <p class="mb-5 text-sm uppercase tracking-[0.18em] text-clay">The all-in-one AI coaching platform</p>
-        <h1 class="text-balance text-4xl font-medium leading-[1.05] tracking-tight text-ink md:text-6xl">
-          More athletes. Fewer evenings.
-        </h1>
-        <p class="mt-6 max-w-xl text-lg text-ink/70 md:text-xl">
+        <h1 class="display max-w-[12ch] text-ink">More athletes. Fewer evenings.</h1>
+        <p class="lede mt-6">
           Deload writes block-aware training in your voice, edits with you in plain English, brings in the
           programs you already have, runs your roster, and ships the program straight to your athletes' phones
           &mdash; so you can keep the relationship and skip the spreadsheet.
         </p>
-        <ul class="mt-8 grid gap-3 sm:grid-cols-2">
+        <ul class="rows mt-8">
           {highlights.map((p) => (
-            <li class="flex gap-3 text-ink/80">
-              <span aria-hidden="true" class="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sage" />
-              <span class="text-sm leading-snug">{p}</span>
-            </li>
+            <li class="!py-3.5 text-ink">{p}</li>
           ))}
         </ul>
-        <p class="mt-8 text-sm text-ink/50">Now in private beta &middot; we invite coaches in small groups</p>
+        <p class="mt-6 text-[0.9375rem] text-muted">Now in private beta &middot; we invite coaches in small groups</p>
       </div>
 
-      <!-- Lead form (right) -->
-      <div class="lg:pt-2">
-        <div class="mb-4">
-          <h2 class="text-2xl font-medium tracking-tight text-ink">Join the waitlist</h2>
-          <p class="mt-1 text-sm text-ink/60">Tell us a little about how you coach and we'll be in touch.</p>
+      <div class="lg:sticky lg:top-8">
+        <div class="mb-5">
+          <h2 class="h3 text-[1.75rem] text-ink">Join the waitlist</h2>
+          <p class="mt-1 text-muted">Tell us a little about how you coach and we'll be in touch.</p>
         </div>
         <BetaSignupForm id="landing-form" submitLabel="Join Waitlist" />
       </div>

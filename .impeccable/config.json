@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "geist",
+        "createdAt": "2026-11-07T15:15:37.635Z",
+        "reason": "founder-approved type system: Geist (design-system.md, palette A decision 2026-11-06)"
+      },
+      {
+        "rule": "overused-font",
+        "value": "geist mono",
+        "createdAt": "2026-11-07T15:15:37.661Z",
+        "reason": "founder-approved type system: Geist Mono for numbers (design-system.md)"
+      },
+      {
+        "rule": "overused-font",
+        "value": "space grotesk",
+        "createdAt": "2026-11-07T15:15:37.686Z",
+        "reason": "founder decision: logo kept as supplied, Space Grotesk 'd' monogram/wordmark (design-system.md logo rules)"
+      }
+    ]
+  }
+}

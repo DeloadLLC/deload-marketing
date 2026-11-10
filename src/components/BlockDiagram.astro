@@ -1,0 +1,58 @@
+---
+// An abstract drawing of a training block: three four-week waves whose load
+// builds and then drops for the deload week. A motif, not data and not the
+// product's interface.
+interface Props { class?: string }
+const { class: className = "" } = Astro.props;
+const waves = [
+  [0.42, 0.52, 0.62, 0.3],
+  [0.56, 0.66, 0.76, 0.38],
+  [0.7, 0.82, 0.94, 0.34],
+];
+const bars = waves.flat();
+const W = 480, H = 260, gap = 8;
+const bw = (W - gap * (bars.length - 1)) / bars.length;
+---
+<figure class={`block-diagram ${className}`} aria-hidden="true">
+  <svg viewBox={`0 0 ${W} ${H + 28}`} class="h-auto w-full" focusable="false">
+    {bars.map((v, i) => {
+      const h = v * H;
+      const deload = i % 4 === 3;
+      return (
+        <rect
+          class="bd-bar"
+          style={`--i:${i}`}
+          x={i * (bw + gap)}
+          y={H - h}
+          width={bw}
+          height={h}
+          rx="4"
+          fill={deload ? "rgb(var(--c-clay))" : "rgb(var(--c-ink))"}
+          opacity={deload ? 1 : 0.12 + v * 0.75}
+        />
+      );
+    })}
+    <line x1="0" x2={W} y1={H + 0.5} y2={H + 0.5} stroke="rgb(var(--c-rule))" />
+    {[0, 1, 2].map((w) => (
+      <text x={w * 4 * (bw + gap)} y={H + 22} class="num" font-size="12" fill="rgb(var(--c-muted))">{`Block ${w + 1}`}</text>
+    ))}
+  </svg>
+</figure>
+
+<style>
+  .bd-bar {
+    transform-box: fill-box;
+    transform-origin: bottom;
+  }
+  :global(.js) .bd-bar {
+    animation: bd-grow 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i) * 45ms + 150ms);
+  }
+  @keyframes bd-grow {
+    from { transform: scaleY(0.04); }
+    to { transform: scaleY(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .bd-bar { animation: none; }
+  }
+</style>

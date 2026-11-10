@@ -1,8 +1,12 @@
 name: Deploy Staging Marketing
 
+# Deploys wait for CI (2026-11-05). This workflow no longer runs on push:
+# it is called by the CI workflow (ci.yml) as its last job, only after the
+# checks have passed for the pushed commit, and it deploys exactly that
+# commit (github.sha in a called workflow is the caller's commit). A commit
+# whose CI fails never reaches the box.
 on:
-  push:
-    branches: [ staging ]
+  workflow_call:
 
 jobs:
   deploy:
@@ -26,7 +30,17 @@ jobs:
             flock -w 1500 9
             cd ~/deload/deload-marketing
             PREV_COMMIT=$(git rev-parse HEAD)
-            git pull origin staging
+            git fetch origin staging
+            # Deploy the commit CI just passed, not whatever staging points at now.
+            # Two pushes close together finish CI in either order; if a newer
+            # commit is already live (this one is its ancestor), skip rather than
+            # roll the box back.
+            SHA="${{ github.sha }}"
+            if [ "$(git rev-parse HEAD)" != "$SHA" ] && git merge-base --is-ancestor "$SHA" HEAD; then
+              echo "A newer commit ($(git rev-parse --short HEAD)) is already deployed; skipping $SHA."
+              exit 0
+            fi
+            git merge --no-edit "$SHA"
             if ! git diff --quiet "$PREV_COMMIT" HEAD -- package.json pnpm-lock.yaml; then
               echo "Marketing dependencies changed. Running pnpm install..."
               pnpm install

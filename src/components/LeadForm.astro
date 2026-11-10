@@ -35,20 +35,20 @@ const businessTypes = [
   data-turnstile-sitekey={TURNSTILE_SITE_KEY}
   data-topic={topic}
   data-availability={showAvailability ? "1" : ""}
-  class="space-y-4 rounded-2xl border border-ink/10 bg-bg p-6 shadow-sm md:p-8"
+  class="space-y-4 rounded-[20px] border border-rule bg-surface p-6 md:p-8"
   novalidate
 >
   <div class="grid gap-4 sm:grid-cols-2">
     <label class="block">
       <span class="text-sm font-medium text-ink">Name</span>
       <input type="text" name="name" required maxlength="120"
-        class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none"
+        class="field-input"
         placeholder="Your name" />
     </label>
     <label class="block">
       <span class="text-sm font-medium text-ink">Email</span>
       <input type="email" name="email" required maxlength="254"
-        class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none"
+        class="field-input"
         placeholder="you@example.com" />
     </label>
   </div>
@@ -57,15 +57,15 @@ const businessTypes = [
     <Fragment>
       <div class="grid gap-4 sm:grid-cols-2">
         <label class="block">
-          <span class="text-sm font-medium text-ink">Business name <span class="text-ink/40">(optional)</span></span>
+          <span class="text-sm font-medium text-ink">Business name <span class="text-muted">(optional)</span></span>
           <input type="text" name="business" maxlength="120"
-            class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none"
+            class="field-input"
             placeholder="Your gym or studio" />
         </label>
         <label class="block">
           <span class="text-sm font-medium text-ink">What describes you?</span>
           <select name="businessType"
-            class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink focus:border-ink focus:outline-none">
+            class="field-input">
             <option value="">Select…</option>
             {businessTypes.map((t) => <option value={t}>{t}</option>)}
           </select>
@@ -76,7 +76,7 @@ const businessTypes = [
         <label class="block">
           <span class="text-sm font-medium text-ink">When's a good time to reach you?</span>
           <input type="text" name="availability" maxlength="200"
-            class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none"
+            class="field-input"
             placeholder="e.g. weekday mornings ET" />
         </label>
       )}
@@ -84,7 +84,7 @@ const businessTypes = [
       <label class="block">
         <span class="text-sm font-medium text-ink">{showAvailability ? "Anything we should know?" : "Tell us a little about yourself"}</span>
         <textarea name="message" rows="4" maxlength="5000"
-          class="mt-1.5 block w-full rounded-lg border border-ink/15 bg-bg px-3 py-2.5 text-ink placeholder:text-ink/40 focus:border-ink focus:outline-none"
+          class="field-input"
           placeholder="How many athletes do you coach? What are you using today?"></textarea>
       </label>
     </Fragment>
@@ -99,8 +99,8 @@ const businessTypes = [
 
   <div class="flex flex-wrap items-center gap-4">
     <button type="submit" id={`${id}-submit`}
-      class="rounded-full bg-ink px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ink/90 disabled:opacity-60">{submitLabel}</button>
-    <p id={`${id}-status`} class="text-sm text-ink/60" role="status" aria-live="polite"></p>
+      class="btn btn-pri btn-lg">{submitLabel}</button>
+    <p id={`${id}-status`} class="text-sm text-muted" role="status" aria-live="polite"></p>
   </div>
 </form>
 
@@ -174,7 +174,7 @@ const businessTypes = [
 
       if (!name || !email) {
         status.textContent = "Please fill in your name and email.";
-        status.className = "text-sm text-red-600";
+        status.className = "text-sm text-warn";
         return;
       }
 
@@ -199,7 +199,7 @@ const businessTypes = [
       const original = submitBtn.textContent;
       submitBtn.textContent = "Sending…";
       status.textContent = "";
-      status.className = "text-sm text-ink/60";
+      status.className = "text-sm text-muted";
       try {
         const res = await fetch(endpoint, {
           method: "POST",
@@ -214,11 +214,11 @@ const businessTypes = [
           let detail = "";
           try { const j = await res.json(); if (j && typeof j.error === "string") detail = j.error; } catch {}
           status.textContent = detail ? `Couldn't send: ${detail}.` : "Couldn't send right now. Please try again.";
-          status.className = "text-sm text-red-600";
+          status.className = "text-sm text-warn";
         }
       } catch {
         status.textContent = "Network error. Please check your connection and try again.";
-        status.className = "text-sm text-red-600";
+        status.className = "text-sm text-warn";
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = original;
