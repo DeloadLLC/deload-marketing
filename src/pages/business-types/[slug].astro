@@ -28,7 +28,7 @@ const others = BUSINESS_TYPES.filter((b) => b.slug !== biz.slug);
 <Layout title={biz.nav} description={biz.intro}>
   <PageHero title={biz.title} intro={biz.intro} soon={biz.comingSoon} wide>
     <p slot="after-intro" class:list={["mt-4 max-w-[58ch] text-[0.9375rem] text-muted", !biz.comingSoon && "hidden"]}>
-      This is on the way and opens after the private beta. Book a demo to talk it through and be first in line.
+      Opens after the private beta. Book a demo to be first in line.
     </p>
     <a href={resolveHref(cta.href)} class="btn btn-pri btn-lg">{cta.label}</a>
     <a href={`${root}/features`} class="btn btn-lg">See features</a>
