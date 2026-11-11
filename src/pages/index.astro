@@ -10,18 +10,11 @@ const root = import.meta.env.BASE_URL.replace(/\/$/, "");
 // The tools Deload stands in for (approved home sketch, 2026-11-06), plus
 // payments, which the marketplace covers today.
 const replaces = [
-  { area: "Programming", old: "the spreadsheet", now: "written with you, in your voice" },
-  { area: "Roster", old: "the notes app", now: "every athlete, today's triage" },
-  { area: "Athlete app", old: "the PDF", now: "today's workout, logged in the gym. Free for your athletes." },
+  { area: "Programming", old: "the spreadsheet", now: "in your voice" },
+  { area: "Roster", old: "the notes app", now: "who needs you today" },
+  { area: "Athlete app", old: "the PDF", now: "today's workout on their phone. Free for athletes." },
   { area: "Messages", old: "the group chat", now: "in the same window" },
   { area: "Payments", old: "the storefront", now: "program sales, paid to your own Stripe account" },
-];
-
-// Approved home sketch: "Built for real programming" lists outcomes, not features.
-const outcomes = [
-  { lead: "Blocks and phases", rest: " that progress the way you plan them." },
-  { lead: "Your voice", rest: ", not a generic template." },
-  { lead: "Checks before your athlete feels it", rest: ", not after." },
 ];
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -38,7 +31,7 @@ const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
       </span> the program they deserve &mdash; without losing your Sunday night.
     </h1>
     <p class="lede mt-7">
-      Deload writes block-aware training in your voice, edits with you in plain English, runs your roster, and ships the program straight to your athletes' phones &mdash; so you can keep the relationship and skip the spreadsheet.
+      Deload writes block-aware programs in your voice and puts them on your athletes' phones.
     </p>
     <div class="mt-8 flex flex-wrap items-center gap-2.5">
       <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
@@ -122,20 +115,11 @@ const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   <!-- Built for real programming -->
   <section class="border-t border-rule">
-    <div class="wrap grid gap-12 py-20 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-center lg:gap-16">
-      <div>
-        <h2 class="h2 max-w-[16ch] text-ink">Not a workout app pretending to coach.</h2>
-        <p class="mt-5 max-w-[48ch] text-[1.0625rem] text-muted">
-          Blocks, phases, %1RM and RPE, supersets, deloads and tapers: the structure a real program has, so every week builds on the last without a jump your athlete feels.
-        </p>
-      </div>
-      <ul class="rows">
-        {outcomes.map((o) => (
-          <li class="text-[clamp(1.25rem,1.05rem+0.7vw,1.625rem)] leading-snug tracking-[-0.015em] text-muted">
-            <span class="font-semibold text-ink">{o.lead}</span>{o.rest}
-          </li>
-        ))}
-      </ul>
+    <div class="wrap grid gap-5 py-20 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-16">
+      <h2 class="h2 max-w-[16ch] text-ink">Not a workout app pretending to coach.</h2>
+      <p class="max-w-[48ch] text-[1.125rem] leading-relaxed text-muted lg:pt-2">
+        Blocks, phases, %1RM and RPE, supersets, deloads and tapers, so each week builds on the last.
+      </p>
     </div>
   </section>
 
@@ -148,10 +132,10 @@ const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
       </div>
       <div class="space-y-5 text-[1.0625rem] text-muted lg:pt-10">
         <p>
-          I'm Derek &mdash; I coached at Equinox, earned my Precision Nutrition cert, then went out on my own with the teams at Sportslab NYC and Fitness360NYC, programming for everyone from gen-pop and weight-loss clients to marathoners and competitive lifters.
+          I coached at Equinox, then on my own with Sportslab NYC and Fitness360NYC.
         </p>
         <p>
-          I started automating my own programming the moment I realized how far AI can go in the hands of someone who already knows the craft. Getting from an AI draft to something you can actually run on the gym floor? Nobody had done it &mdash; honestly, still hasn't, whatever the competition advertises. So I built it.
+          AI could draft my programs, so I built Deload to turn that draft into something you can run on the gym floor.
         </p>
         <a href={`${root}/about`} class="link-arrow pt-1">Read the full story <Arrow /></a>
       </div>
@@ -167,7 +151,7 @@ const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
       <div class="max-w-[40rem]">
         <h2 id="close-title" class="display text-ink">Get your Sunday back.</h2>
         <p class="mt-5 max-w-[52ch] text-[1.0625rem] text-muted">
-          Book a <span class="num">15</span>-minute demo and we'll write your first program live &mdash; or join the waitlist for early access, the Founders Rate and <span class="num">25%</span> off a future upgrade.
+          Book a <span class="num">15</span>-minute demo and we'll write your first program live, or join the waitlist for the Founders Rate.
         </p>
       </div>
       <div class="flex flex-wrap gap-2.5">
