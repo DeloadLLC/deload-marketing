@@ -129,11 +129,11 @@ export const FEATURES: FeatureEntry[] = [
     slug: "populations",
     nav: "Population-specific protocols",
     status: "shipped",
-    menuBlurb: "Protocols general tools quietly skip.",
+    menuBlurb: "Masters, HRT-aware and post-surgical protocols.",
     eyebrow: "Populations",
     title: "Programming that respects who's actually in front of you.",
     intro:
-      "Deload programs for the populations most tools ignore, too.",
+      "Specialist protocols built in, so the program fits the athlete.",
     points: [
       "Powerlifting, weightlifting, hypertrophy, and sport-specific prep.",
       "Masters athletes, bone-density-aware programming, and fall-prevention GPP.",

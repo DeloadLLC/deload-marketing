@@ -17,13 +17,6 @@ const replaces = [
   { area: "Payments", old: "the storefront", now: "program sales, paid to your own Stripe account" },
 ];
 
-// Approved home sketch: "Built for real programming" lists outcomes, not features.
-const outcomes = [
-  { lead: "Blocks and phases", rest: " that progress your way." },
-  { lead: "Your voice", rest: ", not a template." },
-  { lead: "Checks", rest: " before your athlete feels it." },
-];
-
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 ---
 <Layout title="deload" description={description} hideFooterCta={true}>
@@ -122,20 +115,11 @@ const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   <!-- Built for real programming -->
   <section class="border-t border-rule">
-    <div class="wrap grid gap-12 py-20 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-center lg:gap-16">
-      <div>
-        <h2 class="h2 max-w-[16ch] text-ink">Not a workout app pretending to coach.</h2>
-        <p class="mt-5 max-w-[48ch] text-[1.0625rem] text-muted">
-          Blocks, phases, %1RM and RPE, supersets, deloads and tapers, so each week builds on the last.
-        </p>
-      </div>
-      <ul class="rows">
-        {outcomes.map((o) => (
-          <li class="text-[clamp(1.25rem,1.05rem+0.7vw,1.625rem)] leading-snug tracking-[-0.015em] text-muted">
-            <span class="font-semibold text-ink">{o.lead}</span>{o.rest}
-          </li>
-        ))}
-      </ul>
+    <div class="wrap grid gap-5 py-20 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-16">
+      <h2 class="h2 max-w-[16ch] text-ink">Not a workout app pretending to coach.</h2>
+      <p class="max-w-[48ch] text-[1.125rem] leading-relaxed text-muted lg:pt-2">
+        Blocks, phases, %1RM and RPE, supersets, deloads and tapers, so each week builds on the last.
+      </p>
     </div>
   </section>
 
@@ -151,7 +135,7 @@ const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
           I coached at Equinox, then on my own with Sportslab NYC and Fitness360NYC.
         </p>
         <p>
-          AI could draft my programs. Nothing turned that draft into something you can run on the gym floor, so I built it.
+          AI could draft my programs, so I built Deload to turn that draft into something you can run on the gym floor.
         </p>
         <a href={`${root}/about`} class="link-arrow pt-1">Read the full story <Arrow /></a>
       </div>
