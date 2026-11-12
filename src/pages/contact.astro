@@ -5,11 +5,11 @@ import { API_BASE_URL, TURNSTILE_SITE_KEY } from "../config";
 ---
 <Layout
   title="Contact"
-  description="Questions, feedback, or want a look at the private beta? Send us a note."
+  description="Questions, feedback, or a feature in mind? Send us a note."
 >
   <PageHero
     title="Tell us about your roster."
-    intro="Questions about the beta, or a feature in mind? Drop us a line."
+    intro="Questions, or a feature in mind? Drop us a line."
   />
 
   <section class="wrap pb-24">
@@ -211,7 +211,7 @@ import { API_BASE_URL, TURNSTILE_SITE_KEY } from "../config";
           });
           if (res.ok) {
             form.reset();
-            status.textContent = "Thanks \u2014 your message is in. We'll be in touch soon.";
+            status.textContent = "Thanks, your message is in. We'll be in touch soon.";
             status.className = "text-sm text-emerald-700";
           } else {
             let detail = "";

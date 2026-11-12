@@ -3,7 +3,6 @@ import Layout from "../layouts/Layout.astro";
 import PageHero from "../components/PageHero.astro";
 import CloseBand from "../components/CloseBand.astro";
 import BlockDiagram from "../components/BlockDiagram.astro";
-import Arrow from "../components/Arrow.astro";
 import { PRIMARY_CTA } from "../config";
 
 const base = import.meta.env.BASE_URL;
@@ -11,8 +10,8 @@ const root = base.replace(/\/$/, "");
 
 const diffs = [
   {
-    title: "A real programming agent, not autocomplete.",
-    body: "Deload writes a complete block for the athlete in front of you: periodization, intensity and intent, built the way a coach would build it.",
+    title: "It drafts the whole block, not one workout.",
+    body: "Deload drafts a complete block for the athlete in front of you: periodization, intensity and intent, built the way a coach would build it. You edit it and assign it.",
   },
   {
     title: "Block-aware, in your voice.",
@@ -24,23 +23,22 @@ const diffs = [
   },
   {
     title: "Built for every athlete you coach.",
-    body: "Masters athletes, HRT-aware, post-surgical and bone-density-aware programming, for who's actually in front of you.",
+    body: "Powerlifters, weightlifters, runners, hybrid and masters athletes, each programmed for their level, equipment and injuries.",
   },
 ];
 ---
 
 <Layout
   title="Why we're different"
-  description="Deload is the first true AI exercise-programming agent — block-aware, written in your voice, and built around the whole coaching job, not a workout tracker with an AI sticker on it."
+  description="Deload drafts a full, block-aware training program for each athlete in your voice, you edit it in plain English, and it runs the rest of the coaching job in the same app."
   hideFooterCta={true}
 >
   <PageHero
-    title="The first true AI exercise-programming agent."
-    intro="Deload was built around the programming agent from day one."
+    title="Deload drafts the training block. You make the calls."
+    intro="It writes a full program for each athlete in your voice, and nothing reaches them until you assign it."
   >
-    <a href={`${root}/book-a-demo`} class="btn btn-pri btn-lg">Book a demo</a>
-    <a href={PRIMARY_CTA.href} class="btn btn-lg">{PRIMARY_CTA.label}</a>
-    <a href={`${root}/features/ai-programming`} class="btn btn-quiet btn-lg">See the AI programming <Arrow /></a>
+    <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
+    <a href={`${root}/book-a-demo`} class="btn btn-lg">Book a demo</a>
     <BlockDiagram slot="aside" />
   </PageHero>
 
@@ -57,7 +55,7 @@ const diffs = [
     title="See it write your first program."
     body="Book a 15-minute demo and we'll write one live."
   >
-    <a href={`${root}/book-a-demo`} class="btn btn-pri btn-lg">Book a demo</a>
-    <a href={PRIMARY_CTA.href} class="btn btn-lg">{PRIMARY_CTA.label}</a>
+    <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
+    <a href={`${root}/book-a-demo`} class="btn btn-lg">Book a demo</a>
   </CloseBand>
 </Layout>

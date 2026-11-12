@@ -1,19 +1,19 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import PageHero from "../../components/PageHero.astro";
-import Arrow from "../../components/Arrow.astro";
-import { FEATURE_GROUPS, PRIMARY_CTA, getFeature } from "../../config";
+import { FEATURE_GROUPS, PRIMARY_CTA, getFeature, isLiveFeature } from "../../config";
 
 const base = import.meta.env.BASE_URL;
 const root = base.replace(/\/$/, "");
+// Live features only; pages marked "Coming soon" stay unlinked (founder, 2026-11-12).
 const columns = FEATURE_GROUPS.map((g) => ({
   heading: g.heading,
-  items: g.slugs.map((s) => getFeature(s)!).filter(Boolean),
-}));
+  items: g.slugs.map((s) => getFeature(s)!).filter((f) => Boolean(f) && isLiveFeature(f)),
+})).filter((c) => c.items.length > 0);
 ---
 <Layout
   title="Features"
-  description="AI-assisted programming, plain-English editing, program import, your roster, messaging, the athlete app and a program marketplace — with scheduling, billing and reporting on the way."
+  description="AI-assisted programming, plain-English editing, program import, your roster, messaging, the athlete app and a program marketplace, with scheduling, billing and reporting on the way."
 >
   <PageHero
     title="Everything you'd cobble together, in one app."
@@ -31,11 +31,7 @@ const columns = FEATURE_GROUPS.map((g) => ({
           {col.items.map((f) => (
             <li>
               <a href={`${root}/features/${f.slug}`} class="group block py-3">
-                <span class="flex flex-wrap items-center gap-2 text-[1.25rem] font-semibold tracking-[-0.02em] text-ink transition-colors group-hover:text-clay">
-                  {f.nav}
-                  {f.status === "soon" && <span class="soon">Soon</span>}
-                  <Arrow class="opacity-0 transition-opacity group-hover:opacity-100" />
-                </span>
+                <span class="block text-[1.25rem] font-semibold tracking-[-0.02em] text-ink transition-colors group-hover:text-clay">{f.nav}</span>
                 <span class="mt-1 block text-[0.9375rem] leading-snug text-muted">{f.menuBlurb}</span>
               </a>
             </li>

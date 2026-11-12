@@ -40,13 +40,18 @@ pnpm run typecheck
 - Every sign-up button reads **Join Waitlist** and goes to `/beta`. Its form
   posts to the backend's `/api/public/beta-signup`, which saves the signup
   (Admin → Beta invites), puts it on Clerk's waitlist and emails the
-  questionnaire. `PUBLIC_SIGNUP_MODE=open` turns the buttons back into
-  "Try for free" → the app's sign-up.
+  questionnaire. `PUBLIC_SIGNUP_MODE=open` turns the buttons into
+  "Start free trial" → the app's sign-up, and every page's copy follows it
+  (`IS_OPEN`, `SIGNUP_COPY`, `FOUNDERS_OFFER` in `src/config.ts`): no page
+  says "waitlist", the trial is 14 days (`TRIAL_DAYS`), prices show, and
+  `/beta` and `/landing-page` forward to sign-up.
 - `/pricing` shows "Pricing opens after the private beta". The tier data in
-  `src/config.ts` is kept; `PUBLIC_SHOW_PRICES=1` shows it again.
+  `src/config.ts` is kept; `PUBLIC_SHOW_PRICES=1` (or open sign-up) shows it.
 - Features that are switched off for the beta (scheduling, client billing,
-  reports, check-ins, white label) carry a **Coming soon** badge via
-  `status: "soon"` in `src/config.ts`.
+  reports, check-ins, white label) are `status: "soon"` in `src/config.ts`;
+  business types and resources use `comingSoon`. Those pages, the hub pages
+  `/business-types` and `/resources`, and `/elevate` are built but kept out
+  of the menu, the footer and the sitemap, with noindex (`HIDDEN_PATHS`).
 - The backend must allow this site's origin: `ALLOWED_ORIGINS` includes
   `https://deloadapp.io` (and `www`).
 
@@ -72,7 +77,7 @@ A sitemap is produced at build time (`/sitemap-index.xml`) by
 | `PUBLIC_SITE_URL` | `https://deloadapp.io`       | Canonical site URL used for OG + sitemap.     |
 | `PUBLIC_API_BASE_URL` | `https://app.deloadapp.io` | Where the forms post (waitlist, contact, demo). |
 | `PUBLIC_SIGNUP_MODE` | `waitlist`                | `open` when sign-up opens to everyone.        |
-| `PUBLIC_SHOW_PRICES` | unset                     | `1` shows the pricing tiers again.            |
+| `PUBLIC_SHOW_PRICES` | unset                     | `1` shows the pricing tiers (always on with open sign-up). |
 | `PORT`            | `4321`                       | Dev/preview server port (set by the workflow). |
 | `BASE_PATH`       | `/`                          | URL prefix when served behind the workspace proxy. |
 

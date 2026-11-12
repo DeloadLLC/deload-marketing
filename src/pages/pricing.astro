@@ -1,18 +1,25 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { BETA_OFFERS, FOUNDERS_OFFER, PAYMENTS_NOTE, PRICING, PRIMARY_CTA, SHOW_PRICES, faqs } from "../config";
+import { BETA_OFFERS, FOUNDERS_OFFER, IS_OPEN, PAYMENTS_NOTE, PRICING, PRIMARY_CTA, SHOW_PRICES, TRIAL_DAYS, faqs } from "../config";
 
 const base = import.meta.env.BASE_URL;
 const root = base.replace(/\/$/, "");
 
 const resolveHref = (href: string) =>
   href === "" ? PRIMARY_CTA.href : href.startsWith("http") ? href : `${root}${href}`;
+
+const description = !SHOW_PRICES
+  ? "Deload is in private beta. Beta coaches use it free while the beta runs and get the Founders Rate at launch. Join the waitlist or book a demo."
+  : IS_OPEN
+    ? `Simple monthly pricing for you or your team, with a ${TRIAL_DAYS}-day free trial: Solo $149, Pro $199, Elite $249, and $79 or $99 a month for each coach on a Pro or Elite team. The Founders Rate puts Solo at $99/mo while it lasts. Book a demo for multi-location pricing.`
+    : "Simple monthly pricing for you or your team: Solo $149, Pro $199, Elite $249, and $79 or $99 a month for each coach on a Pro or Elite team. Waitlist and beta coaches get the Founders Rate (Solo at $99/mo) plus 25% off one upgrade. Book a demo for multi-location pricing.";
+const pricesLede = IS_OPEN
+  ? `Monthly, no annual lock-in, and every plan starts with a ${TRIAL_DAYS}-day free trial. Your athletes use Deload free.`
+  : "Monthly, no annual lock-in. Waitlist and beta coaches get the Founders Rate. Upgrade as you grow. Your athletes use Deload free.";
 ---
 <Layout
   title="Pricing"
-  description={SHOW_PRICES
-    ? "Simple monthly pricing for you or your team: Solo $149, Pro $199, Elite $249, and $79 or $99 a month for each coach on a Pro or Elite team. Waitlist and beta coaches get the Founders Rate — Solo at $99/mo — plus 25% off one upgrade. Book a demo for multi-location pricing."
-    : "Deload is in private beta. Beta coaches use it free while the beta runs and get the Founders Rate at launch. Join the waitlist or book a demo."}
+  description={description}
 >
   {!SHOW_PRICES && (
     <section class="wrap pt-14 pb-16 md:pt-24 md:pb-24" data-testid="pricing-beta">
@@ -44,9 +51,7 @@ const resolveHref = (href: string) =>
   {SHOW_PRICES && (<>
   <section class="wrap pt-14 pb-8 md:pt-24">
     <h1 class="display max-w-[14ch] text-ink">Simple pricing for you or your team.</h1>
-    <p class="lede mt-6">
-      Monthly, no annual lock-in. Waitlist and beta coaches get the Founders Rate. Upgrade as you grow. Your athletes use Deload free.
-    </p>
+    <p class="lede mt-6">{pricesLede}</p>
   </section>
 
   <!-- Toggle -->
@@ -76,11 +81,11 @@ const resolveHref = (href: string) =>
               </a>
             </div>
           )}
-          <p class="label mb-6">
-            {plan === "individuals"
-              ? "Individual tiers — standard monthly pricing"
-              : "Team plans — your plan, plus a seat for each Coach or Admin. Viewers are free."}
-          </p>
+          {plan === "teams" && (
+            <p class="mb-6 max-w-[62ch] text-[0.9375rem] text-muted">
+              A team is your plan plus a seat for each Coach or Admin. Viewers are free.
+            </p>
+          )}
           <div class="grid border-t border-rule md:grid-cols-3">
             {PRICING[plan].map((tier) => (
               <div class:list={["relative flex flex-col border-b border-rule py-8 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0 md:last:pr-0", tier.highlight && "tier-hl"]}>
@@ -96,10 +101,15 @@ const resolveHref = (href: string) =>
                 <p class="mt-4 text-[0.9375rem] text-muted">{tier.blurb}</p>
                 <a href={resolveHref(tier.cta.href)} class:list={["btn btn-lg mt-6", tier.highlight && "btn-pri"]}>{tier.cta.label}</a>
                 <ul class="mt-7 space-y-2.5 text-[0.9375rem] text-ink">
-                  {tier.features.map((f) => (
+                  {tier.features.map((f) => typeof f === "string" ? (
                     <li class="flex gap-2.5">
                       <svg class="mt-1 h-4 w-4 shrink-0 text-sage" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.5 8.3 2.8 2.8 6.2-6.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
                       <span>{f}</span>
+                    </li>
+                  ) : (
+                    <li class="flex flex-wrap items-center gap-2 pl-[1.625rem] text-muted">
+                      <span>{f.label}</span>
+                      <span class="soon">Soon</span>
                     </li>
                   ))}
                 </ul>
@@ -108,11 +118,11 @@ const resolveHref = (href: string) =>
           </div>
         </div>
       ))}
-      <p class="mt-10 max-w-[72ch] text-[0.9375rem] text-muted">
+      <p class="mt-10 max-w-[68ch] text-[0.9375rem] text-muted">
         {PAYMENTS_NOTE} Multi-location enterprise plans are
-        custom — <a href={`${root}/book-a-demo`} class="link">book a demo</a> for a quote.
+        custom: <a href={`${root}/book-a-demo`} class="link">book a demo</a> for a quote.
       </p>
-      <p class="mt-4 max-w-[72ch] text-[0.8125rem] leading-relaxed text-muted" data-testid="founders-fine-print">{FOUNDERS_OFFER.finePrint}</p>
+      <p class="mt-4 max-w-[68ch] text-[0.8125rem] leading-relaxed text-muted" data-testid="founders-fine-print">{FOUNDERS_OFFER.finePrint}</p>
     </div>
   </section>
   </>)}

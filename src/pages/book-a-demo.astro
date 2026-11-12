@@ -2,8 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import LeadForm from "../components/LeadForm.astro";
 import Testimonials from "../components/Testimonials.astro";
-import PageHero from "../components/PageHero.astro";
-import { PRIMARY_CTA } from "../config";
+import { PRIMARY_CTA, SIGNUP_COPY } from "../config";
 
 const seeItems = [
   "Your first program, written live in front of you.",
@@ -14,20 +13,20 @@ const seeItems = [
 ---
 <Layout
   title="Book a demo"
-  description="See Deload on your own roster. Book a demo and see what Deload takes off your week — programming, your roster and the athlete app — and ask anything about moving over from your current tool."
+  description="See Deload on your own roster. Book a demo and see what Deload takes off your week (programming, your roster and the athlete app) and ask anything about moving over from your current tool."
 >
-  <PageHero title="See it on your own roster." wide>
-    <p slot="after-intro" class="lede mt-6">
-      We'll show you what Deload takes off your week and how to bring your programs over. Rather wait for an invite?
-      <a href={PRIMARY_CTA.href} class="link">Join the waitlist.</a>
-    </p>
-  </PageHero>
-
-  <section class="wrap pb-20 md:pb-24">
-    <div class="grid gap-12 border-t border-rule pt-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
+  <!-- The form sits beside the headline so it starts above the fold on a
+       1280x800 laptop; on phones it follows the intro (founder, 2026-11-12). -->
+  <section class="wrap pt-14 pb-20 md:pt-20 md:pb-24">
+    <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-16">
       <div>
-        <h2 class="h3 text-[1.75rem] text-ink">What you'll see</h2>
-        <ul class="rows mt-6">
+        <h1 class="display-sm max-w-[16ch] text-ink">See it on your own roster.</h1>
+        <p class="lede mt-6">
+          We'll show you what Deload takes off your week and how to bring your programs over. {SIGNUP_COPY.demoAlternative.lead}
+          <a href={PRIMARY_CTA.href} class="link">{SIGNUP_COPY.demoAlternative.link}</a>
+        </p>
+        <h2 class="h3 mt-10 text-ink">What you'll see</h2>
+        <ul class="rows mt-5">
           {seeItems.map((t) => <li class="text-[1.0625rem] text-ink">{t}</li>)}
         </ul>
       </div>

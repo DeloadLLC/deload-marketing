@@ -1,0 +1,26 @@
+---
+// A page that only forwards: an instant meta refresh (and a script for
+// browsers that ignore it), kept out of search. Used by /beta and
+// /landing-page when sign-up is open (founder, 2026-11-12).
+interface Props {
+  to: string;
+  title: string;
+}
+const { to, title } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} | Deload</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={to} />
+    <meta http-equiv="refresh" content={`0; url=${to}`} />
+    <script is:inline define:vars={{ to }}>window.location.replace(to);</script>
+    <style>:root { --font-sans: system-ui, sans-serif; } body { font-family: var(--font-sans); padding: 2rem; }</style>
+  </head>
+  <body>
+    <p>Sign-up is open. Continue to <a href={to}>create your account</a>.</p>
+  </body>
+</html>

@@ -19,10 +19,14 @@ export default {
         clay: v("clay"),
         warn: v("warn"),
       },
+      // Font stacks and the menu shadow live as tokens in src/styles/global.css.
       fontFamily: {
-        sans: ["Geist", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
-        mono: ["Geist Mono", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
-        logo: ["Space Grotesk", "Geist", "sans-serif"],
+        sans: "var(--font-sans)",
+        mono: "var(--font-mono)",
+        logo: "var(--font-logo)",
+      },
+      boxShadow: {
+        menu: "var(--shadow-menu)",
       },
       maxWidth: {
         prose: "65ch",

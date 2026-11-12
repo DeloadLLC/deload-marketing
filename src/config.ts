@@ -13,14 +13,32 @@ export const SIGN_UP_URL = `${trimmedAppUrl}/sign-up`;
 // Private beta (founder, 2026-10-19): sign-up is by invitation, so every
 // sign-up button is "Join Waitlist" and goes to /beta, whose form feeds the
 // beta list (Admin → Beta invites). PUBLIC_SIGNUP_MODE=open puts the buttons
-// back on the app's sign-up when the beta ends.
+// back on the app's sign-up when the beta ends, and every page's copy follows
+// it: in open mode no page mentions the waitlist, /beta and /landing-page
+// forward to sign-up, and prices show (founder, 2026-11-12).
 export const SIGNUP_MODE: "waitlist" | "open" =
   (import.meta.env.PUBLIC_SIGNUP_MODE as string | undefined)?.trim() === "open" ? "open" : "waitlist";
+export const IS_OPEN = SIGNUP_MODE === "open";
+/** The free trial, the same length everywhere (founder, 2026-11-12). */
+export const TRIAL_DAYS = 14;
+export const TRIAL_LABEL = `Start ${TRIAL_DAYS}-day free trial`;
 const siteBase = (import.meta.env.BASE_URL as string | undefined) ?? "/";
-export const PRIMARY_CTA =
-  SIGNUP_MODE === "open"
-    ? { label: "Try for free", href: SIGN_UP_URL }
-    : { label: "Join Waitlist", href: `${siteBase.replace(/\/$/, "")}/beta` };
+export const PRIMARY_CTA = IS_OPEN
+  ? { label: "Start free trial", href: SIGN_UP_URL }
+  : { label: "Join Waitlist", href: `${siteBase.replace(/\/$/, "")}/beta` };
+
+/** Sentences that differ between the waitlist and open sign-up. */
+export const SIGNUP_COPY = IS_OPEN
+  ? {
+      demoAlternative: { lead: "Rather try it yourself?", link: `Start a ${TRIAL_DAYS}-day free trial.` },
+      closeTail: `or start a ${TRIAL_DAYS}-day free trial.`,
+      individualAccess: `Start with a ${TRIAL_DAYS}-day free trial.`,
+    }
+  : {
+      demoAlternative: { lead: "Rather wait for an invite?", link: "Join the waitlist." },
+      closeTail: "or join the waitlist for the Founders Rate.",
+      individualAccess: "In private beta: join the waitlist and we'll invite you.",
+    };
 
 // The app hosts the one copy of the legal pages (they changed with the beta
 // decisions; two copies drifted). The site's /privacy and /terms forward there.
@@ -28,8 +46,10 @@ export const PRIVACY_URL = `${trimmedAppUrl}/privacy`;
 export const TERMS_URL = `${trimmedAppUrl}/terms`;
 
 // Prices stay hidden during the private beta (founder, 2026-10-19). The tier
-// data below is kept for when they're published: PUBLIC_SHOW_PRICES=1.
-export const SHOW_PRICES = (import.meta.env.PUBLIC_SHOW_PRICES as string | undefined)?.trim() === "1";
+// data below is kept for when they're published: PUBLIC_SHOW_PRICES=1. Open
+// sign-up always shows them: a free trial needs a price to go with it.
+export const SHOW_PRICES =
+  IS_OPEN || (import.meta.env.PUBLIC_SHOW_PRICES as string | undefined)?.trim() === "1";
 
 export const TURNSTILE_SITE_KEY =
   (import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined) ?? "";
@@ -40,16 +60,18 @@ export const SITE_NAME = "Deload";
 export const SITE_TAGLINE = "The all-in-one AI coaching platform";
 
 export const SITE_DESCRIPTION =
-  "The all-in-one AI coaching platform for coaches who write their own training. Generate block-aware programs, edit in plain English, bring in the programs you already have, run your roster, and ship the program straight to your athletes' phones — all in one place.";
+  "The all-in-one AI coaching platform for coaches who write their own training. Generate block-aware programs, edit in plain English, bring in the programs you already have, run your roster, and ship the program straight to your athletes' phones, all in one place.";
 
 // ---------------------------------------------------------------------------
 // Information architecture / navigation
 // ---------------------------------------------------------------------------
 //
-// The header renders three mega-menu dropdowns (Features, Business types,
-// Resources) plus two flat links (Why we're different, Pricing). All menu
-// data lives here so a single edit updates the header, the footer, and the
-// dynamically generated detail pages.
+// The header renders the Features dropdown plus flat links (Why we're
+// different, Pricing, Support). All menu data lives here so a single edit
+// updates the header, the footer, and the dynamically generated detail pages.
+// Pages that aren't live yet ("Coming soon") keep their code but stay out of
+// the menu, the footer and the sitemap, and carry noindex (founder,
+// 2026-11-12): see isLive* and HIDDEN_PATHS below.
 
 export type FeatureStatus = "shipped" | "soon";
 
@@ -58,7 +80,6 @@ export interface FeatureEntry {
   nav: string; // label in the dropdown
   status: FeatureStatus;
   menuBlurb: string; // one line under the nav label
-  eyebrow: string;
   title: string; // hero headline on the detail page
   intro: string; // hero sub-paragraph
   points: string[]; // capability bullets
@@ -80,15 +101,14 @@ export const FEATURES: FeatureEntry[] = [
     status: "shipped",
     flagship: true,
     menuBlurb: "Block-aware first drafts, in minutes instead of evenings.",
-    eyebrow: "AI Programming",
-    title: "The first true AI exercise-programming agent.",
+    title: "A full training block for each athlete, drafted for you to edit.",
     intro:
-      "A real, block-aware program for the athlete in front of you. Not a template.",
+      "Deload drafts a block-aware program for the athlete in front of you. You change what you want and assign it.",
     points: [
       "A first-draft block for each athlete's sport, level, equipment, training age and constraints.",
       "Mesocycles, deloads, peaks and tapers that land on the meet or goal date.",
       "Prescribe by RPE, RIR or %1RM in the same block, and the numbers still add up.",
-      "Powerlifting, weightlifting, hypertrophy, sport-specific, masters, HRT-aware and post-surgical programming.",
+      "Powerlifting, weightlifting, hypertrophy, sport-specific and masters programming.",
     ],
   },
   {
@@ -96,10 +116,9 @@ export const FEATURES: FeatureEntry[] = [
     nav: "Plain-English editing",
     status: "shipped",
     menuBlurb: "Edit any block in plain English; downstream weeks adjust.",
-    eyebrow: "Editing",
     title: "Plain-English edits that ripple through the block.",
     intro:
-      "Tell Deload what changed — a tweaked back, a missed week, a meet that moved — and only the affected weeks rewrite.",
+      "Tell Deload what changed (a tweaked back, a missed week, a meet that moved) and only the affected weeks rewrite.",
     points: [
       "Ask the way you'd say it: “drop the deload,” “add RPE targets,” “make Wednesday upper-body focused.”",
       "Every AI change spelled out.",
@@ -114,7 +133,6 @@ export const FEATURES: FeatureEntry[] = [
     nav: "Program import",
     status: "shipped",
     menuBlurb: "Bring in the programs you already wrote.",
-    eyebrow: "Import",
     title: "Bring the programs you already have.",
     intro:
       "Your best programs already live in a spreadsheet, Word doc or PDF. Bring them in, in your wording, and build on them instead of retyping.",
@@ -129,16 +147,14 @@ export const FEATURES: FeatureEntry[] = [
     slug: "populations",
     nav: "Population-specific protocols",
     status: "shipped",
-    menuBlurb: "Masters, HRT-aware and post-surgical protocols.",
-    eyebrow: "Populations",
+    menuBlurb: "Masters athletes and sport-specific prep.",
     title: "Programming that respects who's actually in front of you.",
     intro:
       "Specialist protocols built in, so the program fits the athlete.",
     points: [
       "Powerlifting, weightlifting, hypertrophy, and sport-specific prep.",
       "Masters athletes, bone-density-aware programming, and fall-prevention GPP.",
-      "Trans athletes across the HRT spectrum (on / off / pre / post-surgical).",
-      "Hypogonadal men with or without TRT, including post-prostate-cancer cases.",
+      "Each athlete's level, training age, equipment and injuries shape the draft.",
     ],
   },
   {
@@ -146,7 +162,6 @@ export const FEATURES: FeatureEntry[] = [
     nav: "Roster management",
     status: "shipped",
     menuBlurb: "See who needs you this week.",
-    eyebrow: "Roster",
     title: "Triage the roster, don't refresh it.",
     intro:
       "Know who needs you this week: new and drifting clients, recent PRs, high-RPE weeks.",
@@ -163,7 +178,6 @@ export const FEATURES: FeatureEntry[] = [
     nav: "In-app messaging",
     status: "shipped",
     menuBlurb: "Messaging that doesn't live in your texts.",
-    eyebrow: "Communication",
     title: "Messaging that doesn't live in your texts.",
     intro:
       "Athletes message you about the session in question, so you answer with the context in front of you.",
@@ -178,7 +192,6 @@ export const FEATURES: FeatureEntry[] = [
     nav: "Structured check-ins",
     status: "soon",
     menuBlurb: "Check-ins that land back in your inbox.",
-    eyebrow: "Check-ins",
     title: "The weekly check-in, structured and in one place.",
     intro:
       "Weekly check-ins go out on schedule, so you catch readiness, pain and off-target weeks early.",
@@ -193,9 +206,8 @@ export const FEATURES: FeatureEntry[] = [
     slug: "athlete-app",
     nav: "Athlete app",
     status: "shipped",
-    menuBlurb: "An app athletes actually open, on any phone.",
-    eyebrow: "Athlete experience",
-    title: "An app athletes actually open.",
+    menuBlurb: "Today's session and fast logging, on any phone.",
+    title: "An athlete app built around the next set.",
     intro:
       "Built around the next set, not streaks. Athletes see today's session, log it in seconds and message you when something's off.",
     points: [
@@ -210,7 +222,6 @@ export const FEATURES: FeatureEntry[] = [
     nav: "Scheduling & booking",
     status: "soon",
     menuBlurb: "Paid 1-on-1 sessions, booked without the back-and-forth.",
-    eyebrow: "Scheduling",
     title: "Booking and scheduling, handled in the same app.",
     intro:
       "Paid 1-on-1 sessions, booked without the back-and-forth over text.",
@@ -227,14 +238,14 @@ export const FEATURES: FeatureEntry[] = [
     nav: "Program marketplace",
     status: "shipped",
     menuBlurb: "Sell your programs, paid to your own Stripe account.",
-    eyebrow: "Marketplace",
     title: "Sell the programs you're proud of.",
     intro:
       "Sell your programs on the Deload marketplace, paid to your own Stripe account.",
     points: [
       "Sell any program at the price you choose.",
       "Buyers pay by card, get the program in their Deload app and join your roster, ready to message or bring on as clients.",
-      "Deload takes 15% only on buyers its marketplace brings you. Buyers who come straight to you through your own link pay no Deload fee, and neither do payments from your own clients.",
+      "Deload takes 15% of each sale.",
+      "Coming soon: no Deload fee on buyers who come to you through your own link.",
     ],
   },
   {
@@ -242,7 +253,6 @@ export const FEATURES: FeatureEntry[] = [
     nav: "Billing & payments",
     status: "soon",
     menuBlurb: "Get paid without leaving the app.",
-    eyebrow: "Billing",
     title: "Get paid without leaving the app.",
     intro:
       "Bill monthly plans, packages and one-off sessions through Stripe, without a second tool.",
@@ -258,10 +268,9 @@ export const FEATURES: FeatureEntry[] = [
     nav: "Analytics & reporting",
     status: "soon",
     menuBlurb: "Know how the roster and the business are doing.",
-    eyebrow: "Analytics",
     title: "The numbers that actually tell you something.",
     intro:
-      "Turn logged sessions and bookings into decisions — without exporting to a spreadsheet.",
+      "Turn logged sessions and bookings into decisions, without exporting to a spreadsheet.",
     points: [
       "This week at a glance: new and drifting clients, recent PRs and auto-adjustments.",
       "Schedule, revenue, billing and space-use reports.",
@@ -274,7 +283,6 @@ export const FEATURES: FeatureEntry[] = [
     nav: "Team & org",
     status: "shipped",
     menuBlurb: "Org-ready when you're not the only coach.",
-    eyebrow: "For the team",
     title: "Org-ready when you're not the only coach.",
     intro:
       "Add coaches and run the whole team to one standard.",
@@ -290,7 +298,6 @@ export const FEATURES: FeatureEntry[] = [
     nav: "White labeling",
     status: "soon",
     menuBlurb: "Your brand on the client-facing experience.",
-    eyebrow: "White labeling",
     title: "Run the client experience under your own brand.",
     intro:
       "Your studio's brand on everything your athletes see, with Deload underneath.",
@@ -315,7 +322,6 @@ export interface BusinessTypeEntry {
   slug: string;
   nav: string;
   menuBlurb: string;
-  eyebrow: string;
   title: string;
   intro: string;
   points: string[];
@@ -330,22 +336,20 @@ export const BUSINESS_TYPES: BusinessTypeEntry[] = [
     slug: "individual",
     nav: "Individual coach",
     menuBlurb: "Solo coaches running their own roster.",
-    eyebrow: "Individual",
     title: "Everything a solo coach needs, without the spreadsheet stack.",
     intro:
       "Deload does the heavy lifting, so one coach can coach more athletes well and still take Sunday night off.",
     points: [
       "First drafts in minutes, not evenings.",
-      "One roster, one inbox, one athlete app — no tool-switching.",
-      "In private beta: join the waitlist and we'll invite you.",
+      "One roster, one inbox, one athlete app, no tool-switching.",
+      SIGNUP_COPY.individualAccess,
     ],
     cta: { label: "", href: "" },
   },
   {
     slug: "new-business",
-    nav: "Deload Foundations - NewBiz",
+    nav: "New coaching business",
     menuBlurb: "Opening or just launched? Start here.",
-    eyebrow: "New business",
     title: "Start your coaching business on the right foundation.",
     intro:
       "Going independent or opening your first studio? Deload Foundations pairs the platform with help getting the business off the ground.",
@@ -361,7 +365,6 @@ export const BUSINESS_TYPES: BusinessTypeEntry[] = [
     slug: "small-enterprise",
     nav: "Small enterprise",
     menuBlurb: "Small teams and single-location studios.",
-    eyebrow: "Small enterprise",
     title: "A small team that coaches like a big one.",
     intro:
       "A handful of coaches, one standard. Programming stays consistent, every athlete is covered, and the admin is off your plate.",
@@ -377,7 +380,6 @@ export const BUSINESS_TYPES: BusinessTypeEntry[] = [
     slug: "large-enterprise",
     nav: "Large enterprise & multi-location",
     menuBlurb: "Multi-location studios and large rosters.",
-    eyebrow: "Large enterprise",
     title: "Multi-location, multi-coach, one source of truth.",
     intro:
       "Across several locations and a large roster, consistency and oversight matter as much as speed.",
@@ -394,7 +396,6 @@ export const BUSINESS_TYPES: BusinessTypeEntry[] = [
     slug: "white-label",
     nav: "White labeling",
     menuBlurb: "Your brand on the athlete experience.",
-    eyebrow: "White labeling",
     title: "Run Deload under your own brand.",
     intro:
       "The Deload engine under your name, logo, colours and domain, with a fully branded native app on the way.",
@@ -421,7 +422,6 @@ export interface ResourceEntry {
   slug: string;
   nav: string;
   menuBlurb: string;
-  eyebrow: string;
   title: string;
   intro: string;
   body?: string[];
@@ -433,7 +433,6 @@ export const RESOURCES: ResourceEntry[] = [
     slug: "starting-your-business",
     nav: "Starting your business",
     menuBlurb: "A playbook for launching your coaching business.",
-    eyebrow: "Guide",
     title: "Starting your coaching business.",
     intro:
       "Pricing, packaging, your first clients and the systems that keep the business from eating your week.",
@@ -441,12 +440,13 @@ export const RESOURCES: ResourceEntry[] = [
       "Your early decisions on pricing, packaging and getting paid set the ceiling on what comes next.",
       "Deload Foundations (coming soon) will help you build the business around the platform.",
     ],
+    // Two sentences and a pointer to Foundations, which isn't open yet.
+    comingSoon: true,
   },
   {
     slug: "funding",
     nav: "Links to funding",
     menuBlurb: "Financing and funding options for new studios.",
-    eyebrow: "Resource",
     title: "Funding your studio or business.",
     intro:
       "A space, equipment and your first hire take capital. Here's where to look.",
@@ -460,7 +460,6 @@ export const RESOURCES: ResourceEntry[] = [
     slug: "blog",
     nav: "Blog",
     menuBlurb: "Programming, business, and product notes.",
-    eyebrow: "Blog",
     title: "The Deload blog.",
     intro:
       "Notes on programming, running a coaching business and what we're building.",
@@ -470,7 +469,6 @@ export const RESOURCES: ResourceEntry[] = [
     slug: "webinars",
     nav: "Webinars",
     menuBlurb: "Live and recorded sessions with the team.",
-    eyebrow: "Webinars",
     title: "Webinars.",
     intro:
       "Live and recorded walkthroughs of Deload and growing your business. Schedule coming soon.",
@@ -480,7 +478,6 @@ export const RESOURCES: ResourceEntry[] = [
     slug: "support",
     nav: "Support + FAQ",
     menuBlurb: "Answers, docs, and how to reach us.",
-    eyebrow: "Support",
     title: "Support & FAQ.",
     intro: "Common questions, plus how to reach a human when you need one.",
   },
@@ -490,8 +487,34 @@ export function getResource(slug: string): ResourceEntry | undefined {
   return RESOURCES.find((r) => r.slug === slug);
 }
 
+// What the menu, the footer and the sitemap show: live pages only.
+export const isLiveFeature = (f: FeatureEntry) => f.status !== "soon";
+export const isLiveBusinessType = (b: BusinessTypeEntry) => !b.comingSoon;
+export const isLiveResource = (r: ResourceEntry) => !r.comingSoon;
+export const LIVE_FEATURES = FEATURES.filter(isLiveFeature);
+export const LIVE_BUSINESS_TYPES = BUSINESS_TYPES.filter(isLiveBusinessType);
+export const LIVE_RESOURCES = RESOURCES.filter(isLiveResource);
+
+/**
+ * Pages that are built but hidden: noindex, and left out of the sitemap
+ * (astro.config.mjs reads this list). The business-type and resource index
+ * pages are hubs for pages that are mostly not live, so they go too.
+ */
+export const HIDDEN_PATHS: string[] = [
+  // With open sign-up the waitlist page only forwards to sign-up.
+  ...(IS_OPEN ? ["/beta"] : []),
+  "/elevate",
+  "/business-types",
+  "/resources",
+  ...FEATURES.filter((f) => !isLiveFeature(f)).map((f) => `/features/${f.slug}`),
+  ...BUSINESS_TYPES.filter((b) => !isLiveBusinessType(b)).map((b) => `/business-types/${b.slug}`),
+  ...RESOURCES.filter((r) => !isLiveResource(r)).map((r) => `/resources/${r.slug}`),
+];
+export const isHiddenPath = (pathname: string) =>
+  HIDDEN_PATHS.includes(pathname.replace(/\/+$/, "") || "/");
+
 // ---------------------------------------------------------------------------
-// Pricing — Individuals vs Teams. Shown only when PUBLIC_SHOW_PRICES=1.
+// Pricing: Individuals vs Teams. Shown with PUBLIC_SHOW_PRICES=1 or open sign-up.
 // ---------------------------------------------------------------------------
 
 export interface PricingTier {
@@ -504,7 +527,8 @@ export interface PricingTier {
   cta: { label: string; href: string };
   highlight?: boolean;
   badge?: string;
-  features: string[];
+  /** A feature that isn't live yet carries soon: true and shows a Soon tag. */
+  features: (string | { label: string; soon: true })[];
 }
 
 /**
@@ -536,12 +560,12 @@ export const PRICING: {
       name: "Solo",
       price: "$149",
       cadence: "/mo",
-      blurb: "One coach, up to 25 athletes — a full personal roster.",
-      cta: { label: "Start 7-day free trial", href: "" },
+      blurb: "One coach, up to 25 athletes: a full personal roster.",
+      cta: { label: TRIAL_LABEL, href: "" },
       features: [
         "AI program generation and editing in plain English",
         "Full edit history on every program",
-        "Athlete app, messaging and check-ins",
+        "Athlete app and messaging",
         "Program import from Excel, Word or PDF",
       ],
     },
@@ -549,15 +573,14 @@ export const PRICING: {
       name: "Pro",
       price: "$199",
       cadence: "/mo",
-      blurb: "One coach, up to 50 athletes — for scaling past 15 or running groups.",
-      cta: { label: "Start 14-day free trial", href: "" },
+      blurb: "One coach, up to 50 athletes: for growing past 25 or running groups.",
+      cta: { label: TRIAL_LABEL, href: "" },
       highlight: true,
-      badge: "Most popular",
       features: [
         "Everything in Solo, plus…",
         "Optimized long programs (8+ weeks)",
         "Roster triage + automations",
-        "Accounting and reports",
+        { label: "Accounting and reports", soon: true },
         "Priority support",
       ],
     },
@@ -565,12 +588,12 @@ export const PRICING: {
       name: "Elite",
       price: "$249",
       cadence: "/mo",
-      blurb: "One coach, 100+ athletes — built to scale online programs and growth.",
-      cta: { label: "Start 14-day free trial", href: "" },
+      blurb: "One coach, 100+ athletes: built to scale online programs and growth.",
+      cta: { label: TRIAL_LABEL, href: "" },
       features: [
         "Everything in Pro, plus…",
         "No athlete cap",
-        "White-label client portal",
+        { label: "White-label client portal", soon: true },
         "Advanced AI agent customization",
         "Dedicated onboarding call",
       ],
@@ -583,10 +606,10 @@ export const PRICING: {
       cadence: "/mo",
       perSeat: `+ $${TEAM_SEATS.pro.priceUsd}/mo per coach`,
       blurb: `Your Pro plan covers you and 50 athletes. Each coach you add is $${TEAM_SEATS.pro.priceUsd}/mo and adds ${TEAM_SEATS.pro.clientsPerSeat} athletes to the roster your team shares.`,
-      cta: { label: "Start 14-day free trial", href: "" },
+      cta: { label: TRIAL_LABEL, href: "" },
       features: [
         "Everything in Pro, for every coach",
-        "Owner, Admin, Coach and Viewer roles — Viewers are free",
+        "Owner, Admin, Coach and Viewer roles; Viewers are free",
         "Assign coaches to athletes, or let every coach see the roster",
         "Seats prorated from the day a coach joins",
       ],
@@ -597,7 +620,7 @@ export const PRICING: {
       cadence: "/mo",
       perSeat: `+ $${TEAM_SEATS.elite.priceUsd}/mo per coach`,
       blurb: `No athlete cap for the whole team. Each coach you add is $${TEAM_SEATS.elite.priceUsd}/mo.`,
-      cta: { label: "Start 14-day free trial", href: "" },
+      cta: { label: TRIAL_LABEL, href: "" },
       highlight: true,
       badge: "Growing teams",
       features: [
@@ -626,25 +649,46 @@ export const PRICING: {
 /**
  * The Founders offer (founder, 2026-10-22): what joining the waitlist buys.
  * One source for the hero sub-line, the /beta perks, the /pricing banner and
- * the fine print under each of them.
+ * the fine print under each of them. With open sign-up it stays on pricing as
+ * a limited offer (founder, 2026-11-12).
  */
-export const FOUNDERS_OFFER = {
-  /** The one-line pitch next to every Join Waitlist button. */
-  pitch: "Join the waitlist for early access, the Founders Rate and 25% off a future upgrade.",
-  perks: [
-    "Early access to the full platform",
-    "The Founders Rate — the Solo plan at $99/mo instead of $149, for as long as you keep it",
-    "25% off one future upgrade to Pro or Elite, for as long as you stay on it",
-  ],
-  /** Pricing-page banner. */
-  headline: "Founders Rate — the Solo plan at $99/mo, for as long as you keep it",
-  body:
-    "For coaches who take part in the beta — the private beta from the waitlist, or the public beta once it opens. Beta coaches use Deload free while the beta runs; when we launch, their Solo plan is $99/mo instead of $149, and moving up to Pro or Elite comes with 25% off that plan.",
-  cta: { label: "Join the waitlist", href: "" },
-  /** The stipulations, kept short and shown wherever the offer is. */
-  finePrint:
-    "Founders Rate: the Solo plan at $99/mo for coaches who took part in the beta (private or public) before launch, for as long as they keep that plan; one per account, not transferable. Upgrade discount: 25% off Pro or Elite from the day a Founders-rate coach moves up, for as long as they stay on that plan; it covers one upgrade, and a later move to a different plan is at the standard price. Prices are monthly, in USD, billed through Stripe; plans and prices may change before launch, but a Founders Rate already granted stays at $99.",
-};
+const UPGRADE_TERMS =
+  "Upgrade discount: 25% off Pro or Elite from the day a Founders-rate coach moves up, for as long as they stay on that plan; it covers one upgrade, and a later move to a different plan is at the standard price.";
+export const FOUNDERS_OFFER = IS_OPEN
+  ? {
+      /** The one-line note under the home hero's buttons. */
+      pitch: `${TRIAL_DAYS}-day free trial. Founders Rate while it lasts: Solo at $99/mo instead of $149.`,
+      perks: [
+        `A ${TRIAL_DAYS}-day free trial of the full platform`,
+        "The Founders Rate: the Solo plan at $99/mo instead of $149, for as long as you keep it",
+        "25% off one future upgrade to Pro or Elite, for as long as you stay on it",
+      ],
+      /** Pricing-page banner. */
+      headline: "Founders Rate: the Solo plan at $99/mo, for as long as you keep it",
+      body:
+        `A limited offer for coaches who join now. Start with a ${TRIAL_DAYS}-day free trial; after it, Solo is $99/mo instead of $149 for as long as you keep it, and moving up to Pro or Elite later comes with 25% off that plan.`,
+      cta: { label: "Start free trial", href: "" },
+      /** The stipulations, kept short and shown wherever the offer is. */
+      finePrint:
+        `Founders Rate: the Solo plan at $99/mo for coaches who sign up while the offer runs, for as long as they keep that plan; one per account, not transferable. It is a limited offer and can end for new sign-ups at any time; a Founders Rate already granted stays at $99. ${UPGRADE_TERMS} Prices are monthly, in USD, billed through Stripe.`,
+    }
+  : {
+      /** The one-line pitch next to every Join Waitlist button. */
+      pitch: "Join the waitlist for early access, the Founders Rate and 25% off a future upgrade.",
+      perks: [
+        "Early access to the full platform",
+        "The Founders Rate: the Solo plan at $99/mo instead of $149, for as long as you keep it",
+        "25% off one future upgrade to Pro or Elite, for as long as you stay on it",
+      ],
+      /** Pricing-page banner. */
+      headline: "Founders Rate: the Solo plan at $99/mo, for as long as you keep it",
+      body:
+        "For coaches who take part in the beta: the private beta from the waitlist, or the public beta once it opens. Beta coaches use Deload free while the beta runs; when we launch, their Solo plan is $99/mo instead of $149, and moving up to Pro or Elite comes with 25% off that plan.",
+      cta: { label: "Join the waitlist", href: "" },
+      /** The stipulations, kept short and shown wherever the offer is. */
+      finePrint:
+        `Founders Rate: the Solo plan at $99/mo for coaches who took part in the beta (private or public) before launch, for as long as they keep that plan; one per account, not transferable. ${UPGRADE_TERMS} Prices are monthly, in USD, billed through Stripe; plans and prices may change before launch, but a Founders Rate already granted stays at $99.`,
+    };
 
 /**
  * Beta banners rendered above the tier cards on /pricing (the individual
@@ -656,21 +700,25 @@ export const BETA_OFFERS: Record<
   { headline: string; body: string; cta: { label: string; href: string } } | null
 > = {
   individuals: { headline: FOUNDERS_OFFER.headline, body: FOUNDERS_OFFER.body, cta: FOUNDERS_OFFER.cta },
-  teams: {
-    headline: "Bring your team into the beta — seats are free while it runs",
-    body:
-      "Beta coaches can invite their coaches now, and nobody pays for a seat until launch. Running several locations? Book a demo.",
-    cta: { label: "Join the waitlist", href: "" },
-  },
+  // The team banner is a beta offer; with open sign-up the Enterprise tier's
+  // Book a demo covers multi-location teams.
+  teams: IS_OPEN
+    ? null
+    : {
+        headline: "Bring your team into the beta: seats are free while it runs",
+        body:
+          "Beta coaches can invite their coaches now, and nobody pays for a seat until launch. Running several locations? Book a demo.",
+        cta: { label: "Join the waitlist", href: "" },
+      },
 };
 
 /**
- * Payment-processing disclosure shown under the tier cards. Standard Stripe
- * rates pass through with no Deload markup until the negotiated processing
- * agreement is finalized.
+ * Payments note under the tier cards. Client billing is switched off for every
+ * account and buyer attribution isn't live, so both are "coming soon"
+ * (founder, 2026-11-12).
  */
 export const PAYMENTS_NOTE =
-  "Payments from your own clients are processed by Stripe at the standard 2.9% + $0.30 per transaction — no Deload markup on processing. Marketplace sales carry Deload's 15% fee only when its marketplace brings the buyer; buyers who come straight to you through your own link pay none.";
+  "Program sales on the marketplace are paid to your own Stripe account, and Deload takes 15% of each sale. Coming soon: billing your own clients through Deload with no Deload fee, and no fee on marketplace buyers who come through your own link.";
 
 // ---------------------------------------------------------------------------
 // Home-page content blocks
@@ -678,18 +726,18 @@ export const PAYMENTS_NOTE =
 
 export const pillars = [
   {
-    eyebrow: "Build",
+    word: "Build",
     title: "Programs that sound like you wrote them.",
     body: "AI drafts, plain-English edits and a template library.",
   },
   {
-    eyebrow: "Run",
+    word: "Run",
     title: "A roster you can actually keep up with.",
     body: "See who needs you and catch high-RPE weeks early.",
   },
   {
-    eyebrow: "Ship",
-    title: "An athlete app athletes actually open.",
+    word: "Ship",
+    title: "An athlete app built for the gym floor.",
     body: "Today's session, fast logging and messages tied to the training.",
   },
 ];
@@ -714,12 +762,12 @@ export const absorbed = [
 ];
 
 export const proofPoints = [
-  "Powerlifting, weightlifting, hypertrophy and sport, plus masters, HRT-aware and post-surgical.",
+  "Powerlifting, weightlifting, hypertrophy, sport and masters athletes.",
   "RPE, RIR and %1RM in the same block, and the math still works.",
   "Mesocycles, deloads and peaks that fit the athlete.",
   "Change one session and the weeks after it keep up.",
   "Rearrange days and change many sessions at once.",
-  "Every edit kept and reversible — you stay the coach of record.",
+  "Every edit kept and reversible; you stay the coach of record.",
 ];
 
 // ---------------------------------------------------------------------------
@@ -785,11 +833,13 @@ export const faqs = [
     a: "Today's session, the weights, fast logging and messages to you, in the browser. Native apps are on the way.",
   },
   {
-    q: "How do I get access?",
-    a: "Join the waitlist and answer a short questionnaire; we invite coaches in small groups. It's free during the beta, and at launch beta coaches get the Founders Rate (Solo at $99/mo instead of $149) plus 25% off one upgrade.",
+    q: IS_OPEN ? "How do I start?" : "How do I get access?",
+    a: IS_OPEN
+      ? `Sign up and start a ${TRIAL_DAYS}-day free trial. Coaches who join while the Founders Rate runs pay $99/mo for Solo instead of $149, plus 25% off one upgrade. Your athletes use Deload free.`
+      : "Join the waitlist and answer a short questionnaire; we invite coaches in small groups. It's free during the beta, and at launch beta coaches get the Founders Rate (Solo at $99/mo instead of $149) plus 25% off one upgrade.",
   },
   {
     q: "Can I move my roster over from another tool?",
-    a: "Yes: import programs from Excel, Word or PDF and invite athletes by email. Help moving from Arketa, Jane, Mindbody and others comes with Deload Foundations.",
+    a: "Yes: import programs from Excel, Word or PDF and invite athletes by email.",
   },
 ];

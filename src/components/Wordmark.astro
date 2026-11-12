@@ -11,9 +11,9 @@ const { class: className = "", size = 28 } = Astro.props;
 ---
 <span class={`deload-lockup inline-flex items-center ${className}`} style={`--mk:${size}px`}>
   <svg class="deload-mk" width={size} height={size} viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-    <rect width="100" height="100" rx="21" fill="#F7F4EF" />
-    <text x="50" y="70" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="64" fill="#14161A" text-anchor="middle">d</text>
-    <rect x="44" y="72" width="12" height="3" fill="#F7F4EF" />
+    <rect width="100" height="100" rx="21" style="fill: var(--logo-tile)" />
+    <text x="50" y="70" font-weight="700" font-size="64" text-anchor="middle" style="font-family: var(--font-logo); fill: var(--logo-ink)">d</text>
+    <rect x="44" y="72" width="12" height="3" style="fill: var(--logo-tile)" />
   </svg>
   <span class="deload-wm">deload</span>
 </span>
@@ -29,7 +29,7 @@ const { class: className = "", size = 28 } = Astro.props;
     .deload-mk { box-shadow: none; }
   }
   .deload-wm {
-    font-family: "Space Grotesk", Geist, sans-serif;
+    font-family: var(--font-logo);
     font-weight: 600;
     letter-spacing: -0.02em;
     font-size: calc(var(--mk) * 0.72);

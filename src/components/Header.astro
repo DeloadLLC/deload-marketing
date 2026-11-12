@@ -2,11 +2,10 @@
 import {
   SIGN_IN_URL,
   PRIMARY_CTA,
-  FEATURES,
+  LIVE_FEATURES,
   FEATURE_GROUPS,
-  BUSINESS_TYPES,
-  RESOURCES,
   getFeature,
+  isLiveFeature,
 } from "../config";
 import Wordmark from "./Wordmark.astro";
 
@@ -15,18 +14,21 @@ const root = base.replace(/\/$/, "");
 const link = (href: string) =>
   href.startsWith("http") ? href : `${root}${href}`;
 
+// Live features only: pages marked "Coming soon" stay out of the menu
+// (founder, 2026-11-12). So do the business-type and resource pages, which are
+// almost all not live yet; Support is the one resource that is, as a link.
 const featureColumns = FEATURE_GROUPS.map((group) => ({
   heading: group.heading,
   items: group.slugs
     .map((slug) => getFeature(slug))
-    .filter((f): f is NonNullable<typeof f> => Boolean(f)),
-}));
+    .filter((f): f is NonNullable<typeof f> => Boolean(f) && isLiveFeature(f!)),
+})).filter((col) => col.items.length > 0);
 
-const chevron = `<svg class="h-3 w-3 opacity-60 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const chevron = `<svg class="h-3 w-3 opacity-60 transition-transform duration-200 motion-reduce:transition-none group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const navLink = "whitespace-nowrap rounded-lg px-2.5 py-2 text-muted transition-colors hover:text-ink";
 const menuPanel =
   "invisible absolute top-full z-50 pt-2 opacity-0 transition-[opacity,transform] duration-200 ease-out -translate-y-1 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 motion-reduce:transition-none";
-const panelBox = "rounded-2xl border border-rule bg-surface shadow-[0_18px_40px_-20px_rgb(0_0_0/0.25)]";
+const panelBox = "rounded-2xl border border-rule bg-surface shadow-menu";
 ---
 <header class="sticky top-0 z-50 border-b border-rule/70 bg-bg/90 backdrop-blur-md">
   <div class="wrap flex h-16 items-center gap-6">
@@ -39,7 +41,7 @@ const panelBox = "rounded-2xl border border-rule bg-surface shadow-[0_18px_40px_
       <div class="group relative">
         <button class={`${navLink} flex items-center gap-1.5`} aria-haspopup="true">Features <Fragment set:html={chevron} /></button>
         <div class={`${menuPanel} left-0 w-[min(58rem,90vw)]`}>
-          <div class={`${panelBox} grid grid-cols-4 gap-x-8 p-7`}>
+          <div class={`${panelBox} grid gap-x-8 p-7`} style={`grid-template-columns: repeat(${featureColumns.length}, minmax(0, 1fr))`}>
             {featureColumns.map((col) => (
               <div>
                 <p class="mb-3 text-[0.8125rem] font-medium text-muted">{col.heading}</p>
@@ -48,7 +50,6 @@ const panelBox = "rounded-2xl border border-rule bg-surface shadow-[0_18px_40px_
                     <li>
                       <a href={link(`/features/${f.slug}`)} class="block text-[0.9375rem] font-medium leading-snug text-ink transition-colors hover:text-clay">
                         {f.nav}
-                        {f.status === "soon" && <span class="soon ml-1">Coming soon</span>}
                       </a>
                     </li>
                   ))}
@@ -59,40 +60,9 @@ const panelBox = "rounded-2xl border border-rule bg-surface shadow-[0_18px_40px_
         </div>
       </div>
 
-      <div class="group relative">
-        <button class={`${navLink} flex items-center gap-1.5`} aria-haspopup="true">Business types <Fragment set:html={chevron} /></button>
-        <div class={`${menuPanel} left-0 w-80`}>
-          <ul class={`${panelBox} p-2`}>
-            {BUSINESS_TYPES.map((b) => (
-              <li>
-                <a href={link(`/business-types/${b.slug}`)} class="block rounded-xl px-3 py-2.5 text-[0.9375rem] font-medium text-ink transition-colors hover:bg-sunk">
-                  {b.nav}
-                  {b.comingSoon && <span class="soon ml-1">Coming soon</span>}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
       <a href={link("/why")} class={navLink}>Why we're different</a>
       <a href={link("/pricing")} class={navLink}>Pricing</a>
-
-      <div class="group relative">
-        <button class={`${navLink} flex items-center gap-1.5`} aria-haspopup="true">Resources <Fragment set:html={chevron} /></button>
-        <div class={`${menuPanel} left-0 w-80`}>
-          <ul class={`${panelBox} p-2`}>
-            {RESOURCES.map((r) => (
-              <li>
-                <a href={link(`/resources/${r.slug}`)} class="block rounded-xl px-3 py-2.5 text-[0.9375rem] font-medium text-ink transition-colors hover:bg-sunk">
-                  {r.nav}
-                  {r.comingSoon && <span class="soon ml-1">Coming soon</span>}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <a href={link("/resources/support")} class={navLink}>Support</a>
     </nav>
 
     <div class="ml-auto hidden items-center gap-2 xl:flex">
@@ -124,34 +94,15 @@ const panelBox = "rounded-2xl border border-rule bg-surface shadow-[0_18px_40px_
           <details class="group">
             <summary class="flex min-h-[52px] cursor-pointer list-none items-center justify-between font-medium text-ink">Features <Fragment set:html={chevron} /></summary>
             <ul class="grid gap-x-6 pb-3 sm:grid-cols-2">
-              {FEATURES.map((f) => (
-                <li><a href={link(`/features/${f.slug}`)} class="flex min-h-[44px] items-center gap-2 text-muted hover:text-ink">{f.nav}{f.status === "soon" && <span class="soon">Soon</span>}</a></li>
-              ))}
-            </ul>
-          </details>
-        </li>
-        <li>
-          <details class="group">
-            <summary class="flex min-h-[52px] cursor-pointer list-none items-center justify-between font-medium text-ink">Business types <Fragment set:html={chevron} /></summary>
-            <ul class="grid gap-x-6 pb-3 sm:grid-cols-2">
-              {BUSINESS_TYPES.map((b) => (
-                <li><a href={link(`/business-types/${b.slug}`)} class="flex min-h-[44px] items-center gap-2 text-muted hover:text-ink">{b.nav}{b.comingSoon && <span class="soon">Soon</span>}</a></li>
+              {LIVE_FEATURES.map((f) => (
+                <li><a href={link(`/features/${f.slug}`)} class="flex min-h-[44px] items-center gap-2 text-muted hover:text-ink">{f.nav}</a></li>
               ))}
             </ul>
           </details>
         </li>
         <li><a href={link("/why")} class="flex min-h-[52px] items-center font-medium text-ink">Why we're different</a></li>
         <li><a href={link("/pricing")} class="flex min-h-[52px] items-center font-medium text-ink">Pricing</a></li>
-        <li>
-          <details class="group">
-            <summary class="flex min-h-[52px] cursor-pointer list-none items-center justify-between font-medium text-ink">Resources <Fragment set:html={chevron} /></summary>
-            <ul class="grid gap-x-6 pb-3 sm:grid-cols-2">
-              {RESOURCES.map((r) => (
-                <li><a href={link(`/resources/${r.slug}`)} class="flex min-h-[44px] items-center text-muted hover:text-ink">{r.nav}</a></li>
-              ))}
-            </ul>
-          </details>
-        </li>
+        <li><a href={link("/resources/support")} class="flex min-h-[52px] items-center font-medium text-ink">Support</a></li>
         <li><a href={SIGN_IN_URL} class="flex min-h-[52px] items-center font-medium text-ink">Sign in</a></li>
       </ul>
       <div class="grid gap-2 pt-5 sm:grid-cols-2">
