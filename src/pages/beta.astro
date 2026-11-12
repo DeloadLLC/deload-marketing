@@ -1,7 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Forward from "../components/Forward.astro";
 import BetaSignupForm from "../components/BetaSignupForm.astro";
-import { FOUNDERS_OFFER } from "../config";
+import { FOUNDERS_OFFER, IS_OPEN, SIGN_UP_URL } from "../config";
+
+// With open sign-up there is no waitlist: this page forwards to sign-up
+// (founder, 2026-11-12).
 
 const betaPerks = [...FOUNDERS_OFFER.perks, "A direct line to the founder"];
 
@@ -9,21 +13,35 @@ const svgAttrs =
   'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
 const check = `<svg class="h-5 w-5" ${svgAttrs}><path d="M20 6 9 17l-5-5"/></svg>`;
 ---
+{IS_OPEN ? <Forward to={SIGN_UP_URL} title="Start your free trial" /> : (
 <Layout
   title="Join the Deload beta"
-  description="Join the waitlist: early access to Deload, the exclusive Founders Rate (Solo at $99/mo) and 25% off a future upgrade. Get block-aware programs written in your voice, manage your clients, and ship to your athletes' phones."
+  description="Join the waitlist: early access to Deload, the Founders Rate (Solo at $99/mo) and 25% off a future upgrade. Get block-aware programs written in your voice, manage your clients, and ship to your athletes' phones."
   minimalNav={true}
   hideHeaderCtas={true}
 >
   <section class="wrap pt-12 pb-16 md:pt-20 md:pb-24">
-    <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-16">
-      <div>
+    <!-- Phones: headline, then the form, then the perks. Wide: perks under the
+         headline, the form beside them. -->
+    <div class="grid items-start gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-x-16 lg:gap-y-0">
+      <div class="lg:col-start-1 lg:row-start-1">
         <h1 class="display max-w-[12ch] text-ink">Coach more. Lose fewer evenings.</h1>
         <p class="lede mt-6">
           The all-in-one AI coaching platform: block-aware programs in your voice, your clients
           and your business in one place.
         </p>
-        <p class="mt-8 text-[1.0625rem] font-medium text-ink">Join the waitlist and you get:</p>
+      </div>
+
+      <div class="lg:sticky lg:top-8 lg:col-start-2 lg:row-span-2 lg:row-start-1">
+        <div class="mb-5">
+          <h2 class="h3 text-[1.75rem] text-ink">Join the waitlist</h2>
+          <p class="mt-1 text-muted">We invite coaches in small groups. It takes a minute.</p>
+        </div>
+        <BetaSignupForm id="beta-form" submitLabel="Join Waitlist" />
+      </div>
+
+      <div class="lg:col-start-1 lg:row-start-2">
+        <p class="lg:mt-8 text-[1.0625rem] font-medium text-ink">Join the waitlist and you get:</p>
         <ul class="rows mt-5">
           {betaPerks.map((perk) => (
             <li class="flex items-start gap-3 !py-3.5 text-ink">
@@ -34,14 +52,7 @@ const check = `<svg class="h-5 w-5" ${svgAttrs}><path d="M20 6 9 17l-5-5"/></svg
         </ul>
         <p class="mt-6 max-w-[62ch] text-[0.8125rem] leading-relaxed text-muted" data-testid="founders-fine-print">{FOUNDERS_OFFER.finePrint}</p>
       </div>
-
-      <div class="lg:sticky lg:top-8">
-        <div class="mb-5">
-          <h2 class="h3 text-[1.75rem] text-ink">Join the waitlist</h2>
-          <p class="mt-1 text-muted">We invite coaches in small groups. It takes a minute.</p>
-        </div>
-        <BetaSignupForm id="beta-form" submitLabel="Join Waitlist" />
-      </div>
     </div>
   </section>
 </Layout>
+)}

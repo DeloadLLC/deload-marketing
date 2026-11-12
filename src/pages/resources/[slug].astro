@@ -1,7 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import PageHero from "../../components/PageHero.astro";
-import Arrow from "../../components/Arrow.astro";
 import { RESOURCES, faqs, getResource } from "../../config";
 
 export function getStaticPaths() {
@@ -22,7 +21,7 @@ const isSupport = resource.slug === "support";
       <div class="max-w-[65ch] space-y-5 border-t border-rule pt-10 text-[1.125rem] leading-relaxed text-ink lg:ml-[calc(14rem+3rem)]">
         {resource.body.map((p) => <p>{p}</p>)}
         <p class="pt-2">
-          <a href={`${root}/elevate`} class="link-arrow">Explore Deload Foundations <Arrow /></a>
+          <a href={`${root}/elevate`} class="link">Explore Deload Foundations</a>
         </p>
       </div>
     </section>
@@ -53,8 +52,7 @@ const isSupport = resource.slug === "support";
       </dl>
       <p class="mt-10 text-[1.125rem] text-muted">
         Still stuck?
-        <a href={`${root}/contact`} class="link">Contact us</a>
-        &mdash; we read everything.
+        <a href={`${root}/contact`} class="link">Contact us</a>. We read everything.
       </p>
     </section>
   )}

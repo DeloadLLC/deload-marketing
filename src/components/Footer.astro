@@ -1,9 +1,7 @@
 ---
 import Wordmark from "./Wordmark.astro";
 import {
-  FEATURES,
-  BUSINESS_TYPES,
-  RESOURCES,
+  LIVE_FEATURES,
   SIGN_IN_URL,
   PRIMARY_CTA,
   PRIVACY_URL,
@@ -23,17 +21,19 @@ const link = (href: string) =>
   href.startsWith("http") ? href : `${root}${href}`;
 const year = new Date().getFullYear();
 
-// Keep the footer feature list tight — the most marketable surfaces.
-const footerFeatures = FEATURES.filter((f) =>
+// Keep the footer feature list tight: the most marketable live surfaces.
+// Pages that aren't live yet (business types, most resources, Deload
+// Foundations) stay out of the footer (founder, 2026-11-12).
+const footerFeatures = LIVE_FEATURES.filter((f) =>
   ["ai-programming", "program-editing", "program-import", "roster", "athlete-app", "marketplace"].includes(f.slug),
 );
 
 const company = [
   { label: "Why we're different", href: "/why" },
-  { label: "Deload Foundations", href: "/elevate" },
   { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Book a demo", href: "/book-a-demo" },
+  { label: "Support and FAQ", href: "/resources/support" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -60,7 +60,7 @@ const colLink = "transition-colors hover:text-ink";
     </div>
   )}
 
-  <div class="wrap grid grid-cols-2 gap-x-6 gap-y-10 py-14 md:grid-cols-[1.4fr_repeat(4,1fr)]">
+  <div class="wrap grid grid-cols-2 gap-x-6 gap-y-10 py-14 md:grid-cols-[2fr_1fr_1fr]">
     <div class="col-span-2 md:col-span-1">
       <a href={link("/")} aria-label="deload home" class="text-ink"><Wordmark /></a>
       <p class="mt-4 max-w-[30ch] text-[0.9375rem] text-muted">
@@ -75,27 +75,6 @@ const colLink = "transition-colors hover:text-ink";
           <li><a class={colLink} href={link(`/features/${f.slug}`)}>{f.nav}</a></li>
         ))}
         <li><a class={colLink} href={link("/features")}>All features</a></li>
-      </ul>
-    </div>
-
-    <div>
-      <p class={colHead}>Business types</p>
-      <ul class={colList}>
-        {BUSINESS_TYPES.map((b) => (
-          <li>
-            <a class={colLink} href={link(`/business-types/${b.slug}`)}>{b.nav}</a>
-            {b.comingSoon && <span class="soon ml-1">Soon</span>}
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    <div>
-      <p class={colHead}>Resources</p>
-      <ul class={colList}>
-        {RESOURCES.map((r) => (
-          <li><a class={colLink} href={link(`/resources/${r.slug}`)}>{r.nav}</a></li>
-        ))}
       </ul>
     </div>
 

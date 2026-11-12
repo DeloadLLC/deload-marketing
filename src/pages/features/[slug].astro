@@ -2,8 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import PageHero from "../../components/PageHero.astro";
 import BlockDiagram from "../../components/BlockDiagram.astro";
-import Arrow from "../../components/Arrow.astro";
-import { FEATURES, PRIMARY_CTA, getFeature } from "../../config";
+import { FEATURES, LIVE_FEATURES, PRIMARY_CTA, getFeature } from "../../config";
 
 export function getStaticPaths() {
   return FEATURES.map((f) => ({ params: { slug: f.slug } }));
@@ -14,8 +13,8 @@ const feature = getFeature(slug!)!;
 const base = import.meta.env.BASE_URL;
 const root = base.replace(/\/$/, "");
 
-// Related features (same group is overkill here — just show three others).
-const others = FEATURES.filter((f) => f.slug !== feature.slug).slice(0, 3);
+// Related features: three other live ones (pages not live yet stay unlinked).
+const others = LIVE_FEATURES.filter((f) => f.slug !== feature.slug).slice(0, 3);
 
 const flagshipPoints = [
   {
@@ -73,13 +72,13 @@ const flagshipPoints = [
     <div class="wrap py-16 md:py-20">
       <div class="flex flex-wrap items-baseline justify-between gap-4">
         <h2 class="label">Explore more</h2>
-        <a href={`${root}/features`} class="link-arrow text-[0.9375rem]">See all features <Arrow /></a>
+        <a href={`${root}/features`} class="link text-[0.9375rem]">See all features</a>
       </div>
       <ul class="mt-6 grid border-t border-rule md:grid-cols-3">
         {others.map((f) => (
           <li class="border-b border-rule md:border-b-0 md:border-r md:last:border-r-0">
-            <a href={`${root}/features/${f.slug}`} class="link-arrow group flex h-full flex-col items-start gap-2 py-6 md:px-6 md:first:pl-0">
-              <span class="flex flex-wrap items-center gap-2 text-[1.25rem] font-semibold tracking-[-0.02em] text-ink group-hover:text-clay">{f.nav}{f.status === "soon" && <span class="soon">Soon</span>}</span>
+            <a href={`${root}/features/${f.slug}`} class="group flex h-full flex-col items-start gap-2 py-6 md:px-6 md:first:pl-0">
+              <span class="text-[1.25rem] font-semibold tracking-[-0.02em] text-ink group-hover:text-clay">{f.nav}</span>
               <span class="text-[0.9375rem] font-normal text-muted">{f.menuBlurb}</span>
             </a>
           </li>

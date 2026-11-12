@@ -151,6 +151,36 @@ components:
 
 # Design System: Deload marketing site
 
+## Founder decisions (2026-11-12)
+
+These supersede anything below that disagrees with them.
+
+- **The design is unlocked for a Hallmark redesign.** This file records the
+  shipped site; it no longer locks it. The home, pricing and beta pages are
+  rebuilt with Hallmark next (a separate change), and the Floor rules apply
+  to the whole site from now on (tokens for every colour and font, a solid
+  focus outline, no eyebrows, no decorative dots, no arrows glued to links,
+  no em dashes in copy).
+- **Product screenshots are allowed.** Capture them from staging with demo
+  data only: no real coaches, athletes or names. The old "type only, never
+  the product" rule is lifted.
+- **Tone: austere.** Plain words, few of them, no flourish; the product and
+  real numbers carry the page.
+- **The brand is kept:** the Deload monogram, the lowercase wordmark, and
+  Space Grotesk for the logo only.
+- **Copy follows the sign-up setting** (`PUBLIC_SIGNUP_MODE`): with open
+  sign-up no page says "waitlist", buttons say "Start free trial" and go to
+  the app's sign-up, prices show, and /beta and /landing-page forward to
+  sign-up. The free trial is 14 days everywhere. The Founders Rate stays on
+  pricing as a limited offer.
+- **Claims:** no "first true AI agent"; no clinical groups (HRT,
+  post-surgical, post-prostate-cancer); no competitor names; nothing shown as
+  live that is off (client billing, the 0% own-link marketplace fee, reports,
+  white label are "Soon"); no "Most popular" badge.
+- **Pages that aren't live** ("Coming soon" features, business types and
+  resources, and Deload Foundations at /elevate) stay out of the menu, the
+  footer and the sitemap and carry noindex; their code stays.
+
 Recorded 2026-11-07 from the shipped redesign on `redesign/preview` (head
 584a260), not from the sketches. Mode: Persuade. Tokens live in
 `src/styles/global.css` as RGB triplets (`--t-*` raw, `--c-*` roles) and
@@ -165,12 +195,13 @@ expression of the same world.
 **Creative North Star: "The Coach's Week, Set in Type"**
 
 The site sells the outcome (the evening back, one app instead of four) with
-type, colour fields and abstract drawn motifs, never with pictures of the
-product. A warm cream page carries large tight Geist headlines; one ink field
+type, colour fields and abstract drawn motifs. (Until 2026-11-12 it never
+showed the product; screenshots from staging with demo data are now allowed.) A warm cream page carries large tight Geist headlines; one ink field
 per page (it inverts to cream at night) holds the thesis and the close; a deep
 sage field carries the "whole job" band on the home page. Sage and clay are
-the only accents, and clay is reserved for the moments that move: the rotating
-hero noun, the strikes through the old tools, the week rail.
+the only accents, and clay is reserved for the moments that move: the strikes
+through the old tools and the week rail. The hero headline is static (the
+rotating noun was removed, 2026-11-12).
 
 Hierarchy comes from scale and weight, not from boxes. Lists are hairline rows
 without bullets; sections are separated by a 1px rule and generous vertical
@@ -179,7 +210,7 @@ weeks, prices, percentages) are set in Geist Mono with tabular figures and
 pulled tight inside display type; nothing else is mono.
 
 **Key Characteristics:**
-- Type-only persuasion: no screenshots, UI mock-ups, product walk-throughs or photos anywhere.
+- Type-led persuasion. Product screenshots are allowed from 2026-11-12 (staging, demo data, no real people); no stock photos.
 - Cream page, one ink band, ink primary buttons; sage and clay as the only accents.
 - Geist for every word, Geist Mono for every real number, Space Grotesk for the logo only.
 - Hairline rules instead of cards; colour fields instead of imagery.
@@ -198,7 +229,7 @@ for "watch this"; one colour per meaning, never decorative.
 - **Deep Sage Field** (`deep-sage-field` #3F5F45, `--c-field`; cream text 6.52:1, muted text `on-field-muted` 4.86:1): the "One app, the whole job" band. At night the field becomes `night-sage` with green-black text (7.83:1; `night-on-field-muted` 5.63:1).
 
 ### Tertiary
-- **Clay** (`clay`; night `night-clay`): the rotating hero noun (display size only: 3.45:1 on cream, large-text use), the strike lines, the week rail fill and dot, the "Coming soon" dot, link hover underline, the text caret, the selection tint, the deload bars in the block diagram, large mono figures on `/elevate`. Never body-size text on cream.
+- **Clay** (`clay`; night `night-clay`): the strike lines, the week rail fill and dot, link hover underline, the text caret, the selection tint, the deload bars in the block diagram, large mono figures on `/elevate`. Never body-size text on cream.
 
 ### Neutral
 - **Cream Page** (`cream-page` / `night-page`): the page ground.
@@ -206,7 +237,7 @@ for "watch this"; one colour per meaning, never decorative.
 - **Sunk Cream** (`sunk-cream` / `night-sunk`): the pricing beta-offer panel, menu item hover.
 - **Muted Olive** (`muted-olive` / `night-muted`): ledes, secondary copy, attribution, nav links at rest. 4.86:1 on cream.
 - **Faint Olive** (`faint-olive` / `night-faint`): the scrollbar thumb only. 2.5:1 on cream, so never text.
-- **Hairline** (`hairline` / `night-hairline`): every rule, row divider and control border.
+- **Hairline** (`hairline` / `night-hairline`): every rule, row divider and button border. Form fields are the exception: their edge is Muted Olive (about 5:1), so a field reads as a field.
 - **On-ink roles** (`muted-on-ink`, `hairline-on-ink`; at night `night-muted-on-cream`, `night-hairline-on-cream`): the same muted and rule roles inside an ink band.
 - **Needs-you Red** (`needs-you-red` / `night-needs-you-red`): form error messages only.
 
@@ -223,6 +254,10 @@ for "watch this"; one colour per meaning, never decorative.
 **Body Font:** Geist
 **Label/Mono Font:** Geist Mono (with ui-monospace, SFMono-Regular, Menlo), tabular figures
 **Logo Font:** Space Grotesk 600/700, only the letters of "deload" are fetched
+
+The stacks are tokens on `:root` (`--font-sans`, `--font-mono`, `--font-logo`)
+and Tailwind's `font-sans`, `font-mono` and `font-logo` read them; no
+`font-family` literal appears past the token block.
 
 **Character:** One grotesque at two extremes: very large, tight, 600-weight headlines against calm 16px body; mono numerals drop into headlines as anchors ("Sunday, 9:40 pm.", "$99").
 
@@ -259,9 +294,11 @@ rows (1px rule between, 1.1rem padding, larger rows 1.75rem). Buttons group
 with a 10px gap and wrap.
 
 Per page:
-- **Home:** hero (headline max 16ch, lede, ink primary + secondary + quiet "Why we're different", founders line) → the rounded ink band "Sunday, 9:40 pm." with the week rail → the five replaced tools in a 1/2/5-column hairline grid, old tool struck in clay → the full-bleed sage field with three big-word pillars → "The hours that don't show up on a roster" rows → "Not a workout app pretending to coach" two-column with outcome rows → founder quote and story → text testimonials (or the honest placeholder) → ink close band.
+- **Home:** hero (static headline max 16ch, lede, ink primary + one secondary "Book a demo", the founders or trial line) → the rounded ink band "Sunday, 9:40 pm." with the week rail → the five replaced tools in a 1/2/5-column hairline grid, old tool struck in clay → the full-bleed sage field with three big-word pillars → "The hours that don't show up on a roster" rows → "Not a workout app pretending to coach" two-column with outcome rows → founder quote and story → text testimonials (or the honest placeholder) → ink close band.
 - **Inner pages** (features, business types, resources, why, about, elevate, book-a-demo, beta, contact): PageHero (display-small headline, lede, actions, optional abstract aside on `lg`) → hairline sections → CloseBand.
-- **Pricing:** during the beta, a two-column Founders Rate offer with the price in a rounded ink band; when prices show, an Individuals / Teams segmented toggle, then three tiers separated by vertical hairlines (no cards), the highlighted tier's button turning ink.
+- **Pricing:** during the beta, a two-column Founders Rate offer with the price in a rounded ink band; when prices show (always with open sign-up), an Individuals / Teams segmented toggle, then three tiers separated by vertical hairlines (no cards), the highlighted tier's button turning ink. No "Most popular" badge. A tier line that isn't live yet is muted with a "Soon" tag.
+- **Book a demo:** headline, lede and "What you'll see" on the left, the form on the right from `lg`, so the form starts above the fold at 1280x800.
+- **/beta and /landing-page:** headline, then the form, then the perks on phones; from `lg` the form sits beside them. With open sign-up both pages forward to the app's sign-up.
 - **Landing page / ad pages:** minimal header (logo + one action), no mega-nav.
 - Breakpoints are Tailwind's defaults; the desktop mega-nav appears only at `xl` (1280px); below it a 44px menu button opens a full-width disclosure menu.
 
@@ -269,8 +306,8 @@ Per page:
 
 Flat. Depth comes from colour fields (ink band, sage field, sunk panel) and
 1px hairlines. The only shadows: the mega-menu panel's soft drop (floating
-thing), the field-input focus halo, and the logo tile's 1px hairline ring on
-light grounds (removed at night). The sticky header is the page colour at 90%
+thing; the `--shadow-menu` token, Tailwind `shadow-menu`) and the logo tile's
+1px hairline ring on light grounds (removed at night). The sticky header is the page colour at 90%
 with a 12px backdrop blur over a 70% hairline.
 
 ### Named Rules
@@ -297,7 +334,7 @@ Confident and quiet: weight from ink, not from size.
 - **Focus:** 2px sage outline, 3px offset. **Disabled:** 55% opacity, not-allowed cursor.
 
 ### Tags and badges
-- **Coming soon tag:** fully round, hairline border, 12px muted text, a 6px clay dot before the words.
+- **Coming soon tag:** fully round, hairline border, 12px muted text. No dot (removed 2026-11-12).
 - **Tier badge:** solid ink pill, page-coloured 12px semibold text.
 
 ### Bands and fields
@@ -306,16 +343,16 @@ Confident and quiet: weight from ink, not from size.
 - **Offer panel:** sunk cream, 20px corners, headline + body left, ink large button right.
 
 ### Inputs / Fields
-- **Style:** surface fill, hairline border, 10px corners, 44px minimum, 16px text (no iOS zoom), muted placeholder at full opacity, clay caret.
-- **Hover:** border to 30% ink. **Focus:** border goes ink plus a 3px sage halo at 25%.
+- **Style:** surface fill, a Muted Olive border (about 5:1 on the card, light and dark), 10px corners, 44px minimum, 16px text (no iOS zoom), muted placeholder at full opacity, clay caret.
+- **Hover:** border to ink. **Focus:** a 2px solid sage outline, 2px offset, on `:focus-visible`, appearing at once (no transition), border to ink.
 - **Error:** a 14px needs-you-red status line under the form (`role="status"`).
 - Forms sit in a 20px surface card with a hairline border; labels 14px medium ink above each field.
 
 ### Navigation
-- **Header:** sticky, 64px, wordmark left, nav in 15px muted links (ink on hover), then "Sign in", secondary "Book a demo" and ink primary CTA right.
-- **Mega-menu:** opens on hover and on focus-within; 16px surface panel with a hairline and soft drop, fades and rises 4px in 200ms; Features in four columns with 13px muted column heads.
+- **Header:** sticky, 64px, wordmark left, nav (Features menu, Why we're different, Pricing, Support) in 15px muted links (ink on hover), then "Sign in", secondary "Book a demo" and ink primary CTA right. Only live pages appear.
+- **Mega-menu:** opens on hover and on focus-within; 16px surface panel with a hairline and soft drop, fades and rises 4px in 200ms; Features in columns with 13px muted column heads. The chevron's turn stops under reduced motion.
 - **Phone and iPad:** the primary CTA stays visible from `sm`; a 44px menu button toggles a full-width list of 52px disclosure rows with 44px links.
-- **Footer:** a closing call to action row, then the wordmark column and four link columns.
+- **Footer:** a closing call to action row, then the wordmark column and two link columns (Features, Company), live pages only.
 
 ### Struck tools (signature)
 Each old tool name ("the spreadsheet", "the PDF") is muted text with a clay
@@ -344,11 +381,10 @@ The supplied monogram (cream tile, Space Grotesk 700 lowercase "d" in
 
 ### Motion
 One easing for the site: an expo-style ease-out (`cubic-bezier(0.16, 1, 0.3, 1)`).
-Controls 160ms; arrow nudge 200ms; menu 200ms; hero noun swap 320ms
-(fade, 0.12em drop, 4px blur) every 2.4s; strikes 700ms; week rail 1400ms;
-block bars 900ms. Under `prefers-reduced-motion: reduce` the noun stops
-rotating, strikes and the rail are drawn, bars stand, menus and buttons stop
-transitioning.
+Controls 160ms; arrow nudge 200ms; menu 200ms; strikes 700ms; week rail
+1400ms; block bars 900ms. Focus outlines appear at once. Under
+`prefers-reduced-motion: reduce` strikes and the rail are drawn, bars stand,
+menus, chevrons and buttons stop transitioning.
 
 ## Do's and Don'ts
 
@@ -362,7 +398,10 @@ transitioning.
 - **Do** keep the logo exactly as supplied, with its 1px hairline on light grounds.
 
 ### Don't:
-- **Don't** show product screenshots, UI mock-ups, feature walk-throughs or photos, and don't explain how the product works inside: copy names outcomes, not mechanics (founder, 2026-11-06).
+- **Don't** show stock photos, invented UI mock-ups or screenshots with real people in them. Product screenshots from staging with demo data are allowed (founder, 2026-11-12). Copy still names outcomes, not mechanics.
+- **Don't** say "waitlist" anywhere when sign-up is open; read the copy from `SIGNUP_MODE` in `src/config.ts`.
+- **Don't** link a "Coming soon" page from the menu, the footer or the sitemap.
+- **Don't** use em dashes in copy, arrows glued to link text, or decorative dots.
 - **Don't** market the R2 self-coaching AI coach or a Discoverable fee.
 - **Don't** invent quotes, counts or claims; testimonials come only from approved coach quotes, text only.
 - **Don't** use coloured side bars or border-left accents.

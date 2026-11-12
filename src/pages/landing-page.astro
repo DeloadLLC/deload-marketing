@@ -1,11 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Forward from "../components/Forward.astro";
 import BetaSignupForm from "../components/BetaSignupForm.astro";
 import Testimonials from "../components/Testimonials.astro";
-import { proofPoints } from "../config";
+import { IS_OPEN, SIGN_UP_URL, proofPoints } from "../config";
+
+// With open sign-up there is no waitlist: the ad page forwards to sign-up
+// (founder, 2026-11-12).
 
 const highlights = proofPoints.slice(0, 4);
 ---
+{IS_OPEN ? <Forward to={SIGN_UP_URL} title="Start your free trial" /> : (
 <Layout
   title="Coach more, without losing your evenings"
   description="The all-in-one AI coaching platform. Generate block-aware programs, run your roster, and ship to your athletes' phones. Join the private beta waitlist."
@@ -14,30 +19,35 @@ const highlights = proofPoints.slice(0, 4);
   noindex={true}
 >
   <section class="wrap pt-12 pb-16 md:pt-20 md:pb-24">
-    <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
-      <div>
+    <!-- Phones: headline, then the form, then the proof points. -->
+    <div class="grid items-start gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-x-16 lg:gap-y-0">
+      <div class="lg:col-start-1 lg:row-start-1">
         <h1 class="display max-w-[12ch] text-ink">More athletes. Fewer evenings.</h1>
         <p class="lede mt-6">
           Deload writes block-aware programs in your voice, brings in the ones you already have, and puts
           them on your athletes' phones.
         </p>
-        <ul class="rows mt-8">
-          {highlights.map((p) => (
-            <li class="!py-3.5 text-ink">{p}</li>
-          ))}
-        </ul>
-        <p class="mt-6 text-[0.9375rem] text-muted">Now in private beta &middot; we invite coaches in small groups</p>
       </div>
 
-      <div class="lg:sticky lg:top-8">
+      <div class="lg:sticky lg:top-8 lg:col-start-2 lg:row-span-2 lg:row-start-1">
         <div class="mb-5">
           <h2 class="h3 text-[1.75rem] text-ink">Join the waitlist</h2>
           <p class="mt-1 text-muted">Tell us how you coach and we'll be in touch.</p>
         </div>
         <BetaSignupForm id="landing-form" submitLabel="Join Waitlist" />
       </div>
+
+      <div class="lg:col-start-1 lg:row-start-2">
+        <ul class="rows lg:mt-8">
+          {highlights.map((p) => (
+            <li class="!py-3.5 text-ink">{p}</li>
+          ))}
+        </ul>
+        <p class="mt-6 text-[0.9375rem] text-muted">Now in private beta. We invite coaches in small groups.</p>
+      </div>
     </div>
   </section>
 
   <Testimonials />
 </Layout>
+)}

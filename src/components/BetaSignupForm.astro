@@ -28,7 +28,7 @@ const { id = "beta-form", submitLabel = "Join Waitlist" } = Astro.props;
 const inputClass =
   "field-input";
 const nextSteps = [
-  "Check your inbox — we just sent you a short questionnaire.",
+  "Check your inbox: we just sent you a short questionnaire.",
   "Answering it confirms your email and helps us invite the right coaches first.",
   "We invite coaches in small groups; your invitation arrives by email.",
 ];
@@ -105,7 +105,7 @@ const nextSteps = [
       <svg class="h-5 w-5 text-sage" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="m6 10.2 2.6 2.6L14 7.4" stroke="rgb(var(--c-bg))" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       You're on the list
     </p>
-    <h3 class="h3 mt-4 text-[1.75rem] text-ink">Welcome — here's what happens next.</h3>
+    <h3 class="h3 mt-4 text-[1.75rem] text-ink">Welcome. Here's what happens next.</h3>
     <ol class="mt-5 space-y-3">
       {nextSteps.map((step, i) => (
         <li class="flex items-start gap-3 text-sm text-ink">
@@ -174,7 +174,7 @@ const nextSteps = [
       emailInput.addEventListener("blur", () => {
         const domain = (emailInput.value.split("@").pop() || "").trim().toLowerCase();
         if (domain && FREE_DOMAINS.has(domain)) {
-          emailHint.textContent = "Tip: a work email helps us prioritise your spot — but a personal one is fine too.";
+          emailHint.textContent = "Tip: a work email helps us prioritise your spot, but a personal one is fine too.";
           emailHint.classList.remove("hidden");
         } else {
           emailHint.classList.add("hidden");

@@ -28,12 +28,13 @@ const steps = [
   { n: "04", t: "Launch and grow", d: "Go live with a calmer week." },
 ];
 
-const migrations = ["Arketa", "Jane App", "Mindbody", "TrueCoach", "TrainHeroic", "Spreadsheets"];
+// No competitor names in public copy (founder, 2026-11-12).
+const migrations = ["Spreadsheets", "Word docs", "PDFs", "Other coaching apps"];
 ---
 
 <Layout
   title="Deload Foundations"
-  description="Deload Foundations helps you open and grow your coaching business — from standing up a brand-new studio to migrating an existing roster over from Arketa, Jane, Mindbody, or spreadsheets."
+  description="Deload Foundations helps you open and grow your coaching business, from standing up a brand-new studio to moving an existing roster over from spreadsheets or another coaching app."
 >
   <PageHero
     title="Open and grow your coaching business with confidence."
@@ -65,8 +66,7 @@ const migrations = ["Arketa", "Jane App", "Mindbody", "TrueCoach", "TrainHeroic"
         <ol class="mt-10 grid border-t border-rule sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((s) => (
             <li class="border-b border-rule py-6 pr-6 lg:border-b-0">
-              <p class="num text-[2.5rem] font-medium leading-none text-clay">{s.n}</p>
-              <h3 class="mt-5 text-[1.125rem] font-semibold tracking-[-0.01em] text-ink">{s.t}</h3>
+              <h3 class="mt-1 text-[1.125rem] font-semibold tracking-[-0.01em] text-ink">{s.t}</h3>
               <p class="mt-2 text-[0.9375rem] text-muted">{s.d}</p>
             </li>
           ))}

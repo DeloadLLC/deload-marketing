@@ -36,6 +36,16 @@
     --c-on-field: 247 244 239;
     --c-on-field-muted: 201 217 202;
 
+    /* Type: Geist for words, Geist Mono for real numbers, Space Grotesk for the logo only */
+    --font-sans: Geist, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --font-logo: "Space Grotesk", Geist, sans-serif;
+    /* The monogram as supplied: the same cream tile and dark "d" in both themes */
+    --logo-tile: #F7F4EF;
+    --logo-ink: #14161A;
+    /* The one shadow: things that float (the mega-menu panels) */
+    --shadow-menu: 0 18px 40px -20px rgb(0 0 0 / 0.25);
+
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
     color-scheme: light;
   }
@@ -61,6 +71,7 @@
     }
   }
 
+  html, body { overflow-x: clip; }
   html {
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
@@ -68,7 +79,7 @@
     scrollbar-color: rgb(var(--c-faint) / 0.6) transparent;
   }
   body {
-    font-family: Geist, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-family: var(--font-sans);
     font-size: 16px;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
@@ -77,6 +88,8 @@
   h1, h2, h3, h4 {
     letter-spacing: -0.02em;
     text-wrap: balance;
+    overflow-wrap: break-word;
+    min-width: 0;
   }
   p { text-wrap: pretty; }
   ::selection {
@@ -86,7 +99,6 @@
   :focus-visible {
     outline: 2px solid rgb(var(--c-sage));
     outline-offset: 3px;
-    border-radius: 6px;
   }
   input, textarea, select { caret-color: rgb(var(--c-clay)); }
   input::placeholder, textarea::placeholder { color: rgb(var(--c-muted)); opacity: 1; }
@@ -102,6 +114,11 @@
   }
 
   /* Type */
+  /* Display heads never push the page wider than the phone. */
+  .display, .display-sm, .h2 {
+    overflow-wrap: break-word;
+    min-width: 0;
+  }
   .display {
     font-size: clamp(2.6rem, 1.2rem + 5.4vw, 4.75rem);
     line-height: 0.98;
@@ -147,7 +164,7 @@
     letter-spacing: 0;
   }
   .num {
-    font-family: "Geist Mono", ui-monospace, monospace;
+    font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
     letter-spacing: -0.02em;
   }
@@ -210,11 +227,10 @@
     text-decoration: none;
   }
 
-  /* "Coming soon" tag */
+  /* "Coming soon" tag: words in a hairline pill, no dot */
   .soon {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
     white-space: nowrap;
     border: 1px solid rgb(var(--c-rule));
     border-radius: 999px;
@@ -224,13 +240,6 @@
     line-height: 1.5;
     color: rgb(var(--c-muted));
     vertical-align: middle;
-  }
-  .soon::before {
-    content: "";
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgb(var(--c-clay));
   }
 
   /* Fields of colour. .ink-field swaps ink and page, so an ink band on a light page
@@ -259,25 +268,27 @@
   }
   .rows > *:last-child { border-bottom: 1px solid rgb(var(--c-rule)); }
 
-  /* Form controls (waitlist, demo and contact forms) */
+  /* Form controls (waitlist, demo and contact forms). The edge is the muted
+     ink (about 5:1 on the card, light and dark); focus is a solid 2px outline
+     that appears at once (founder, 2026-11-12). */
   .field-input {
     display: block;
     width: 100%;
     margin-top: 0.4rem;
     min-height: 44px;
     border-radius: 10px;
-    border: 1px solid rgb(var(--c-rule));
+    border: 1px solid rgb(var(--c-muted));
     background: rgb(var(--c-surface));
     color: rgb(var(--c-ink));
     padding: 0.6rem 0.8rem;
     font-size: 1rem;
-    transition: border-color 160ms, box-shadow 160ms;
+    transition: none;
   }
-  .field-input:hover { border-color: rgb(var(--c-ink) / 0.3); }
-  .field-input:focus {
-    outline: none;
+  .field-input:hover { border-color: rgb(var(--c-ink)); }
+  .field-input:focus-visible {
+    outline: 2px solid rgb(var(--c-sage));
+    outline-offset: 2px;
     border-color: rgb(var(--c-ink));
-    box-shadow: 0 0 0 3px rgb(var(--c-sage) / 0.25);
   }
 
   /* The struck-through tool names: the strike is drawn as it scrolls in. */

@@ -22,17 +22,19 @@ const apiBase = API_BASE_URL.replace(/\/+$/, "");
   data-api={apiBase}
   hidden={!hasReal && !showPlaceholder}
 >
-  <div class="wrap grid gap-10 lg:grid-cols-[14rem_1fr] lg:gap-12">
-    <h2 class="label pt-2">{heading}</h2>
+  <!-- One headline, no side label (founder, 2026-11-12): the section heading
+       when there are quotes, the honest placeholder when there are none. -->
+  <div class="wrap">
+    <h2 class="h2 max-w-[22ch] text-ink" data-quotes-heading data-heading={heading}>{hasReal ? heading : "Real coach stories are on the way."}</h2>
 
     <div>
-      <ul class:list={["gap-x-10 gap-y-12 md:grid-cols-2", hasReal ? "grid" : "hidden"]} data-quotes-list>
+      <ul class:list={["mt-12 gap-x-10 gap-y-12 md:grid-cols-2", hasReal ? "grid" : "hidden"]} data-quotes-list>
         {testimonials.map((t) => (
           <li>
             <figure>
               <blockquote class="text-[1.5rem] font-medium leading-[1.3] tracking-[-0.015em] text-ink">&ldquo;{t.quote}&rdquo;</blockquote>
               <figcaption class="mt-5 text-[0.9375rem] text-muted">
-                <span class="font-medium text-ink">{t.name}</span> · {t.role}
+                <span class="font-medium text-ink">{t.name}</span>, {t.role}
               </figcaption>
             </figure>
           </li>
@@ -41,7 +43,6 @@ const apiBase = API_BASE_URL.replace(/\/+$/, "");
 
       {!hasReal && (
         <div class="max-w-[46rem]" data-quotes-placeholder>
-          <p class="h2 text-ink">Real coach stories are on the way.</p>
           <p class="lede mt-5">
             Quotes from the coaches using Deload in the beta will go here. We won't make any up.
           </p>
@@ -94,6 +95,8 @@ const apiBase = API_BASE_URL.replace(/\/+$/, "");
     );
     list.classList.replace("hidden", "grid");
     section.querySelector("[data-quotes-placeholder]")?.remove();
+    const heading = section.querySelector<HTMLElement>("[data-quotes-heading]");
+    if (heading?.dataset.heading) heading.textContent = heading.dataset.heading;
     section.hidden = false;
   }
 
