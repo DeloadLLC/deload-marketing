@@ -151,6 +151,50 @@ components:
 
 # Design System: Deload marketing site
 
+## Hallmark redesign (2026-11-14)
+
+Home, pricing, /beta and /landing-page were rebuilt with Hallmark (full
+redesign, brand kept). These supersede the per-page notes further down.
+
+- **Shape: Workbench.** The home page is a tour of the product in real
+  captures from staging (`public/images/product`, demo data), through
+  `src/components/Shot.astro`: WebP with the PNG fallback, the dark capture
+  under a dark system setting, no browser or device frame (a 14px radius and
+  an inset 1px edge at 12% ink). Crops are done in CSS (`ratio`, `zoom`, `fx`,
+  `shiftY`), never by editing the files.
+- **Captures that stay out:** `athlete-keypad`, `athlete-logger` and
+  `coach-generate-building` never lead; `coach-dashboard` is not used (its
+  week strip has a known bug); `coach-chat-edit` is not used, so nothing
+  implies the edit picked the exercise the coach asked for. The calendar
+  capture is cropped to the calendar: the week checks beside it are behind a
+  beta switch.
+- **Home:** hero (Stage: "The AI drafts the block. You coach.", one sentence,
+  one button, the offer line; the program calendar on seven columns) → "Start
+  from a sentence." (the Generate brief across the container) → "Approve the
+  plan first." (split, the agent's plan turn) → "One app instead of four."
+  (hairline rows: programming, tracking, messages, payments, the old tool
+  struck in clay) → "What your athletes see." (three athlete screens on the
+  sage field) → the founder's quote as a statement → approved coach quotes
+  only when the API returns some → the ink close band with one button.
+- **One action.** Every call to action is `PRIMARY_CTA` (sign-up with open
+  sign-up, the waitlist while sign-up is by invitation). The header, the
+  footer band and the home and pricing pages carry no Book a demo button;
+  Book a demo stays a footer link and, on pricing, the custom Enterprise
+  tier's text link.
+- **The offer, said twice:** `OFFER_LINE` in `src/config.ts`, under the hero's
+  button and in the close: a 14-day free trial, athletes free.
+- **Pricing:** Banner hero (head and the trial line split across the row, the
+  Individuals / Teams switch), tiers on shared rows (CSS subgrid) so the
+  buttons line up, the Founders Rate panel after the tiers, questions as rows
+  beside their head.
+- **/beta and /landing-page** (waitlist mode; with open sign-up they still
+  forward): the form beside the head (`.form-page`), then one capture with a
+  caption.
+- **Scale:** Hallmark's spacing tokens (`--space-*`), `--gutter`,
+  `--section-gap-s` 120px and `--section-gap` 144px at desktop, on `:root`
+  in `src/styles/global.css`, whose first lines are the Hallmark stamp and its
+  waivers. The home hero head is `.display-hero-s` (up to 68px, -0.045em).
+
 ## Founder decisions (2026-11-12)
 
 These supersede anything below that disagrees with them.
