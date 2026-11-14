@@ -1,6 +1,6 @@
 # Product screenshots
 
-Captured 14 Nov 2026 from staging (coach app and athlete app) for the marketing redesign. Each shot is a WebP with a PNG fallback of the same name.
+Captured 14 Nov 2026 from staging (coach app and athlete app) for the marketing redesign. The plan turn (`coach-generate-plan-*`) and the program calendar (`coach-calendar-*`) were recaptured later on 14 Nov 2026 from a fresh generation of the same brief, after the staging fix to how the brief's goal and exercises are read. Each shot is a WebP with a PNG fallback of the same name.
 
 - Coach shots: laptop viewport 1440 x 900 at 2x, so 2880 x 1800.
 - Athlete shots: phone viewport 390 x 844 at 2x, so 780 x 1688 (the numbers crop is 780 x 800).
@@ -13,8 +13,8 @@ Captured 14 Nov 2026 from staging (coach app and athlete app) for the marketing 
 | `coach-generate-plan-dark` | Generate: the plan turn, goal lifts it will check against, "Looks good, generate". (dark) | 2880 x 1800 | 101 KB | 324 KB |
 | `coach-generate-plan-light` | Generate: the plan turn, goal lifts it will check against, "Looks good, generate". (light) | 2880 x 1800 | 103 KB | 327 KB |
 | `coach-generate-building-light` | Generate: week 1 drafting into the calendar while the agent works (light only, a moment in a live run). (light) | 2880 x 1800 | 119 KB | 376 KB |
-| `coach-calendar-dark` | Program calendar, 4 weeks built, with the week checks and Fix it in the side panel. (dark) | 2880 x 1800 | 289 KB | 777 KB |
-| `coach-calendar-light` | Program calendar, 4 weeks built, with the week checks and Fix it in the side panel. (light) | 2880 x 1800 | 296 KB | 778 KB |
+| `coach-calendar-dark` | Program calendar, 4 weeks built, with the week checks and Fix it in the side panel. (dark) | 2880 x 1800 | 323 KB | 745 KB |
+| `coach-calendar-light` | Program calendar, 4 weeks built, with the week checks and Fix it in the side panel. (light) | 2880 x 1800 | 331 KB | 749 KB |
 | `coach-chat-edit-dark` | Chat edit: "swap the overhead press on Tuesday for a Romanian deadlift", the Was/Now diff on the calendar and in the change card. (dark) | 2880 x 1800 | 144 KB | 439 KB |
 | `coach-chat-edit-light` | Chat edit: "swap the overhead press on Tuesday for a Romanian deadlift", the Was/Now diff on the calendar and in the change card. (light) | 2880 x 1800 | 150 KB | 443 KB |
 | `coach-dashboard-dark` | Coach dashboard: today, this week, recent programs, athletes. (dark) | 2880 x 1800 | 94 KB | 308 KB |
