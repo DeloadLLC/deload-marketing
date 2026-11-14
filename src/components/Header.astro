@@ -25,14 +25,14 @@ const featureColumns = FEATURE_GROUPS.map((group) => ({
 })).filter((col) => col.items.length > 0);
 
 const chevron = `<svg class="h-3 w-3 opacity-60 transition-transform duration-200 motion-reduce:transition-none group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-const navLink = "whitespace-nowrap rounded-lg px-2.5 py-2 text-muted transition-colors hover:text-ink";
+const navLink = "inline-flex min-h-[44px] items-center whitespace-nowrap rounded-lg px-2.5 text-muted transition-colors hover:text-ink";
 const menuPanel =
   "invisible absolute top-full z-50 pt-2 opacity-0 transition-[opacity,transform] duration-200 ease-out -translate-y-1 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 motion-reduce:transition-none";
 const panelBox = "rounded-2xl border border-rule bg-surface shadow-menu";
 ---
 <header class="sticky top-0 z-50 border-b border-rule/70 bg-bg/90 backdrop-blur-md">
   <div class="wrap flex h-16 items-center gap-6">
-    <a href={link("/")} class="shrink-0 text-ink" aria-label="deload home">
+    <a href={link("/")} class="inline-flex min-h-[44px] shrink-0 items-center text-ink" aria-label="deload home">
       <Wordmark />
     </a>
 
@@ -60,14 +60,13 @@ const panelBox = "rounded-2xl border border-rule bg-surface shadow-menu";
         </div>
       </div>
 
-      <a href={link("/why")} class={navLink}>Why we're different</a>
+      <a href={link("/why")} class={navLink}>Why we’re different</a>
       <a href={link("/pricing")} class={navLink}>Pricing</a>
       <a href={link("/resources/support")} class={navLink}>Support</a>
     </nav>
 
     <div class="ml-auto hidden items-center gap-2 xl:flex">
       <a href={SIGN_IN_URL} class={`${navLink} mr-1`}>Sign in</a>
-      <a href={link("/book-a-demo")} class="btn">Book a demo</a>
       <a href={PRIMARY_CTA.href} class="btn btn-pri">{PRIMARY_CTA.label}</a>
     </div>
 
@@ -100,14 +99,13 @@ const panelBox = "rounded-2xl border border-rule bg-surface shadow-menu";
             </ul>
           </details>
         </li>
-        <li><a href={link("/why")} class="flex min-h-[52px] items-center font-medium text-ink">Why we're different</a></li>
+        <li><a href={link("/why")} class="flex min-h-[52px] items-center font-medium text-ink">Why we’re different</a></li>
         <li><a href={link("/pricing")} class="flex min-h-[52px] items-center font-medium text-ink">Pricing</a></li>
         <li><a href={link("/resources/support")} class="flex min-h-[52px] items-center font-medium text-ink">Support</a></li>
         <li><a href={SIGN_IN_URL} class="flex min-h-[52px] items-center font-medium text-ink">Sign in</a></li>
       </ul>
       <div class="grid gap-2 pt-5 sm:grid-cols-2">
         <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
-        <a href={link("/book-a-demo")} class="btn btn-lg">Book a demo</a>
       </div>
     </nav>
   </div>

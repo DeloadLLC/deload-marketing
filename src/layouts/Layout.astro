@@ -80,7 +80,7 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url).toString();
     {minimalNav ? (
       <header class="border-b border-rule bg-bg">
         <div class="wrap flex items-center justify-between gap-4 py-4">
-          <a href={`${root}/`} class="text-ink" aria-label="deload home">
+          <a href={`${root}/`} class="inline-flex min-h-[44px] items-center text-ink" aria-label="deload home">
             <Wordmark />
           </a>
           {!hideHeaderCtas && (

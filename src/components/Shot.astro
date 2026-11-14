@@ -1,0 +1,97 @@
+---
+// A product screenshot from public/images/product (see its README): WebP with
+// the PNG fallback, and the dark capture when the visitor's system is dark and
+// a dark one exists. No browser or device frame: the capture sits in the
+// page's own frame (radius and a faint inset edge).
+//
+// Cropping frames part of the capture without editing the file: the frame takes
+// `ratio`, the image is scaled to `zoom` times the frame's width, and `fx`
+// and `shiftY` choose which part shows. On phones `zoomSm` and `ratioSm`
+// can crop tighter so the text stays readable.
+interface Props {
+  name: string;            // file stem without -light / -dark, e.g. "coach-calendar"
+  alt: string;
+  width: number;           // intrinsic size of the capture in px
+  height: number;
+  dark?: boolean;          // a -dark capture exists
+  single?: boolean;        // one file only (no -light / -dark suffix)
+  ratio?: string;          // frame aspect ratio, e.g. "4 / 3"; defaults to the capture's
+  ratioSm?: string;
+  zoom?: number;           // image width as a multiple of the frame width (1 = fit)
+  zoomSm?: number;
+  fx?: number;             // horizontal anchor of a zoomed crop: 0 = left edge, 1 = right edge
+  shiftY?: number;         // move the image up by this share of its own height (0 to 1)
+  shiftYSm?: number;       // the same on phones; defaults to shiftY
+  eager?: boolean;         // the hero capture: load at once, high priority
+  class?: string;
+}
+const {
+  name, alt, width, height, dark = false, single = false,
+  ratio, ratioSm, zoom = 1, zoomSm, fx = 0, shiftY = 0, shiftYSm,
+  eager = false, class: className = "",
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const src = (scheme: "light" | "dark", ext: "webp" | "png") =>
+  `${base}/images/product/${single ? name : `${name}-${scheme}`}.${ext}`;
+const frameRatio = ratio ?? `${width} / ${height}`;
+const style = [
+  `--shot-ratio:${frameRatio}`,
+  `--shot-ratio-sm:${ratioSm ?? frameRatio}`,
+  `--shot-zoom:${zoom * 100}%`,
+  `--shot-zoom-sm:${(zoomSm ?? zoom) * 100}%`,
+  `--shot-fx:${fx}`,
+  `--shot-ty:${-shiftY * 100}%`,
+  `--shot-ty-sm:${-(shiftYSm ?? shiftY) * 100}%`,
+].join(";");
+---
+<div class={`shot ${className}`} style={style} data-kind="product">
+  <picture>
+    {dark && !single && <source media="(prefers-color-scheme: dark)" type="image/webp" srcset={src("dark", "webp")} />}
+    {dark && !single && <source media="(prefers-color-scheme: dark)" type="image/png" srcset={src("dark", "png")} />}
+    <source type="image/webp" srcset={src("light", "webp")} />
+    <img
+      src={src("light", "png")}
+      alt={alt}
+      width={width}
+      height={height}
+      loading={eager ? "eager" : "lazy"}
+      decoding={eager ? "sync" : "async"}
+      fetchpriority={eager ? "high" : undefined}
+    />
+  </picture>
+</div>
+
+<style>
+  .shot {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: var(--shot-ratio-sm);
+    border-radius: var(--radius-shot);
+    background: rgb(var(--c-sunk));
+    isolation: isolate;
+  }
+  /* The edge: an inset hairline drawn over the capture, so a cream capture
+     still reads as a picture on the cream page. */
+  .shot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgb(var(--c-ink) / 0.12);
+    pointer-events: none;
+  }
+  .shot img {
+    position: absolute;
+    top: 0;
+    left: calc((100% - var(--shot-zoom-sm)) * var(--shot-fx));
+    width: var(--shot-zoom-sm);
+    max-width: none;
+    height: auto;
+    transform: translateY(var(--shot-ty-sm));
+  }
+  @media (min-width: 48rem) {
+    .shot { aspect-ratio: var(--shot-ratio); }
+    .shot img { width: var(--shot-zoom); left: calc((100% - var(--shot-zoom)) * var(--shot-fx)); transform: translateY(var(--shot-ty)); }
+  }
+</style>

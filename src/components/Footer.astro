@@ -29,7 +29,7 @@ const footerFeatures = LIVE_FEATURES.filter((f) =>
 );
 
 const company = [
-  { label: "Why we're different", href: "/why" },
+  { label: "Why we’re different", href: "/why" },
   { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Book a demo", href: "/book-a-demo" },
@@ -42,8 +42,9 @@ const legal = [
   { label: "Terms", href: TERMS_URL },
 ];
 const colHead = "mb-4 text-[0.8125rem] font-medium text-ink";
-const colList = "space-y-2.5 text-[0.9375rem] text-muted";
-const colLink = "transition-colors hover:text-ink";
+const colList = "text-[0.9375rem] text-muted";
+// Every footer link is a 44px target.
+const colLink = "inline-flex min-h-[44px] min-w-[44px] items-center transition-colors hover:text-ink";
 ---
 <footer class="border-t border-rule bg-bg">
   {!hideCta && (
@@ -54,15 +55,14 @@ const colLink = "transition-colors hover:text-ink";
         </p>
         <div class="flex flex-wrap gap-2">
           <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
-          <a href={link("/book-a-demo")} class="btn btn-lg">Book a demo</a>
         </div>
       </div>
     </div>
   )}
 
-  <div class="wrap grid grid-cols-2 gap-x-6 gap-y-10 py-14 md:grid-cols-[2fr_1fr_1fr]">
-    <div class="col-span-2 md:col-span-1">
-      <a href={link("/")} aria-label="deload home" class="text-ink"><Wordmark /></a>
+  <div class="wrap grid grid-cols-1 gap-x-6 gap-y-10 py-14 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr]">
+    <div class="sm:col-span-2 md:col-span-1">
+      <a href={link("/")} aria-label="deload home" class="inline-flex min-h-[44px] items-center text-ink"><Wordmark /></a>
       <p class="mt-4 max-w-[30ch] text-[0.9375rem] text-muted">
         The all-in-one AI coaching platform for coaches who write their own training.
       </p>
@@ -91,7 +91,7 @@ const colLink = "transition-colors hover:text-ink";
 
   <div class="border-t border-rule">
     <div class="wrap flex flex-col gap-3 py-6 text-[0.8125rem] text-muted md:flex-row md:items-center md:justify-between">
-      <span>&copy; <span class="num">{year}</span> Deload. All rights reserved.</span>
+      <span>&copy; <span class="num">{year}</span> Deload.</span>
       <nav class="flex flex-wrap items-center gap-x-6 gap-y-2" aria-label="Legal">
         {legal.map((l) => (
           <a class={colLink} href={link(l.href)}>{l.label}</a>

@@ -1,0 +1,35 @@
+[
+ {
+  "mode": "redesign",
+  "depth": "full",
+  "scope": "site",
+  "shape": "Workbench",
+  "theme": "brand",
+  "axes": "light/grotesk-sans/chromatic-green",
+  "hero": "Stage (/), Banner (/pricing), Form (/beta, /landing-page)",
+  "nav": "kept mega-menu bar",
+  "footer": "kept index columns",
+  "imagery": "screenshots 7 (staging captures)",
+  "photos": [],
+  "entry": "none",
+  "fingerprint": "workbench-stage-showcase-split-rows-grid-statement-band",
+  "sections": [
+   "hero stage calendar",
+   "showcase brief",
+   "split plan",
+   "rows four tools",
+   "grid athlete phones on sage field",
+   "statement founder",
+   "band close"
+  ],
+  "signature": "the program calendar a brief produced, as the hero",
+  "waived": [
+   "65",
+   "59",
+   "44c",
+   "79"
+  ],
+  "prompt": "coaching platform for strength coaches: AI program generation, sign up for a free trial",
+  "date": "2026-11-14"
+ }
+]

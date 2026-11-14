@@ -29,9 +29,8 @@ const pricesLede = IS_OPEN
           <p class="lede mt-6">
             Beta coaches, and the coaches on their team, use Deload free while it runs. At launch you keep the Founders Rate and get 25% off one upgrade.
           </p>
-          <div class="mt-8 flex flex-wrap items-center gap-2.5">
+          <div class="mt-8">
             <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
-            <a href={`${root}/book-a-demo`} class="btn btn-lg">Book a demo</a>
           </div>
         </div>
         <div class="ink-field rounded-[20px] px-6 py-8 sm:px-8 md:py-10">
@@ -49,58 +48,52 @@ const pricesLede = IS_OPEN
   )}
 
   {SHOW_PRICES && (<>
-  <section class="wrap pt-14 pb-8 md:pt-24">
-    <h1 class="display max-w-[14ch] text-ink">Simple pricing for you or your team.</h1>
-    <p class="lede mt-6">{pricesLede}</p>
-  </section>
-
-  <!-- Toggle -->
-  <section class="wrap">
-    <div id="plan-toggle" class="inline-flex items-center gap-1 rounded-[12px] border border-rule bg-surface p-1" role="tablist" aria-label="Plan audience">
-      <button data-plan="individuals" role="tab" aria-selected="true" class="plan-tab min-h-[40px] rounded-[9px] px-5 text-[0.9375rem] font-semibold transition-colors">Individuals</button>
-      <button data-plan="teams" role="tab" aria-selected="false" class="plan-tab min-h-[40px] rounded-[9px] px-5 text-[0.9375rem] font-semibold transition-colors">Teams</button>
+  <!-- Hero (Banner): the head, the offer in one line, the plan switch; the
+       tiers start inside the first screen. -->
+  <section class="wrap pt-14 md:pt-20">
+    <div class="price-head">
+      <h1 class="display-sm max-w-[16ch] text-ink">Simple pricing for you or your team.</h1>
+      <p class="lede">{pricesLede}</p>
+    </div>
+    <div id="plan-toggle" class="mt-10 inline-flex items-center gap-1 rounded-[12px] border border-rule bg-surface p-1" role="tablist" aria-label="Plan audience">
+      <button type="button" data-plan="individuals" role="tab" aria-selected="true" class="plan-tab min-h-[44px] rounded-[9px] px-5 text-[0.9375rem] font-semibold">Individuals</button>
+      <button type="button" data-plan="teams" role="tab" aria-selected="false" class="plan-tab min-h-[44px] rounded-[9px] px-5 text-[0.9375rem] font-semibold">Teams</button>
     </div>
   </section>
 
-  <!-- Cards -->
-  <section class="wrap pt-10 pb-20">
+  <!-- Tiers: hairline columns, no cards; each tier's parts sit on shared rows
+       so the buttons line up. -->
+  <section class="wrap pt-8 pb-24 md:pb-32">
     <div>
       {(["individuals", "teams"] as const).map((plan) => (
         <div class="plan-panel" data-panel={plan} hidden={plan !== "individuals"}>
-          {BETA_OFFERS[plan] && (
-            <div class="mb-10 flex flex-col items-start gap-5 rounded-[20px] bg-sunk p-6 md:flex-row md:items-center md:justify-between md:p-8">
-              <div>
-                <p class="h3 text-ink">{BETA_OFFERS[plan]!.headline}</p>
-                <p class="mt-2 max-w-[62ch] text-muted">{BETA_OFFERS[plan]!.body}</p>
-              </div>
-              <a
-                href={resolveHref(BETA_OFFERS[plan]!.cta.href)}
-                class="btn btn-pri btn-lg"
-              >
-                {BETA_OFFERS[plan]!.cta.label}
-              </a>
-            </div>
-          )}
           {plan === "teams" && (
             <p class="mb-6 max-w-[62ch] text-[0.9375rem] text-muted">
               A team is your plan plus a seat for each Coach or Admin. Viewers are free.
             </p>
           )}
-          <div class="grid border-t border-rule md:grid-cols-3">
+          <div class="tiers">
             {PRICING[plan].map((tier) => (
-              <div class:list={["relative flex flex-col border-b border-rule py-8 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0 md:last:pr-0", tier.highlight && "tier-hl"]}>
-                <p class="flex items-center gap-2">
+              <div class:list={["tier", tier.highlight && "tier-hl"]}>
+                <p class="flex flex-wrap items-center gap-2">
                   <span class="text-[1.375rem] font-semibold tracking-[-0.02em] text-ink">{tier.name}</span>
                   {tier.badge && <span class="rounded-full bg-ink px-2.5 py-0.5 text-[0.75rem] font-semibold text-bg">{tier.badge}</span>}
                 </p>
-                <p class="mt-5 flex items-baseline gap-1.5">
-                  <span class="num text-[3.25rem] font-medium leading-none tracking-[-0.06em] text-ink">{tier.price}</span>
-                  {tier.cadence && <span class="num text-muted">{tier.cadence}</span>}
-                </p>
-                {tier.perSeat && <p class="num mt-2 text-[0.9375rem] font-medium text-ink" data-testid="tier-per-seat">{tier.perSeat}</p>}
-                <p class="mt-4 text-[0.9375rem] text-muted">{tier.blurb}</p>
-                <a href={resolveHref(tier.cta.href)} class:list={["btn btn-lg mt-6", tier.highlight && "btn-pri"]}>{tier.cta.label}</a>
-                <ul class="mt-7 space-y-2.5 text-[0.9375rem] text-ink">
+                <div>
+                  <p class="flex items-baseline gap-1.5">
+                    <span class="num text-[clamp(3rem,2.4rem+1.6vw,4rem)] font-medium leading-none tracking-[-0.06em] text-ink">{tier.price}</span>
+                    {tier.cadence && <span class="num text-muted">{tier.cadence}</span>}
+                  </p>
+                  {tier.perSeat && <p class="num mt-2 text-[0.9375rem] font-medium text-ink" data-testid="tier-per-seat">{tier.perSeat}</p>}
+                </div>
+                <p class="text-[0.9375rem] text-muted">{tier.blurb}</p>
+                {tier.cta.href === "" ? (
+                  <a href={resolveHref(tier.cta.href)} class:list={["btn btn-lg", tier.highlight && "btn-pri"]}>{tier.cta.label}</a>
+                ) : (
+                  <!-- Custom plans have no sign-up: a link, not a button. -->
+                  <p class="flex min-h-[52px] items-center"><a href={resolveHref(tier.cta.href)} class="link">{tier.cta.label}</a></p>
+                )}
+                <ul class="space-y-2.5 text-[0.9375rem] text-ink">
                   {tier.features.map((f) => typeof f === "string" ? (
                     <li class="flex gap-2.5">
                       <svg class="mt-1 h-4 w-4 shrink-0 text-sage" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.5 8.3 2.8 2.8 6.2-6.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -116,9 +109,18 @@ const pricesLede = IS_OPEN
               </div>
             ))}
           </div>
+          {BETA_OFFERS[plan] && (
+            <div class="offer">
+              <div>
+                <p class="h3 max-w-[30ch] text-ink">{BETA_OFFERS[plan]!.headline}</p>
+                <p class="mt-2 max-w-[62ch] text-muted">{BETA_OFFERS[plan]!.body}</p>
+              </div>
+              <a href={resolveHref(BETA_OFFERS[plan]!.cta.href)} class="btn btn-lg">{BETA_OFFERS[plan]!.cta.label}</a>
+            </div>
+          )}
         </div>
       ))}
-      <p class="mt-10 max-w-[68ch] text-[0.9375rem] text-muted">
+      <p class="mt-12 max-w-[68ch] text-[0.9375rem] text-muted">
         {PAYMENTS_NOTE} Multi-location enterprise plans are
         custom: <a href={`${root}/book-a-demo`} class="link">book a demo</a> for a quote.
       </p>
@@ -127,28 +129,70 @@ const pricesLede = IS_OPEN
   </section>
   </>)}
 
-  <!-- FAQ -->
+  <!-- Questions: the head on the left, the answers as rows beside it -->
   <section class="border-t border-rule">
-    <div class="wrap py-20 md:py-24">
-      <div>
-        <h2 class="h2 text-ink">Common questions.</h2>
-        <dl class="mt-10 border-t border-rule">
-          {faqs.map((f) => (
-            <div class="grid gap-3 border-b border-rule py-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] md:gap-10">
-              <dt class="text-[1.1875rem] font-semibold leading-snug tracking-[-0.015em] text-ink">{f.q}</dt>
-              <dd class="text-muted">{f.a}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
+    <div class="wrap faq py-20 md:py-32">
+      <h2 class="h2 text-ink">Common questions.</h2>
+      <dl class="border-t border-rule">
+        {faqs.map((f) => (
+          <div class="grid gap-2 border-b border-rule py-6 md:py-7">
+            <dt class="text-[1.1875rem] font-semibold leading-snug tracking-[-0.015em] text-ink">{f.q}</dt>
+            <dd class="max-w-[60ch] text-muted">{f.a}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   </section>
 </Layout>
 
 <style>
-  .plan-tab { color: rgb(var(--c-muted)); }
+  .price-head { display: grid; gap: var(--space-md); }
+  @media (min-width: 60rem) {
+    .price-head { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--space-2xl); align-items: end; }
+  }
+  .tiers { display: grid; border-top: 1px solid rgb(var(--c-rule)); }
+  .tier {
+    display: grid;
+    gap: var(--space-md);
+    align-content: start;
+    padding-block: var(--space-xl);
+    border-bottom: 1px solid rgb(var(--c-rule));
+  }
+  @media (min-width: 48rem) {
+    .tiers { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(5, auto); }
+    .tier {
+      grid-row: span 5;
+      grid-template-rows: subgrid;
+      gap: var(--space-md);
+      padding-inline: var(--space-xl);
+      border-bottom: 0;
+      border-right: 1px solid rgb(var(--c-rule));
+    }
+    .tier:first-child { padding-left: 0; }
+    .tier:last-child { padding-right: 0; border-right: 0; }
+  }
+  .tier ul { padding-top: var(--space-xs); }
+  .offer {
+    display: grid;
+    gap: var(--space-lg);
+    justify-items: start;
+    margin-top: var(--space-2xl);
+    padding: var(--space-xl) var(--space-lg);
+    border-radius: var(--radius-band);
+    background: rgb(var(--c-sunk));
+  }
+  @media (min-width: 48rem) {
+    .offer { grid-template-columns: minmax(0, 1fr) auto; align-items: center; padding: var(--space-xl); }
+  }
+  .faq { display: grid; gap: var(--space-xl); }
+  @media (min-width: 60rem) {
+    .faq { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-2xl); }
+  }
+  .plan-tab { color: rgb(var(--c-muted)); transition: color 160ms var(--ease-out), background-color 160ms var(--ease-out); }
   .plan-tab:hover { color: rgb(var(--c-ink)); }
   .plan-tab[aria-selected="true"] { background: rgb(var(--c-ink)); color: rgb(var(--c-bg)); }
+  .plan-tab:active { transform: translateY(1px); }
+  @media (prefers-reduced-motion: reduce) { .plan-tab { transition: none; } .plan-tab:active { transform: none; } }
 </style>
 
 <script is:inline>

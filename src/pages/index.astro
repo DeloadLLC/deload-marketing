@@ -1,157 +1,301 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Shot from "../components/Shot.astro";
 import Testimonials from "../components/Testimonials.astro";
-import { FOUNDERS_OFFER, PRIMARY_CTA, SIGNUP_COPY, absorbed, pillars, SITE_DESCRIPTION } from "../config";
+import { OFFER_LINE, PRIMARY_CTA, SITE_DESCRIPTION } from "../config";
 
-const description = SITE_DESCRIPTION;
+// Home, Hallmark redesign (2026-11-14): a tour of the product in real
+// captures (public/images/product, demo data from staging), then the tools it
+// replaces, the athlete's side, the founder, and one closing action. Every
+// action goes to the primary call to action (sign-up, or the waitlist while
+// sign-up is by invitation).
+
 const root = import.meta.env.BASE_URL.replace(/\/$/, "");
 
-// The tools Deload stands in for (approved home sketch, 2026-11-06), plus
-// payments, which the marketplace covers today.
+// The four tools Deload stands in for (founder, 2026-11-14: programming,
+// payments, messages, tracking). Payments here is marketplace program sales
+// only: billing your own clients is not live yet.
 const replaces = [
-  { area: "Programming", old: "the spreadsheet", now: "in your voice" },
-  { area: "Roster", old: "the notes app", now: "who needs you today" },
-  { area: "Athlete app", old: "the PDF", now: "today's workout on their phone. Free for athletes." },
-  { area: "Messages", old: "the group chat", now: "in the same window" },
+  { area: "Programming", old: "the spreadsheet", now: "drafted by the AI, edited by you" },
+  { area: "Tracking", old: "the PDF", now: "today's session and every logged set, on the athlete's phone" },
+  { area: "Messages", old: "the group chat", now: "in the same app as the training" },
   { area: "Payments", old: "the storefront", now: "program sales, paid to your own Stripe account" },
 ];
 
-const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+// The athlete's side: three screens of one app, light and dark.
+const athleteShots = [
+  { name: "athlete-today", alt: "The athlete's Today screen: a deadlift session with its warm-up, main lifts and cool-down.", caption: "Today's session, warm-up to cool-down." },
+  { name: "athlete-history", alt: "The athlete's History screen: past sessions with their sets, and estimated maxes per lift.", caption: "Every logged session, and their numbers." },
+  { name: "athlete-messages", alt: "The athlete's inbox: a note to the coach about the deadlifts and the coach's reply.", caption: "Messages to you, next to the training." },
+];
 ---
-<Layout title="deload" description={description} hideFooterCta={true}>
-  <!-- Hero -->
-  <section class="wrap pt-16 md:pt-24">
-    <h1 class="display display-hero max-w-[16ch] text-ink">
-      Give your athletes the program they deserve, without losing your Sunday night.
-    </h1>
-    <p class="lede mt-7">
-      Deload writes block-aware programs in your voice and puts them on your athletes' phones.
-    </p>
-    <div class="mt-8 flex flex-wrap items-center gap-2.5">
-      <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
-      <a href={`${root}/book-a-demo`} class="btn btn-lg">Book a demo</a>
+<Layout title="deload" description={SITE_DESCRIPTION} hideFooterCta={true}>
+  <!-- Hero (Stage): the head and the action on five columns, the program
+       calendar on seven. -->
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <div class="hero-text">
+      <h1 id="hero-title" class="display-hero-s text-ink">The AI drafts the block. <br class="hidden sm:inline" />You coach.</h1>
+      <!-- TODO(founder): a measured time from brief to finished block would make
+           this line concrete; there is no measured number to quote yet. -->
+      <p class="lede mt-6">Describe the athlete. Deload drafts the program; you edit and assign it.</p>
+      <div class="mt-8">
+        <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
+      </div>
+      <p class="mt-4 text-[0.9375rem] text-muted">{OFFER_LINE}</p>
     </div>
-    <p class="mt-5 max-w-[60ch] text-[0.9375rem] text-muted">{FOUNDERS_OFFER.pitch}</p>
+    <figure class="hero-shot">
+      <!-- Cropped to the calendar itself: the week checks in the side panel
+           are behind a beta switch, so they stay out of the frame.
+           TODO(founder): when the week checks are on for every coach, widen
+           the crop (zoom 1) to show them. -->
+      <Shot
+        name="coach-calendar"
+        dark
+        width={2880}
+        height={1800}
+        alt="A 4-week squat and deadlift block on the Deload program calendar: four training days a week with sets, reps, percentages and RPE."
+        ratio="2140 / 1600"
+        zoom={1.346}
+        ratioSm="1 / 1"
+        zoomSm={2.4}
+        eager
+      />
+      <figcaption class="sr-only">Demo data from the Deload coach app.</figcaption>
+    </figure>
   </section>
 
-  <!-- The thesis band: type only -->
-  <section class="wrap mt-14 md:mt-20" aria-labelledby="band-title">
-    <div class="ink-field overflow-hidden rounded-[20px] px-6 pb-8 pt-12 sm:px-10 md:px-14 md:pb-12 md:pt-20">
-      <h2 id="band-title" class="display text-ink">Sunday, <span class="num">9:40</span> pm.</h2>
-      <p class="mt-5 max-w-[40ch] text-[1.1875rem] leading-snug text-muted">
-        Programs written. Roster checked. Athletes ready for Monday. Laptop closed.
-      </p>
+  <!-- The brief: one capture across the container -->
+  <section class="sec border-t border-rule" aria-labelledby="brief-title">
+    <div class="wrap">
+      <div class="head-split">
+        <h2 id="brief-title" class="h2 text-ink">Start from a sentence.</h2>
+        <p class="lede">Weeks, days, length, equipment and limits come out of the brief. Change any of them before it drafts.</p>
+      </div>
+      <figure class="mt-12 md:mt-16">
+        <Shot
+          name="coach-generate-brief"
+          dark
+          width={2880}
+          height={1800}
+          alt="Deload's Generate screen: a brief for a 4-week strength block, with the weeks, days, length, equipment and a left-knee caution picked out of it."
+          ratioSm="4 / 3"
+          zoomSm={1.9}
+          fx={0.62}
+          shiftYSm={0.06}
+        />
+        <figcaption class="cap">Or attach a program you already wrote, in Excel, Word or PDF, and build on it.</figcaption>
+      </figure>
+    </div>
+  </section>
 
-      <div class="week mt-14 md:mt-20" data-reveal aria-hidden="true">
-        <div class="relative h-[3px] rounded-full bg-rule">
-          <div class="week-fill absolute inset-y-0 left-0 w-[96%] rounded-full bg-clay"></div>
-          <div class="week-dot absolute right-[4%] top-1/2 h-3.5 w-3.5 -translate-y-1/2 translate-x-1/2 rounded-full bg-clay ring-4 ring-[rgb(var(--c-bg))]"></div>
+  <!-- The plan: a split, the agent's turn beside its explanation -->
+  <section class="sec-l" aria-labelledby="plan-title">
+    <div class="wrap plan">
+      <div class="plan-text">
+        <h2 id="plan-title" class="h2 text-ink">Approve the plan first.</h2>
+        <p class="lede mt-5">Before it drafts a week, it says what it will check the finished program against. Approve it, or tell it what to change.</p>
+        <p class="mt-6 max-w-[46ch] text-muted">Every change after that is yours to keep or undo, and every edit stays in the program’s history.</p>
+      </div>
+      <figure class="plan-shot">
+        <Shot
+          name="coach-generate-plan"
+          dark
+          width={2880}
+          height={1800}
+          alt="The agent's plan turn: the brief, the goal lifts it will check the program against, and the buttons to generate or refine."
+          ratio="360 / 520"
+          zoom={4}
+          fx={1}
+          shiftY={0.1}
+        />
+      </figure>
+    </div>
+  </section>
+
+  <!-- One app instead of four: rows, the old tool struck in clay -->
+  <section class="sec border-t border-rule" aria-labelledby="replaces-title">
+    <div class="wrap">
+      <h2 id="replaces-title" class="h2 text-ink">One app instead of four.</h2>
+      <ul class="tools mt-12 md:mt-16" data-reveal>
+        {replaces.map((r) => (
+          <li>
+            <p class="tool-area text-ink">{r.area}</p>
+            <p class="tool-now text-muted"><span class="strike">{r.old}</span> {r.now}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- The athlete's side: three screens, one app -->
+  <section class="sec-l field" aria-labelledby="athletes-title">
+    <div class="wrap">
+      <div class="head-split">
+        <h2 id="athletes-title" class="h2 text-ink">What your athletes see.</h2>
+        <!-- TODO(founder): logging with no signal (saves queued on the phone)
+             shipped in the athlete app on 2026-11-04 but isn't in the site's
+             copy yet; say so here if you want it claimed. -->
+        <p class="lede">Free for athletes, in the browser on any phone.</p>
+      </div>
+      <ul class="phones mt-12 md:mt-16">
+        {athleteShots.map((s) => (
+          <li>
+            <figure>
+              <Shot name={s.name} dark width={780} height={1688} alt={s.alt} ratio="390 / 600" ratioSm="390 / 560" />
+              <figcaption class="cap">{s.caption}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Built by a coach: the quote as a statement, the story beneath -->
+  <section class="sec" aria-labelledby="founder-title">
+    <div class="wrap">
+      <h2 id="founder-title" class="display founder-quote text-ink">&ldquo;I built Deload because I needed it.&rdquo;</h2>
+      <div class="founder mt-10 md:mt-14">
+        <p class="text-[0.9375rem] text-muted">Derek Miranda, founder</p>
+        <div class="space-y-5 text-[1.0625rem] text-muted">
+          <p>I coached at Equinox, then on my own with Sportslab NYC and Fitness360NYC.</p>
+          <p>AI could draft my programs, so I built Deload to turn that draft into something you can run on the gym floor.</p>
+          <a href={`${root}/about`} class="link inline-flex min-h-[44px] items-center">Read the full story</a>
         </div>
-        <ol class="num mt-3 grid grid-cols-7 text-[0.75rem] text-muted sm:text-[0.8125rem]">
-          {days.map((d, i) => (
-            <li class:list={[i === 6 ? "text-right font-medium text-ink" : ""]}>{d}</li>
-          ))}
-        </ol>
       </div>
     </div>
   </section>
 
-  <!-- What it replaces -->
-  <section class="wrap pt-10 md:pt-12" aria-labelledby="replaces-title" data-reveal>
-    <h2 id="replaces-title" class="sr-only">What Deload replaces</h2>
-    <ul class="grid border-t border-rule sm:grid-cols-2 lg:grid-cols-5">
-      {replaces.map((r) => (
-        <li class="border-b border-rule py-6 pr-6 sm:[&:nth-child(odd)]:pr-8 lg:border-b-0 lg:py-7">
-          <p class="text-[1.0625rem] font-semibold text-ink">{r.area}</p>
-          <p class="mt-1.5 text-[0.9375rem] leading-snug text-muted">
-            <span class="strike">{r.old}</span> {r.now}
-          </p>
-        </li>
-      ))}
-    </ul>
-  </section>
+  <!-- Coach quotes: only real, approved ones; the section stays hidden until
+       the API returns some. -->
+  <Testimonials showPlaceholder={false} />
 
-  <!-- One app, the whole job: a sage field -->
-  <section class="mt-20 md:mt-28" aria-labelledby="whole-job">
-    <div class="field">
-      <div class="wrap py-20 md:py-28">
-        <h2 id="whole-job" class="h2 max-w-[22ch] text-ink">Programming, roster and athlete app, in the same window.</h2>
-        <ol class="mt-14 grid gap-y-10 md:mt-20 md:grid-cols-3 md:gap-x-10">
-          {pillars.map((p) => (
-            <li class="border-t border-rule/50 pt-6">
-              <p class="text-[clamp(2.75rem,2rem+2.6vw,4.25rem)] font-semibold leading-none tracking-[-0.045em] text-ink">{p.word}.</p>
-              <h3 class="h3 mt-6 text-ink">{p.title}</h3>
-              <p class="mt-3 max-w-[40ch] text-muted">{p.body}</p>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </div>
-  </section>
-
-  <!-- What this absorbs -->
-  <section class="wrap py-20 md:py-28" aria-labelledby="absorbs">
-    <div>
-      <div>
-        <h2 id="absorbs" class="h2 max-w-[20ch] text-ink">The hours that don't show up on a roster.</h2>
-        <ul class="rows mt-12">
-          {absorbed.map((item) => (
-            <li class="grid gap-2 !py-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] md:gap-10">
-              <p class="text-[1.625rem] font-semibold leading-tight tracking-[-0.03em] text-ink md:text-[2rem]">{item.when}</p>
-              <p class="text-[1.125rem] leading-snug text-muted md:pt-1.5">{item.what}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- Built for real programming -->
-  <section class="border-t border-rule">
-    <div class="wrap grid gap-5 py-20 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-16">
-      <h2 class="h2 max-w-[16ch] text-ink">Not a workout app pretending to coach.</h2>
-      <p class="max-w-[48ch] text-[1.125rem] leading-relaxed text-muted lg:pt-2">
-        Blocks, phases, %1RM and RPE, supersets, deloads and tapers, so each week builds on the last.
-      </p>
-    </div>
-  </section>
-
-  <!-- Built by a coach -->
-  <section class="border-t border-rule">
-    <div class="wrap grid gap-10 py-20 md:py-28 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-16">
-      <div>
-        <p class="display-sm max-w-[14ch] text-ink">&ldquo;I built Deload because I needed it.&rdquo;</p>
-        <p class="mt-5 text-[0.9375rem] text-muted">Derek Miranda, founder</p>
-      </div>
-      <div class="space-y-5 text-[1.0625rem] text-muted lg:pt-10">
-        <p>
-          I coached at Equinox, then on my own with Sportslab NYC and Fitness360NYC.
-        </p>
-        <p>
-          AI could draft my programs, so I built Deload to turn that draft into something you can run on the gym floor.
-        </p>
-        <a href={`${root}/about`} class="link pt-1">Read the full story</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Social proof: text only -->
-  <Testimonials />
-
-  <!-- Closing -->
+  <!-- Close: the one action again -->
   <section class="wrap pb-16 md:pb-24" aria-labelledby="close-title">
-    <div class="ink-field flex flex-col gap-10 rounded-[20px] px-6 py-14 sm:px-10 md:px-14 md:py-20 lg:flex-row lg:items-end lg:justify-between">
-      <div class="max-w-[40rem]">
-        <h2 id="close-title" class="display text-ink">Get your Sunday back.</h2>
-        <p class="mt-5 max-w-[52ch] text-[1.0625rem] text-muted">
-          Book a <span class="num">15</span>-minute demo and we'll write your first program live, {SIGNUP_COPY.closeTail}
-        </p>
-      </div>
-      <div class="flex flex-wrap gap-2.5">
-        <a href={`${root}/book-a-demo`} class="btn btn-lg">Book a demo</a>
+    <div class="ink-field close">
+      <h2 id="close-title" class="display text-ink">Get your Sunday back.</h2>
+      <div class="close-act">
+        <p class="max-w-[40ch] text-[1.0625rem] text-muted">{OFFER_LINE}</p>
         <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
       </div>
     </div>
   </section>
 </Layout>
 
+<style>
+  /* Hero (Stage): fills the first screen under the 64px header on wide
+     screens; collapses to its content's height below 60rem. */
+  .hero {
+    display: grid;
+    gap: var(--space-xl);
+    padding-block: var(--space-xl) var(--space-2xl);
+  }
+  .hero-shot { margin: 0; min-width: 0; }
+  @media (min-width: 60rem) {
+    .hero {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+      align-items: center;
+      gap: var(--space-xl) var(--space-2xl);
+      min-height: calc(100svh - 4rem);
+      padding-block: var(--space-xl);
+    }
+  }
+  .display-hero-s {
+    font-size: clamp(2.6rem, 1.4rem + 3.6vw, 4.25rem);
+    line-height: 1;
+    letter-spacing: -0.045em;
+    font-weight: 600;
+    max-width: 12ch;
+    text-wrap: balance;
+  }
+
+  /* Section rhythm: two steps, mixed. */
+  .sec { padding-block: var(--section-gap-s); }
+  .sec-l { padding-block: var(--section-gap); }
+
+  /* A head and its line, split across the row on wide screens. */
+  .head-split { display: grid; gap: var(--space-md); }
+  .head-split .h2 { max-width: 18ch; }
+  @media (min-width: 60rem) {
+    .head-split {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--space-2xl);
+      align-items: end;
+    }
+    .head-split .lede { padding-bottom: var(--space-2xs); }
+  }
+
+  .cap {
+    margin-top: var(--space-sm);
+    max-width: 60ch;
+    font-size: 0.9375rem;
+    color: rgb(var(--c-muted));
+  }
+
+  /* The plan: text on five columns, the agent's panel on seven. */
+  .plan { display: grid; gap: var(--space-xl); }
+  .plan-shot { margin: 0; min-width: 0; width: 100%; max-width: 28rem; justify-self: center; }
+  @media (min-width: 60rem) {
+    .plan {
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+      gap: var(--space-2xl);
+      align-items: center;
+    }
+    .plan-shot { max-width: 30rem; justify-self: end; }
+  }
+
+  /* One app instead of four: full-width hairline rows. */
+  .tools { border-top: 1px solid rgb(var(--c-rule)); }
+  .tools li {
+    display: grid;
+    gap: var(--space-xs);
+    padding-block: var(--space-lg);
+    border-bottom: 1px solid rgb(var(--c-rule));
+  }
+  .tool-area {
+    font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+  .tool-now { font-size: 1.125rem; line-height: 1.45; max-width: 44ch; }
+  @media (min-width: 48rem) {
+    .tools li {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--space-2xl);
+      align-items: baseline;
+      padding-block: var(--space-xl);
+    }
+  }
+
+  /* Three phones across; a scrollable rail would hide two of three on a
+     phone, so they stack. */
+  .phones { display: grid; gap: var(--space-xl); }
+  @media (min-width: 48rem) {
+    .phones { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap-columns); }
+  }
+  .phones figure { margin: 0; }
+  .phones .cap { color: rgb(var(--c-muted)); }
+
+  .founder-quote { max-width: 18ch; }
+  .founder { display: grid; gap: var(--space-md); border-top: 1px solid rgb(var(--c-rule)); padding-top: var(--space-lg); }
+  @media (min-width: 60rem) {
+    .founder { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-2xl); }
+    .founder .space-y-5 { max-width: 52ch; }
+  }
+
+  .close {
+    display: grid;
+    gap: var(--space-xl);
+    border-radius: var(--radius-band);
+    padding: var(--space-3xl) var(--space-lg) var(--space-xl);
+  }
+  @media (min-width: 40rem) { .close { padding-inline: var(--space-xl); } }
+  @media (min-width: 60rem) {
+    .close {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      align-items: end;
+      padding: var(--space-3xl) var(--space-2xl) var(--space-2xl);
+    }
+  }
+  .close-act { display: grid; gap: var(--space-lg); justify-items: start; }
+</style>
