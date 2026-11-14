@@ -597,7 +597,7 @@ export const PRICING: {
       name: "Elite",
       price: "$249",
       cadence: "/mo",
-      blurb: "One coach, 100+ athletes: built to scale online programs and growth.",
+      blurb: "One coach, more than 50 athletes, no cap: built to scale online programs and growth.",
       cta: { label: TRIAL_LABEL, href: "" },
       features: [
         "Everything in Pro, plus…",
