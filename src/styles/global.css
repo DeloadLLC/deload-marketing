@@ -1,3 +1,18 @@
+/* Hallmark · shape: Workbench (draw 223cbd swapped from Marquee Hero: the product needs explaining in seconds) · genre: modern-minimal · theme: brand (by request: the founder kept palette A) · redesign: full · job: sign up
+ * paper: oklch(96.6% 0.007 80) · accent: oklch(52% 0.06 145) sage, clay oklch(62% 0.1 50) for strikes only · display: Geist · body: Geist · hero: Stage (/), Banner (/pricing), Form (/beta, /landing-page) · nav: kept (mega-menu bar) · footer: kept (index columns, a real sitemap) · signature: the program calendar a brief produced, shown as the hero
+ * axes: light/grotesk-sans/chromatic-green · posture: Restrained · contrast: pass · fold: pass · imagery: screenshots 7 (staging captures, public/images/product) · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R5 V4 · weakest: P, the argument is "the AI drafts, you coach"; led with the calendar a brief produced instead of a claim about evenings */
+/* Hallmark · waive 65 · cream paper and clay strike are the brand's own tokens, shared with the coach and athlete apps · the founder kept palette A for Deload */
+/* Hallmark · dropped the Sunday 9:40 band, the Build/Run/Ship pillars, "The hours that don't show up on a roster", "Not a workout app pretending to coach" · the founder asked to cut what the product cannot show today */
+/* Hallmark · waive 59 · pricing: 73px from the Individuals and Teams switch to the tiers · the switch belongs to the tiers it changes, so they sit as one pricing block */
+/* Hallmark · waive 44c · pricing is a Banner (the tiers start at 359px) and the waitlist form runs past 900px on /beta · on pricing the tiers are the reason to come; the waitlist form keeps every field the beta list needs */
+/* Hallmark · waive 79 · home: the calendar capture runs from 220px to 745px beside the head; the 212px is measured under the shorter text column · the program calendar is the hero, not the copy */
+/* Hallmark · dismissed 49 · the Founders Rate button label sits in .btn, which sets white-space: nowrap */
+/* Hallmark · dismissed 77 · pricing, /beta and /landing-page are a price table and two waitlist forms, not long pages; four and three sections is their job */
+/* Hallmark · dismissed F1 · the straight quotes it found are in Astro expressions and attribute values, not in prose */
+/* Hallmark · dismissed F20 · the /beta form spans both rows beside the head and the perks, so the third item is not an orphan */
+/* Hallmark · dropped the Book a demo buttons on home, pricing, the header and the footer band · every call to action goes to coach sign-up (founder, 2026-11-14) */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -47,6 +62,16 @@
     --shadow-menu: 0 18px 40px -20px rgb(0 0 0 / 0.25);
 
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Hallmark's spacing scale and section rhythm (2026-11-14 redesign) */
+    --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px;
+    --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px; --space-4xl: 144px;
+    --gap-columns: 32px;
+    --gutter: 40px;
+    --section-gap-s: 120px; --section-gap: 144px;
+    /* Radii: a screenshot's frame, and the colour bands */
+    --radius-shot: 14px;
+    --radius-band: 20px;
     color-scheme: light;
   }
 
@@ -69,6 +94,13 @@
       --c-on-field-muted: 38 52 41;
       color-scheme: dark;
     }
+  }
+
+  @media (max-width: 60rem) {
+    :root { --section-gap-s: 80px; --section-gap: 96px; --gutter: 32px; }
+  }
+  @media (max-width: 40rem) {
+    :root { --section-gap-s: 64px; --section-gap: 72px; --gap-columns: 16px; --radius-shot: 10px; --gutter: 16px; }
   }
 
   html, body { overflow-x: clip; }
@@ -110,7 +142,7 @@
     width: 100%;
     max-width: 78rem;
     margin-inline: auto;
-    padding-inline: clamp(16px, 4vw, 40px);
+    padding-inline: var(--gutter);
   }
 
   /* Type */
@@ -176,7 +208,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: var(--space-xs);
     min-height: 44px;
     padding: 0 1.05rem;
     border-radius: 10px;
@@ -203,7 +235,7 @@
     border-color: transparent;
     background: transparent;
     color: rgb(var(--c-muted));
-    padding-inline: 0.5rem;
+    padding-inline: var(--space-xs);
   }
   .btn-quiet:hover { color: rgb(var(--c-ink)); border-color: transparent; }
   .btn-lg { min-height: 52px; padding: 0 1.35rem; font-size: 1rem; border-radius: 12px; }
@@ -227,6 +259,20 @@
     text-decoration: none;
   }
 
+  /* /beta and /landing-page: the head, the form, then the rest on phones; from
+     60rem the head and the rest on the left, the form beside them. */
+  .form-page { display: grid; gap: var(--space-xl); align-items: start; }
+  @media (min-width: 60rem) {
+    .form-page {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      column-gap: var(--space-2xl);
+      row-gap: var(--space-xl);
+    }
+    .fp-head { grid-column: 1; grid-row: 1; }
+    .fp-form { grid-column: 2; grid-row: 1 / span 2; position: sticky; top: var(--space-xl); }
+    .fp-more { grid-column: 1; grid-row: 2; }
+  }
+
   /* "Coming soon" tag: words in a hairline pill, no dot */
   .soon {
     display: inline-flex;
@@ -234,7 +280,7 @@
     white-space: nowrap;
     border: 1px solid rgb(var(--c-rule));
     border-radius: 999px;
-    padding: 0.1rem 0.5rem;
+    padding: var(--space-3xs) var(--space-xs);
     font-size: 0.75rem;
     font-weight: 500;
     line-height: 1.5;

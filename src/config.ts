@@ -40,6 +40,15 @@ export const SIGNUP_COPY = IS_OPEN
       individualAccess: "In private beta: join the waitlist and we'll invite you.",
     };
 
+/**
+ * The offer, said once under the hero's button and once in the close
+ * (founder, 2026-11-14): a 14-day trial for coaches, athletes free. In
+ * waitlist mode the line is the waitlist pitch instead.
+ */
+export const OFFER_LINE = IS_OPEN
+  ? `${TRIAL_DAYS}-day free trial. Your athletes use Deload free.`
+  : "Join the waitlist for early access and the Founders Rate. Your athletes use Deload free.";
+
 // The app hosts the one copy of the legal pages (they changed with the beta
 // decisions; two copies drifted). The site's /privacy and /terms forward there.
 export const PRIVACY_URL = `${trimmedAppUrl}/privacy`;
@@ -578,6 +587,7 @@ export const PRICING: {
       highlight: true,
       features: [
         "Everything in Solo, plus…",
+        // TODO(founder): confirm what "Optimized" means for 8+ week programs today.
         "Optimized long programs (8+ weeks)",
         "Roster triage + automations",
         { label: "Accounting and reports", soon: true },
@@ -594,6 +604,7 @@ export const PRICING: {
         "Everything in Pro, plus…",
         "No athlete cap",
         { label: "White-label client portal", soon: true },
+        // TODO(founder): confirm this is live for Elite, or mark it soon.
         "Advanced AI agent customization",
         "Dedicated onboarding call",
       ],
@@ -637,9 +648,12 @@ export const PRICING: {
       cta: { label: "Book a demo", href: "/book-a-demo" },
       features: [
         "Everything in Elite team, plus…",
+        // TODO(founder): the multi-location business-type page is still "Coming
+        // soon"; confirm multi-location management is live before claiming it.
         "Multi-location management",
         "Single sign-on and directory provisioning",
         "Dedicated success manager",
+        // TODO(founder): confirm a negotiated Stripe rate is something Deload offers.
         "Negotiated Stripe processing rate",
       ],
     },
@@ -724,47 +738,12 @@ export const PAYMENTS_NOTE =
 // Home-page content blocks
 // ---------------------------------------------------------------------------
 
-export const pillars = [
-  {
-    word: "Build",
-    title: "Programs that sound like you wrote them.",
-    body: "AI drafts, plain-English edits and a template library.",
-  },
-  {
-    word: "Run",
-    title: "A roster you can actually keep up with.",
-    body: "See who needs you and catch high-RPE weeks early.",
-  },
-  {
-    word: "Ship",
-    title: "An athlete app built for the gym floor.",
-    body: "Today's session, fast logging and messages tied to the training.",
-  },
-];
-
-export const absorbed = [
-  {
-    when: "Sunday night",
-    what: "Writing next week's program for every athlete.",
-  },
-  {
-    when: "Tuesday, 9pm",
-    what: "Rewriting a block around Monday's tweaked back.",
-  },
-  {
-    when: "Thursday morning",
-    what: "Answering “what's my weight today?” before the gym opens.",
-  },
-  {
-    when: "Two weeks out from a meet",
-    what: "Peaking without losing the work that got them there.",
-  },
-];
-
 export const proofPoints = [
   "Powerlifting, weightlifting, hypertrophy, sport and masters athletes.",
   "RPE, RIR and %1RM in the same block, and the math still works.",
   "Mesocycles, deloads and peaks that fit the athlete.",
+  // TODO(founder): confirm this matches the edit behaviour in production
+  // (the one-week edit change, #306, is still on staging).
   "Change one session and the weeks after it keep up.",
   "Rearrange days and change many sessions at once.",
   "Every edit kept and reversible; you stay the coach of record.",
@@ -826,6 +805,8 @@ export const faqs = [
   },
   {
     q: "What about meet preps, injuries and in-season cuts?",
+    // TODO(founder): confirm "rebuilds the affected weeks and leaves the rest"
+    // against production behaviour (#306 is still on staging).
     a: "Yes. Tell it the constraint in plain English; it rebuilds the affected weeks and leaves the rest.",
   },
   {
