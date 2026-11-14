@@ -587,7 +587,6 @@ export const PRICING: {
       highlight: true,
       features: [
         "Everything in Solo, plus…",
-        // TODO(founder): confirm what "Optimized" means for 8+ week programs today.
         "Optimized long programs (8+ weeks)",
         "Roster triage + automations",
         { label: "Accounting and reports", soon: true },
@@ -604,7 +603,6 @@ export const PRICING: {
         "Everything in Pro, plus…",
         "No athlete cap",
         { label: "White-label client portal", soon: true },
-        // TODO(founder): confirm this is live for Elite, or mark it soon.
         "Advanced AI agent customization",
         "Dedicated onboarding call",
       ],
@@ -648,12 +646,9 @@ export const PRICING: {
       cta: { label: "Book a demo", href: "/book-a-demo" },
       features: [
         "Everything in Elite team, plus…",
-        // TODO(founder): the multi-location business-type page is still "Coming
-        // soon"; confirm multi-location management is live before claiming it.
         "Multi-location management",
         "Single sign-on and directory provisioning",
         "Dedicated success manager",
-        // TODO(founder): confirm a negotiated Stripe rate is something Deload offers.
         "Negotiated Stripe processing rate",
       ],
     },
