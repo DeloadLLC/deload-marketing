@@ -179,9 +179,17 @@ their current waitlist/open logic.
     phone, in the browser. Apps for iPhone and Android are on the way.
   - The two pricing/access answers keep their facts; reword only if they read
     stiffly.
-- **Proof points** (`proofPoints`; landing-page shows the first four): reword
-  in the same voice, same facts.
-- `SITE_DESCRIPTION` (meta description): rewrite to match the opening.
+- **Proof points** (`proofPoints`; landing-page shows the first four), approved:
+  - Powerlifters, weightlifters, bodybuilders, sport and masters athletes.
+  - RPE, RIR and percentages in the same program, and the numbers still add up.
+  - Training blocks, lighter weeks and peaks planned around each athlete.
+  - Move a day or swap a lift, and the weeks after it follow.
+  - Change lots of sessions at once.
+  - Every change is saved and can be undone. You're always the coach.
+- `SITE_DESCRIPTION` (meta description), approved: "Deload writes your
+  programs in your style, keeps your athletes on track between sessions, and
+  gives your team one place to work. Free for your athletes."
+- Founder approved the whole copy doc on 15 Nov.
 - PR #34 closes; its offline line lives in act 4.
 
 ## Constraints
