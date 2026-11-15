@@ -33,11 +33,11 @@ const athleteShots = [
 ];
 ---
 <Layout title="deload" description={SITE_DESCRIPTION} hideFooterCta={true}>
-  <!-- 1. Opening: the head and the action on five columns, the program
-       calendar on six. -->
+  <!-- 1. Opening: the head and the action, the program
+       calendar beside it. -->
   <section class="hero wrap" aria-labelledby="hero-title">
     <div class="hero-text">
-      <h1 id="hero-title" class="hero-head text-ink">You got into this to coach. Not to spend your nights writing programs and answering texts.</h1>
+      <h1 id="hero-title" class="hero-head text-ink"><span class="block">You got into this to coach.</span> <span class="block">Not to spend your nights writing programs and answering texts.</span></h1>
       <p class="lede mt-6">Deload writes the first draft of every program, keeps your athletes on track between sessions, and gives your whole team one place to work. You get your evenings back, and your clients stick around.</p>
       <div class="mt-8">
         <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
@@ -156,9 +156,9 @@ const athleteShots = [
           height={1800}
           alt="A coaching team's shared roster in Deload: athletes with their coach and this week's training."
           ratioSm="4 / 3"
-          zoomSm={2.4}
-          fx={0.2}
-          shiftYSm={0.12}
+          zoomSm={3}
+          fx={0.27}
+          shiftYSm={0.25}
         />
       </figure>
       <div class="grow-foot mt-12 md:mt-16">
@@ -219,7 +219,7 @@ const athleteShots = [
   .hero-shot { margin: 0; min-width: 0; }
   @media (min-width: 60rem) {
     .hero {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       align-items: center;
       gap: var(--space-xl) var(--space-2xl);
       min-height: calc(100svh - 4rem);
@@ -227,11 +227,11 @@ const athleteShots = [
     }
   }
   .hero-head {
-    font-size: clamp(2.25rem, 1.5rem + 2.2vw, 3.25rem);
+    font-size: clamp(2rem, 1.3rem + 2vw, 3rem);
     line-height: 1.02;
     letter-spacing: -0.045em;
     font-weight: 600;
-    max-width: 16ch;
+    max-width: 18ch;
     text-wrap: balance;
     overflow-wrap: break-word;
   }
@@ -260,7 +260,7 @@ const athleteShots = [
 
   /* The founder's notes: the pull quote, a size down, signed. On wide
      screens they sit on the right seven columns, under the section's line. */
-  .note { margin: 0; display: grid; gap: var(--space-sm); }
+  .note { margin-inline: 0; margin-bottom: 0; display: grid; gap: var(--space-sm); }
   .note-quote {
     margin: 0;
     font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.125rem);
@@ -308,6 +308,7 @@ const athleteShots = [
      founder's note. */
   .grow-foot { display: grid; gap: var(--space-2xl); border-top: 1px solid rgb(var(--c-rule)); padding-top: var(--space-lg); }
   .replaces .label { margin-bottom: var(--space-sm); }
+  .grow-foot .note { margin-top: 0; }
   .replaces-line {
     font-size: clamp(1.375rem, 1.1rem + 0.9vw, 1.75rem);
     line-height: 1.35;
