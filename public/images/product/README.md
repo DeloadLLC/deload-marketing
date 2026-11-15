@@ -31,5 +31,9 @@ Captured 14 Nov 2026 from staging (coach app and athlete app) for the marketing 
 | `athlete-numbers-light` | Athlete Your numbers, cropped: e1RM per lift. (light) | 780 x 800 | 26 KB | 72 KB |
 | `athlete-messages-dark` | Athlete inbox: the same thread from the athlete side. (dark) | 780 x 1688 | 29 KB | 90 KB |
 | `athlete-messages-light` | Athlete inbox: the same thread from the athlete side. (light) | 780 x 1688 | 30 KB | 89 KB |
+| `coach-team-roster-dark` | Athletes roster with the team's roster shared: each athlete's coach (You, Rosa Kim, Rosa Kim +1), status, last activity, current program, PRs and adjustments. (dark) | 2880 x 1800 | 103 KB | 340 KB |
+| `coach-team-roster-light` | The same roster. (light) | 2880 x 1800 | 108 KB | 343 KB |
+
+The team roster (`coach-team-roster-*`, 15 Nov 2026) was taken from the design gallery rather than staging. It is the real coach app on fixture data, from the coach UI's design gallery (`gallery/` in deload-coach-ui, staging at f3e112c, served with `gallery:serve`, the `orgs` flag on, so the roster is shared). In the copy used for the shot, three fixture athletes were moved to a teammate (Rosa Kim) and the gallery coach was named Alex Morgan, as on the other shots; the clock was set to the fixtures' date (6 Nov 2026), and the account email in the sidebar was replaced with the name. 1440 x 900 at 2x, light and dark, reduced motion.
 
 Not captured yet: a progress trend chart (the demo athlete has one logged session per lift, so History shows numbers but no trend line).
