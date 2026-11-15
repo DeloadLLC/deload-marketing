@@ -69,7 +69,7 @@ export const SITE_NAME = "Deload";
 export const SITE_TAGLINE = "The all-in-one AI coaching platform";
 
 export const SITE_DESCRIPTION =
-  "The all-in-one AI coaching platform for coaches who write their own training. Generate block-aware programs, edit in plain English, bring in the programs you already have, run your roster, and ship the program straight to your athletes' phones, all in one place.";
+  "Deload writes your programs in your style, keeps your athletes on track between sessions, and gives your team one place to work. Free for your athletes.";
 
 // ---------------------------------------------------------------------------
 // Information architecture / navigation
@@ -734,14 +734,12 @@ export const PAYMENTS_NOTE =
 // ---------------------------------------------------------------------------
 
 export const proofPoints = [
-  "Powerlifting, weightlifting, hypertrophy, sport and masters athletes.",
-  "RPE, RIR and %1RM in the same block, and the math still works.",
-  "Mesocycles, deloads and peaks that fit the athlete.",
-  // TODO(founder): confirm this matches the edit behaviour in production
-  // (the one-week edit change, #306, is still on staging).
-  "Change one session and the weeks after it keep up.",
-  "Rearrange days and change many sessions at once.",
-  "Every edit kept and reversible; you stay the coach of record.",
+  "Powerlifters, weightlifters, bodybuilders, sport and masters athletes.",
+  "RPE, RIR and percentages in the same program, and the numbers still add up.",
+  "Training blocks, lighter weeks and peaks planned around each athlete.",
+  "Move a day or swap a lift, and the weeks after it follow.",
+  "Change lots of sessions at once.",
+  "Every change is saved and can be undone. You're always the coach.",
 ];
 
 // ---------------------------------------------------------------------------
@@ -796,23 +794,21 @@ export const testimonials: Testimonial[] = [];
 export const faqs = [
   {
     q: "Does it really sound like me?",
-    a: "It learns your phrasing, set/rep cadence and cues, and gets closer as you edit.",
+    a: "It learns from the programs you bring in and the changes you make. The more you use it, the more it writes like you.",
   },
   {
     q: "What about meet preps, injuries and in-season cuts?",
-    // TODO(founder): confirm "rebuilds the affected weeks and leaves the rest"
-    // against production behaviour (#306 is still on staging).
-    a: "Yes. Tell it the constraint in plain English; it rebuilds the affected weeks and leaves the rest.",
+    a: "Yes. Tell it what's coming up or what's bothering your athlete, in your own words, and it changes the weeks that need it. You approve every change.",
   },
   {
     q: "What do my athletes see?",
-    a: "Today's session, the weights, fast logging and messages to you, in the browser. Native apps are on the way.",
+    a: "Today's workout with the weights worked out, a quick way to log it, their progress, and messages with you. On any phone, in the browser. Apps for iPhone and Android are on the way.",
   },
   {
     q: IS_OPEN ? "How do I start?" : "How do I get access?",
     a: IS_OPEN
       ? `Sign up and start a ${TRIAL_DAYS}-day free trial. Coaches who join while the Founders Rate runs pay $99/mo for Solo instead of $149, plus 25% off one upgrade. Your athletes use Deload free.`
-      : "Join the waitlist and answer a short questionnaire; we invite coaches in small groups. It's free during the beta, and at launch beta coaches get the Founders Rate (Solo at $99/mo instead of $149) plus 25% off one upgrade.",
+      : "Join the waitlist and answer a short questionnaire. We invite coaches in small groups. It's free during the beta, and at launch beta coaches get the Founders Rate (Solo at $99/mo instead of $149) plus 25% off one upgrade.",
   },
   {
     q: "Can I move my roster over from another tool?",
