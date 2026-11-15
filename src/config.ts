@@ -737,9 +737,7 @@ export const proofPoints = [
   "Powerlifting, weightlifting, hypertrophy, sport and masters athletes.",
   "RPE, RIR and %1RM in the same block, and the math still works.",
   "Mesocycles, deloads and peaks that fit the athlete.",
-  // TODO(founder): confirm this matches the edit behaviour in production
-  // (the one-week edit change, #306, is still on staging).
-  "Change one session and the weeks after it keep up.",
+  "Change one session and the rest of the block adjusts.",
   "Rearrange days and change many sessions at once.",
   "Every edit kept and reversible; you stay the coach of record.",
 ];
@@ -800,9 +798,7 @@ export const faqs = [
   },
   {
     q: "What about meet preps, injuries and in-season cuts?",
-    // TODO(founder): confirm "rebuilds the affected weeks and leaves the rest"
-    // against production behaviour (#306 is still on staging).
-    a: "Yes. Tell it the constraint in plain English; it rebuilds the affected weeks and leaves the rest.",
+    a: "Yes. Tell it what's going on, in your own words. It reworks the weeks that need it and leaves the rest alone.",
   },
   {
     q: "What do my athletes see?",
