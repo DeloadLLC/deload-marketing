@@ -114,9 +114,10 @@ their current waitlist/open logic.
   - Already have programs? Bring them in from Excel, Word or PDF.
 - Visual: the generate/plan screens already on the page (today's "Start from
   a sentence" and "Approve the plan first" shots), merged into one act.
-- **Timing:** if the staging measurement supports it, the H2 or a supporting
-  line gains the measured time ("a 12-week program in about N minutes"). The
-  founder approves the number first.
+- **Timing (founder, 15 Nov):** a supporting line reads "Your first week is
+  ready to edit in under 4 minutes." Measured on staging: 10 programs, median
+  3.0 min, slowest 3.6 min. The full-program time stays off the page until the
+  8-week "Build the rest" stall is fixed.
 
 ### 4. They stay (the athlete's side)
 
