@@ -4,40 +4,41 @@ import Shot from "../components/Shot.astro";
 import Testimonials from "../components/Testimonials.astro";
 import { OFFER_LINE, PRIMARY_CTA, SITE_DESCRIPTION } from "../config";
 
-// Home, Hallmark redesign (2026-11-14): a tour of the product in real
-// captures (public/images/product, demo data from staging), then the tools it
-// replaces, the athlete's side, the founder, and one closing action. Every
-// action goes to the primary call to action (sign-up, or the waitlist while
-// sign-up is by invitation).
+// Home as one story (founder-approved copy, 15 Nov 2026; spec:
+// docs/superpowers/specs/2026-11-15-home-story-design.md): the opening, the
+// coach's week, time back, clients who stay, room to grow, the founder, and
+// one closing action. The copy is the founder's, word for word, and every
+// claim is live on production. Every action goes to the primary call to
+// action (sign-up, or the waitlist while sign-up is by invitation).
 
 const root = import.meta.env.BASE_URL.replace(/\/$/, "");
 
-// The four tools Deload stands in for (founder, 2026-11-14: programming,
-// payments, messages, tracking). Payments here is marketplace program sales
-// only: billing your own clients is not live yet.
-const replaces = [
-  { area: "Programming", old: "the spreadsheet", now: "drafted by the AI, edited by you" },
-  { area: "Tracking", old: "the PDF", now: "today's session and every logged set, on the athlete's phone" },
-  { area: "Messages", old: "the group chat", now: "in the same app as the training" },
-  { area: "Payments", old: "the storefront", now: "program sales, paid to your own Stripe account" },
+// Act 3's supporting lines. The timing is measured on staging (10 programs,
+// median 3.0 min, slowest 3.6 min; founder approved, 15 Nov). The time for a
+// whole program stays off the page until "Build the rest" is fixed.
+const timeBack = [
+  "Your first week is ready to edit in under 4 minutes.",
+  "Strength, muscle, sport, endurance and older athletes.",
+  "RPE, RIR and percentages, the way you already use them.",
+  "Move a day or swap a lift, and it sorts out the weeks that follow.",
+  "Every change is saved, and you can undo any of it.",
+  "Already have programs? Bring them in from Excel, Word or PDF.",
 ];
 
 // The athlete's side: three screens of one app, light and dark.
 const athleteShots = [
-  { name: "athlete-today", alt: "The athlete's Today screen: a deadlift session with its warm-up, main lifts and cool-down.", caption: "Today's session, warm-up to cool-down." },
-  { name: "athlete-history", alt: "The athlete's History screen: past sessions with their sets, and estimated maxes per lift.", caption: "Every logged session, and their numbers." },
-  { name: "athlete-messages", alt: "The athlete's inbox: a note to the coach about the deadlifts and the coach's reply.", caption: "Messages to you, next to the training." },
+  { name: "athlete-today", alt: "The athlete's Today screen: a deadlift session with its warm-up, main lifts and cool-down.", caption: "Today's workout, warm-up to cool-down." },
+  { name: "athlete-history", alt: "The athlete's History screen: past sessions with their sets, and estimated maxes per lift.", caption: "Every session they've logged, and how far they've come." },
+  { name: "athlete-messages", alt: "The athlete's inbox: a note to the coach about the deadlifts and the coach's reply.", caption: "You, one tap away." },
 ];
 ---
 <Layout title="deload" description={SITE_DESCRIPTION} hideFooterCta={true}>
-  <!-- Hero (Stage): the head and the action on five columns, the program
-       calendar on seven. -->
+  <!-- 1. Opening: the head and the action, the program
+       calendar beside it. -->
   <section class="hero wrap" aria-labelledby="hero-title">
     <div class="hero-text">
-      <h1 id="hero-title" class="display-hero-s text-ink">The AI drafts the block. <br class="hidden sm:inline" />You coach.</h1>
-      <!-- TODO(founder): a measured time from brief to finished block would make
-           this line concrete; there is no measured number to quote yet. -->
-      <p class="lede mt-6">Describe the athlete. Deload drafts the program; you edit and assign it.</p>
+      <h1 id="hero-title" class="hero-head text-ink"><span class="block">You got into this to coach.</span> <span class="block">Not to spend your nights writing programs and answering texts.</span></h1>
+      <p class="lede mt-6">Deload writes the first draft of every program, keeps your athletes on track between sessions, and gives your whole team one place to work. You get your evenings back, and your clients stick around.</p>
       <div class="mt-8">
         <a href={PRIMARY_CTA.href} class="btn btn-pri btn-lg">{PRIMARY_CTA.label}</a>
       </div>
@@ -45,9 +46,7 @@ const athleteShots = [
     </div>
     <figure class="hero-shot">
       <!-- Cropped to the calendar itself: the week checks in the side panel
-           are behind a beta switch, so they stay out of the frame.
-           TODO(founder): when the week checks are on for every coach, widen
-           the crop (zoom 1) to show them. -->
+           are behind a beta switch, so they stay out of the frame. -->
       <Shot
         name="coach-calendar"
         dark
@@ -64,12 +63,26 @@ const athleteShots = [
     </figure>
   </section>
 
-  <!-- The brief: one capture across the container -->
-  <section class="sec border-t border-rule" aria-labelledby="brief-title">
+  <!-- 2. Their week: the problem, and the founder's first note -->
+  <section class="sec border-t border-rule" aria-labelledby="week-title">
     <div class="wrap">
       <div class="head-split">
-        <h2 id="brief-title" class="h2 text-ink">Start from a sentence.</h2>
-        <p class="lede">Weeks, days, length, equipment and limits come out of the brief. Change any of them before it drafts.</p>
+        <h2 id="week-title" class="h2 text-ink">Sound familiar?</h2>
+        <p class="lede">Sunday night, you're writing next week's programs. Monday, you're answering the same texts you answered last week. Somewhere in between, a client stops showing up and you don't notice until they've gone. You're good at coaching. It's everything around it that wears you down.</p>
+      </div>
+      <figure class="note mt-12 md:mt-16">
+        <blockquote class="note-quote text-ink"><p>&ldquo;For years I wrote programs at 11pm and rewrote them by 7am. I built Deload so I'd stop.&rdquo;</p></blockquote>
+        <figcaption class="note-by">— Derek</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 3. Time back: describing the athlete, then the plan and the lines -->
+  <section class="sec-l border-t border-rule" aria-labelledby="time-title">
+    <div class="wrap">
+      <div class="head-split">
+        <h2 id="time-title" class="h2 text-ink">Your programs, drafted for you.</h2>
+        <p class="lede">Tell Deload about your athlete the way you'd tell another coach: what they're training for, how many days they have, what equipment they've got, what hurts. It writes the whole program in your style. You read it, change what you'd change, and send it. Nothing reaches your athlete until you say so.</p>
       </div>
       <figure class="mt-12 md:mt-16">
         <Shot
@@ -77,65 +90,40 @@ const athleteShots = [
           dark
           width={2880}
           height={1800}
-          alt="Deload's Generate screen: a brief for a 4-week strength block, with the weeks, days, length, equipment and a left-knee caution picked out of it."
+          alt="Deload's Generate screen: a description of the athlete for a 4-week strength program, with the weeks, days, length, equipment and a left-knee caution picked out of it."
           ratioSm="4 / 3"
           zoomSm={1.9}
           fx={0.62}
           shiftYSm={0.06}
         />
-        <figcaption class="cap">Or attach a program you already wrote, in Excel, Word or PDF, and build on it.</figcaption>
       </figure>
-    </div>
-  </section>
-
-  <!-- The plan: a split, the agent's turn beside its explanation -->
-  <section class="sec-l" aria-labelledby="plan-title">
-    <div class="wrap plan">
-      <div class="plan-text">
-        <h2 id="plan-title" class="h2 text-ink">Approve the plan first.</h2>
-        <p class="lede mt-5">Before it drafts a week, it says what it will check the finished program against. Approve it, or tell it what to change.</p>
-        <p class="mt-6 max-w-[46ch] text-muted">Every change after that is yours to keep or undo, and every edit stays in the program’s history.</p>
+      <div class="plan mt-12 md:mt-16">
+        <ul class="lines">
+          {timeBack.map((line) => <li class="text-ink">{line}</li>)}
+        </ul>
+        <figure class="plan-shot">
+          <Shot
+            name="coach-generate-plan"
+            dark
+            width={2880}
+            height={1800}
+            alt="Before it writes, Deload says what it will check the program against, with the buttons to go ahead or change it."
+            ratio="360 / 520"
+            zoom={4}
+            fx={1}
+            shiftY={0.1}
+          />
+        </figure>
       </div>
-      <figure class="plan-shot">
-        <Shot
-          name="coach-generate-plan"
-          dark
-          width={2880}
-          height={1800}
-          alt="The agent's plan turn: the brief, the goal lifts it will check the program against, and the buttons to generate or refine."
-          ratio="360 / 520"
-          zoom={4}
-          fx={1}
-          shiftY={0.1}
-        />
-      </figure>
     </div>
   </section>
 
-  <!-- One app instead of four: rows, the old tool struck in clay -->
-  <section class="sec border-t border-rule" aria-labelledby="replaces-title">
-    <div class="wrap">
-      <h2 id="replaces-title" class="h2 text-ink">One app instead of four.</h2>
-      <ul class="tools mt-12 md:mt-16" data-reveal>
-        {replaces.map((r) => (
-          <li>
-            <p class="tool-area text-ink">{r.area}</p>
-            <p class="tool-now text-muted"><span class="strike">{r.old}</span> {r.now}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <!-- The athlete's side: three screens, one app -->
-  <section class="sec-l field" aria-labelledby="athletes-title">
+  <!-- 4. They stay: the athlete's side, three screens of one app -->
+  <section class="sec-l field" aria-labelledby="stay-title">
     <div class="wrap">
       <div class="head-split">
-        <h2 id="athletes-title" class="h2 text-ink">What your athletes see.</h2>
-        <!-- TODO(founder): logging with no signal (saves queued on the phone)
-             shipped in the athlete app on 2026-11-04 but isn't in the site's
-             copy yet; say so here if you want it claimed. -->
-        <p class="lede">Free for athletes, in the browser on any phone.</p>
+        <h2 id="stay-title" class="h2 text-ink">Clients who feel coached stay.</h2>
+        <p class="lede">Your athletes open Deload on their phone and see today's workout with the weights already worked out. They log as they go, even with no signal in the gym. They can see themselves getting stronger, and they can message you right next to the workout. It's free for them, with nothing to install.</p>
       </div>
       <ul class="phones mt-12 md:mt-16">
         {athleteShots.map((s) => (
@@ -150,15 +138,52 @@ const athleteShots = [
     </div>
   </section>
 
-  <!-- Built by a coach: the quote as a statement, the story beneath -->
-  <section class="sec" aria-labelledby="founder-title">
+  <!-- 5. Room to grow: the team, selling programs, what it replaces, what's
+       on the way. Teams share the roster and the business's exercise library
+       on production; "the same programs" waits for the team program library
+       to be on for every team. -->
+  <section class="sec-l" aria-labelledby="grow-title">
+    <div class="wrap">
+      <div class="head-split">
+        <h2 id="grow-title" class="h2 text-ink">Room to grow.</h2>
+        <p class="lede">Bring on another coach and they work from the same exercise library you do, so every client gets your standard. Share clients across the team when it helps. And sell your best programs to people you've never met, paid straight into your own Stripe account.</p>
+      </div>
+      <figure class="mt-12 md:mt-16">
+        <Shot
+          name="coach-team-roster"
+          dark
+          width={2880}
+          height={1800}
+          alt="A coaching team's shared roster in Deload: each athlete with their coach, current program and recent PRs."
+          ratioSm="4 / 3"
+          zoomSm={3}
+          fx={0.27}
+          shiftYSm={0.25}
+        />
+      </figure>
+      <div class="grow-foot mt-12 md:mt-16">
+        <figure class="note">
+          <blockquote class="note-quote text-ink"><p>&ldquo;Coach burnout is real. If Deload takes some of that weight off and helps your business grow, it was worth building.&rdquo;</p></blockquote>
+          <figcaption class="note-by">— Derek</figcaption>
+        </figure>
+        <div class="replaces" data-reveal>
+          <p class="label">What it replaces</p>
+          <p class="replaces-line text-ink">Your <span class="strike">programming spreadsheet</span>, the <span class="strike">PDFs you send</span>, the <span class="strike">group chat</span>, and the <span class="strike">storefront</span> you sell programs from.</p>
+          <p class="mt-6 text-[0.9375rem] text-muted">Booking, billing your clients and intake forms are on the way.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Why Deload: the quote as a statement, the story beneath -->
+  <section class="sec border-t border-rule" aria-labelledby="founder-title">
     <div class="wrap">
       <h2 id="founder-title" class="display founder-quote text-ink">&ldquo;I built Deload because I needed it.&rdquo;</h2>
       <div class="founder mt-10 md:mt-14">
-        <p class="text-[0.9375rem] text-muted">Derek Miranda, founder</p>
+        <p class="text-[0.9375rem] text-muted">— Derek Miranda, founder</p>
         <div class="space-y-5 text-[1.0625rem] text-muted">
-          <p>I coached at Equinox, then on my own with Sportslab NYC and Fitness360NYC.</p>
-          <p>AI could draft my programs, so I built Deload to turn that draft into something you can run on the gym floor.</p>
+          <p>I coached at Equinox, then on my own with Sportslab NYC and Fitness360NYC, from weight-loss clients to marathoners and powerlifters.</p>
+          <p>I tried using AI for my own programming, and it worked. Turning that draft into something you can actually run on the gym floor took an enormous amount of work. That work is Deload.</p>
           <a href={`${root}/about`} class="link inline-flex min-h-[44px] items-center">Read the full story</a>
         </div>
       </div>
@@ -169,7 +194,7 @@ const athleteShots = [
        the API returns some. -->
   <Testimonials showPlaceholder={false} />
 
-  <!-- Close: the one action again -->
+  <!-- 7. Close: the one action again -->
   <section class="wrap pb-16 md:pb-24" aria-labelledby="close-title">
     <div class="ink-field close">
       <h2 id="close-title" class="display text-ink">Get your Sunday back.</h2>
@@ -182,8 +207,10 @@ const athleteShots = [
 </Layout>
 
 <style>
-  /* Hero (Stage): fills the first screen under the 64px header on wide
-     screens; collapses to its content's height below 60rem. */
+  /* Opening: fills the first screen under the 64px header on wide screens;
+     collapses to its content's height below 60rem. The headline is two
+     sentences, so it sets a notch under the old two-line hero and balances
+     its lines (no word left alone on the last one). */
   .hero {
     display: grid;
     gap: var(--space-xl);
@@ -192,20 +219,21 @@ const athleteShots = [
   .hero-shot { margin: 0; min-width: 0; }
   @media (min-width: 60rem) {
     .hero {
-      grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       align-items: center;
       gap: var(--space-xl) var(--space-2xl);
       min-height: calc(100svh - 4rem);
       padding-block: var(--space-xl);
     }
   }
-  .display-hero-s {
-    font-size: clamp(2.6rem, 1.4rem + 3.6vw, 4.25rem);
-    line-height: 1;
+  .hero-head {
+    font-size: clamp(2rem, 1.3rem + 2vw, 3rem);
+    line-height: 1.02;
     letter-spacing: -0.045em;
     font-weight: 600;
-    max-width: 12ch;
+    max-width: 18ch;
     text-wrap: balance;
+    overflow-wrap: break-word;
   }
 
   /* Section rhythm: two steps, mixed. */
@@ -219,9 +247,8 @@ const athleteShots = [
     .head-split {
       grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
       gap: var(--space-2xl);
-      align-items: end;
+      align-items: start;
     }
-    .head-split .lede { padding-bottom: var(--space-2xs); }
   }
 
   .cap {
@@ -231,7 +258,24 @@ const athleteShots = [
     color: rgb(var(--c-muted));
   }
 
-  /* The plan: text on five columns, the agent's panel on seven. */
+  /* The founder's notes: the pull quote, a size down, signed. On wide
+     screens they sit on the right seven columns, under the section's line. */
+  .note { margin-inline: 0; margin-bottom: 0; display: grid; gap: var(--space-sm); }
+  .note-quote {
+    margin: 0;
+    font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.125rem);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+    max-width: 30ch;
+    text-wrap: balance;
+  }
+  .note-by { font-size: 0.9375rem; color: rgb(var(--c-muted)); }
+  @media (min-width: 60rem) {
+    .sec > .wrap > .note { margin-left: calc((100% - var(--space-2xl)) * 5 / 12 + var(--space-2xl)); }
+  }
+
+  /* Time back: the lines as hairline rows beside the plan panel. */
   .plan { display: grid; gap: var(--space-xl); }
   .plan-shot { margin: 0; min-width: 0; width: 100%; max-width: 28rem; justify-self: center; }
   @media (min-width: 60rem) {
@@ -242,29 +286,12 @@ const athleteShots = [
     }
     .plan-shot { max-width: 30rem; justify-self: end; }
   }
-
-  /* One app instead of four: full-width hairline rows. */
-  .tools { border-top: 1px solid rgb(var(--c-rule)); }
-  .tools li {
-    display: grid;
-    gap: var(--space-xs);
-    padding-block: var(--space-lg);
+  .lines { border-top: 1px solid rgb(var(--c-rule)); }
+  .lines li {
+    padding-block: var(--space-md);
     border-bottom: 1px solid rgb(var(--c-rule));
-  }
-  .tool-area {
-    font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2rem);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-  }
-  .tool-now { font-size: 1.125rem; line-height: 1.45; max-width: 44ch; }
-  @media (min-width: 48rem) {
-    .tools li {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-      gap: var(--space-2xl);
-      align-items: baseline;
-      padding-block: var(--space-xl);
-    }
+    font-size: 1.125rem;
+    line-height: 1.45;
   }
 
   /* Three phones across; a scrollable rail would hide two of three on a
@@ -275,6 +302,22 @@ const athleteShots = [
   }
   .phones figure { margin: 0; }
   .phones .cap { color: rgb(var(--c-muted)); }
+
+  /* Room to grow: the founder's note, then what it replaces (old tools
+     struck in clay), so act 6's quote doesn't follow a quote directly. */
+  .grow-foot { display: grid; gap: var(--space-2xl); border-top: 1px solid rgb(var(--c-rule)); padding-top: var(--space-lg); }
+  .replaces .label { margin-bottom: var(--space-sm); }
+  .grow-foot .note { margin-top: 0; }
+  .replaces-line {
+    font-size: clamp(1.375rem, 1.1rem + 0.9vw, 1.75rem);
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    max-width: 34ch;
+  }
+  @media (min-width: 60rem) {
+    .grow-foot { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-2xl); }
+  }
 
   .founder-quote { max-width: 18ch; }
   .founder { display: grid; gap: var(--space-md); border-top: 1px solid rgb(var(--c-rule)); padding-top: var(--space-lg); }

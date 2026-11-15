@@ -359,10 +359,6 @@
     transition: transform 700ms var(--ease-out);
   }
   .js .is-in .strike::after { transform: scaleX(1); }
-  .js .is-in li:nth-child(2) .strike::after { transition-delay: 120ms; }
-  .js .is-in li:nth-child(3) .strike::after { transition-delay: 240ms; }
-  .js .is-in li:nth-child(4) .strike::after { transition-delay: 360ms; }
-  .js .is-in li:nth-child(5) .strike::after { transition-delay: 480ms; }
 
   /* The week rail in the Sunday band */
   .week-fill {
