@@ -81,7 +81,7 @@ their current waitlist/open logic.
 
 ### 1. Opening (hero)
 
-- **H1:** You got into this to coach. Not to do paperwork.
+- **H1:** You got into this to coach. Not to spend your nights writing programs and answering texts.
 - **Lede:** Deload writes the first draft of every program, keeps your
   athletes on track between sessions, and gives your whole team one place to
   work. You get your evenings back, and your clients stick around.
@@ -96,7 +96,7 @@ their current waitlist/open logic.
   client stops showing up and you don't notice until they've gone. You're good
   at coaching. It's everything around it that wears you down.
 - **Derek's note:** "For years I wrote programs at 11pm and rewrote them by
-  7am. I built Deload so I'd stop." — Derek
+  7am. I built Deload so I'd stop." — Derek (founder confirmed true, 15 Nov)
 
 ### 3. Time back (programming)
 
@@ -141,7 +141,7 @@ their current waitlist/open logic.
 - **The tools it replaces** (today's list, reworded): your programming
   spreadsheet, the PDFs you send, the group chat, and the storefront you sell
   programs from.
-- **Coming soon line:** Booking and billing your own clients are on the way.
+- **Coming soon line:** Booking, billing your clients and intake forms are on the way.
 - Visual: a new screenshot of the team roster or shared library on fixture
   data (the builder takes it the same way the existing shots were taken).
 - **Derek's note:** "Coach burnout is real. If Deload takes some of that
@@ -212,3 +212,5 @@ their current waitlist/open logic.
   code as production (#306 is in production). Act 3 ships without a number
   until the founder approves one.
 - Import gets a line in act 3; it's a main reason to switch.
+- Founder (15 Nov): the opening is narrowed to what's live (programs and
+  texts); admin features are a "coming soon" line in act 5.
