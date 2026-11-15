@@ -54,8 +54,9 @@ All three, told in order (founder):
 
 ## Voice
 
-Derek's notes are drafted from his own words on the About page and need his
-sign-off as quotes before they ship.
+Derek's notes are drafted from his own words on the About page. The founder's
+approval of the copy doc is his sign-off on them as quotes; a note he doesn't
+approve is left out and the page ships without it.
 
 A mix (founder): the page speaks to the reader as "you"; the founder adds short
 first-person notes signed "Derek". Short sentences. Gym words, not software
@@ -110,6 +111,7 @@ their current waitlist/open logic.
   - RPE, RIR and percentages, the way you already use them.
   - Move a day or swap a lift, and it sorts out the weeks that follow.
   - Every change is saved, and you can undo any of it.
+  - Already have programs? Bring them in from Excel, Word or PDF.
 - Visual: the generate/plan screens already on the page (today's "Start from
   a sentence" and "Approve the plan first" shots), merged into one act.
 - **Timing:** if the staging measurement supports it, the H2 or a supporting
@@ -142,8 +144,10 @@ their current waitlist/open logic.
 - **Coming soon line:** Booking and billing your own clients are on the way.
 - Visual: a new screenshot of the team roster or shared library on fixture
   data (the builder takes it the same way the existing shots were taken).
-- **Derek's note:** "Deload is opinionated on purpose. It programs the way I'd
-  program, and stays out of the way." — Derek
+- **Derek's note:** "Coach burnout is real. If Deload takes some of that
+  weight off and helps your business grow, it was worth building." — Derek
+  (from About; replaces an "it programs the way I'd program" line that
+  contradicted "in your style")
 
 ### 6. Why Deload (the founder)
 
@@ -197,3 +201,14 @@ their current waitlist/open logic.
 - Taking the team screenshot on fixture data.
 - Fitting the founder's notes into the existing type styles (a pull-quote
   style already exists for the founder quote).
+
+## Builder-check calls (made by me, for the founder to check)
+
+- The copy doc review is the single sign-off; unapproved notes drop out.
+- Act 5 claims what's on production with no switch: a shared roster and the
+  business's own exercise library. "Same programs" is claimed only once
+  `teamLibraries` is on for every team. The screenshot shows the roster.
+- The timing number is measured on staging, which runs the same generation
+  code as production (#306 is in production). Act 3 ships without a number
+  until the founder approves one.
+- Import gets a line in act 3; it's a main reason to switch.
