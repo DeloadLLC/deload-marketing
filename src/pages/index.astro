@@ -154,7 +154,7 @@ const athleteShots = [
           dark
           width={2880}
           height={1800}
-          alt="A coaching team's shared roster in Deload: athletes with their coach and this week's training."
+          alt="A coaching team's shared roster in Deload: each athlete with their coach, current program and recent PRs."
           ratioSm="4 / 3"
           zoomSm={3}
           fx={0.27}
@@ -162,15 +162,15 @@ const athleteShots = [
         />
       </figure>
       <div class="grow-foot mt-12 md:mt-16">
+        <figure class="note">
+          <blockquote class="note-quote text-ink"><p>&ldquo;Coach burnout is real. If Deload takes some of that weight off and helps your business grow, it was worth building.&rdquo;</p></blockquote>
+          <figcaption class="note-by">— Derek</figcaption>
+        </figure>
         <div class="replaces" data-reveal>
           <p class="label">What it replaces</p>
           <p class="replaces-line text-ink">Your <span class="strike">programming spreadsheet</span>, the <span class="strike">PDFs you send</span>, the <span class="strike">group chat</span>, and the <span class="strike">storefront</span> you sell programs from.</p>
           <p class="mt-6 text-[0.9375rem] text-muted">Booking, billing your clients and intake forms are on the way.</p>
         </div>
-        <figure class="note">
-          <blockquote class="note-quote text-ink"><p>&ldquo;Coach burnout is real. If Deload takes some of that weight off and helps your business grow, it was worth building.&rdquo;</p></blockquote>
-          <figcaption class="note-by">— Derek</figcaption>
-        </figure>
       </div>
     </div>
   </section>
@@ -293,7 +293,6 @@ const athleteShots = [
     font-size: 1.125rem;
     line-height: 1.45;
   }
-  .lines li:first-child { font-weight: 600; }
 
   /* Three phones across; a scrollable rail would hide two of three on a
      phone, so they stack. */
@@ -304,8 +303,8 @@ const athleteShots = [
   .phones figure { margin: 0; }
   .phones .cap { color: rgb(var(--c-muted)); }
 
-  /* Room to grow: what it replaces (old tools struck in clay) beside the
-     founder's note. */
+  /* Room to grow: the founder's note, then what it replaces (old tools
+     struck in clay), so act 6's quote doesn't follow a quote directly. */
   .grow-foot { display: grid; gap: var(--space-2xl); border-top: 1px solid rgb(var(--c-rule)); padding-top: var(--space-lg); }
   .replaces .label { margin-bottom: var(--space-sm); }
   .grow-foot .note { margin-top: 0; }
@@ -317,7 +316,7 @@ const athleteShots = [
     max-width: 34ch;
   }
   @media (min-width: 60rem) {
-    .grow-foot { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-2xl); }
+    .grow-foot { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-2xl); }
   }
 
   .founder-quote { max-width: 18ch; }

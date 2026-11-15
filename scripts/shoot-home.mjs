@@ -100,6 +100,21 @@ try {
         for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); }
         window.scrollTo(0, 0);
       });
+      // Every product shot must have loaded and decoded before the shots are
+      // taken; one that hasn't within 20 s fails the run.
+      const pending = await page.evaluate(async () => {
+        const imgs = [...document.querySelectorAll(".shot img")];
+        const ok = (img) => img.complete && img.naturalWidth > 0;
+        const deadline = Date.now() + 20000;
+        for (const img of imgs) {
+          img.loading = "eager";
+          while (!ok(img) && Date.now() < deadline) await new Promise((r) => setTimeout(r, 100));
+          if (ok(img)) await img.decode().catch(() => {});
+        }
+        window.scrollTo(0, 0);
+        return imgs.filter((img) => !ok(img)).map((img) => img.currentSrc || img.src);
+      });
+      for (const src of pending) failures.push(`${tag}: image not loaded: ${src}`);
       await page.waitForTimeout(400);
       await page.screenshot({ path: path.join(out, `${tag}-top.png`) });
       await page.screenshot({ path: path.join(out, `${tag}-full.png`), fullPage: true });
