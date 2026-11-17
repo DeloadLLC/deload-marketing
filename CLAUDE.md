@@ -12,8 +12,9 @@ Full vision: `deload-backend/docs/project-vision.md` (sibling repo). Short versi
 - **What this site must sell:** AI program generation (the hook) and the
   all-in-one pitch — replace 3–4 tools (programming, payments, comms,
   tracking) with one. Pricing is a coach SaaS subscription; a coach's
-  athletes are free. Deload's paid AI coach for self-coached athletes comes
-  after launch (R2, price open). Don't market it, or a coach Discoverable fee,
+  athletes are free. Deload's paid AI coach for self-coached athletes
+  ($19.99/mo, in the app) ships at the joint launch with the native apps
+  (R2, founder, 2026-11-17). Don't market it, or a coach Discoverable fee,
   until it ships.
 - **CTA target:** coach signup in the coach UI (`deload-coach-ui`).
 - **Prioritization test:** does this get a real coach to pay for Deload sooner?
